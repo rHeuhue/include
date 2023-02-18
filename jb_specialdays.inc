@@ -1,0 +1,1 @@
+native jb_is_special_day()
