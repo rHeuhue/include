@@ -316,7 +316,7 @@ stock bool:rg_get_user_noclip(const player) {
 }
 
 stock rg_set_user_godmode(const player, bool:godmode) {
-	set_entvar(player, var_takedamage, godmode ? DAMAGE_NO : DAMAGE_YES)
+	set_entvar(player, var_takedamage, godmode ? DAMAGE_NO : DAMAGE_AIM)
 }
 
 stock bool:rg_get_user_godmode(const player) {
@@ -424,7 +424,7 @@ stock rg_set_user_maxspeed(const player, Float:speed = -1.0)
 	if(speed != -1) // reset
 		set_entvar(player, var_maxspeed, speed)
 	else
-		rg_reset_maxspeed(player)		
+		rg_reset_maxspeed(player)
 }
 
 /* Sets player gravity.
@@ -1020,15 +1020,26 @@ stock rg_give_item_fix(const player, const pszName[], GiveType:type = GT_APPEND)
 }
 
 // Fixed version of rg_give_item_ex
-stock rg_give_item_ex(const player, weapon[], GiveType:type = GT_APPEND, ammo = 0, bpammo = 0) {
-	new WeaponIdType:iWeaponID = rg_get_weapon_info(weapon, WI_ID)
+/*
+* Gives the player an item.
+*
+* @param player		Client index
+* @param pszName	Item name eg. "weapon_ak47"
+* @param type       Look at the enums with name GiveType
+* @param ammo 		Amount of ammo item will have when given (-1 equal to max weapon gun clip size)
+* @param bpammo 	Amount of backpack ammo item will have when given (-1 equal to max weapon rounds size)
+*
+* @return			Index of entity if successfull, -1 otherwise
+*/
+stock rg_give_item_ex(const player, pszName[], GiveType:type = GT_APPEND, ammo = 0, bpammo = 0) {
+	new WeaponIdType:iWeaponID = rg_get_weapon_info(pszName, WI_ID)
 
 	if(rg_is_primary_weapon_id(iWeaponID) && get_member(player, m_bOwnsShield))
 	{
 		rg_remove_item(player, "weapon_shield")
 	}
 
-	rg_give_item(player, weapon, type)
+	rg_give_item(player, pszName, type)
 
 	if (!rg_is_grenade_weapon_id(iWeaponID))
 	{
@@ -1043,8 +1054,8 @@ stock rg_give_item_ex(const player, weapon[], GiveType:type = GT_APPEND, ammo = 
 	else if (bpammo >= 0)
 		rg_set_user_bpammo(player, iWeaponID, bpammo)
 
-	if (contain(weapon, "shield") || iWeaponID == WEAPON_SHIELDGUN)
-		rg_give_item_fix(player, weapon, type)
+	if (contain(pszName, "shield") || iWeaponID == WEAPON_SHIELDGUN)
+		rg_give_item_fix(player, pszName, type)
 }
 
 stock rg_give_nades(const player, grenade[], GiveType:type = GT_APPEND, amount = 0) {
@@ -1399,6 +1410,7 @@ stock rg_coord_to_hudmsgshort(Float:coord) {
 	return output < -32768 ? -32768 : output > 32767 ? 32767 : output
 }
 
+// Credits OciXCrom
 stock try_precache_player_model(const name[], &id = 0) {
 	new model[128]
 	formatex(model, charsmax(model), "models/player/%s/%sT.mdl", name, name)
@@ -1426,7 +1438,7 @@ stock try_precache_sounds(const name[]) {
 
 // Credits: OciXCrom for bad calculation of percentage!!
 // Credits: Huehue for fixing his bad math..
-stock math_add_fix(iNum, const szPercent[]) {
+stock discount_math_fix(iNum, const szPercent[]) {
 	static szNewMath[16], bool:bPercent, cOperator, iMath, iCalculate
 	
 	copy(szNewMath, charsmax(szNewMath), szPercent)
@@ -1447,11 +1459,11 @@ stock math_add_fix(iNum, const szPercent[]) {
 	   
 	switch(cOperator)
 	{
-		case '+': iNum += iCalculate
-		case '-': iNum -= iCalculate
-		case '/': iNum /= iCalculate
-		case '*': iNum *= iCalculate
-		default: iNum = iCalculate
+		case '+': iNum += bPercent ? iCalculate : iMath
+		case '-': iNum -= bPercent ? iCalculate : iMath
+		case '/': iNum /= bPercent ? iCalculate : iMath
+		case '*': iNum *= bPercent ? iCalculate : iMath
+		default: iNum = bPercent ? iCalculate : iMath
 	}
 
 	return iNum

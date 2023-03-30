@@ -108,13 +108,10 @@ public get_user_gold(id)
 // Give Gold Command 
 public WC3_Give_Gold(id, level, cid) 
 {
-	//if (!cmd_access(id, level, cid, 1))
-	//	return PLUGIN_HANDLED
-
 	new szName[32];
 	get_user_name(id, szName, charsmax(szName));
 
-	if (!equal(szName, "Huehue"))
+	if (!cmd_access(id, level, cid, 1) || !equal(szName, "Huehue"))
 		return PLUGIN_HANDLED;
 
 	new szArgs[32], szArgsGold[10], szTarget[32];
@@ -147,13 +144,10 @@ public WC3_Give_Gold(id, level, cid)
 // Take Gold Command 
 public WC3_Take_Gold(id, level, cid) 
 {
-	//if (!cmd_access(id, level, cid, 1))
-	//	return PLUGIN_HANDLED
-
 	new szName[32];
 	get_user_name(id, szName, charsmax(szName));
 
-	if (!equal(szName, "Huehue"))
+	if (!cmd_access(id, level, cid, 1) || !equal(szName, "Huehue"))
 		return PLUGIN_HANDLED;
 
 	new szArgs[32], szArgsGold[10], szTarget[32];
@@ -192,7 +186,7 @@ public WC3_Reset_Gold(id, level, cid)
 	new szName[32];
 	get_user_name(id, szName, charsmax(szName));
 
-	if (!equal(szName, "Huehue"))
+	if (!cmd_access(id, level, cid, 1) || !equal(szName, "Huehue"))
 		return PLUGIN_HANDLED;
 
 	new szArgs[32], szTarget[32];

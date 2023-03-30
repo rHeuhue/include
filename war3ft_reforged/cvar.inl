@@ -8,6 +8,7 @@ new CVAR_sv_gravity;
 
 // Other plugin CVARs
 new CVAR_csdm_active;
+new CVAR_hws_active;
 
 // Miscellaneous Configuration CVARs
 new CVAR_wc3_show_player;
@@ -89,6 +90,8 @@ new CVAR_wc3_cham_passive;
 
 // Bot CVARs
 new CVAR_bot_quota;
+
+new CVAR_wc3_show_race_menu_after;
 
 
 
@@ -184,6 +187,8 @@ public CVAR_Init()
 	CVAR_wc3_show_objectives		= register_cvar( "wc3_show_objectives"		, "1"							);
 	CVAR_wc3_xp_multiplier			= register_cvar( "wc3_xp_multiplier"		, "1.0"		, FCVAR_SERVER		);
 	CVAR_wc3_xp_auto_average		= register_cvar( "wc3_xp_auto_average"		, "0"							);
+
+	CVAR_wc3_show_race_menu_after 	= register_cvar( "wc3_show_race_menu_after"	, "15.0"						);
 	
 	// Bot CVARs
 	CVAR_bot_quota					= get_cvar_pointer( "bot_quota" );
@@ -207,6 +212,7 @@ CVAR_Configure()
 
 	// Get other plugin cvars
 	CVAR_csdm_active		= get_cvar_pointer( "csdm_active" );
+	CVAR_hws_active			= get_cvar_pointer( "wm_infinite_round" );
 
 	CHAM_Configure();
 }

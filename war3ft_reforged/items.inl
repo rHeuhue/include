@@ -1288,6 +1288,7 @@ public Lasermine_Think(Mine)
 						emit_sound(id, CHAN_WEAPON, "debris/beamstart9.wav", 1.0, ATTN_NORM, 0, PITCH_NORM)
 						
 						Detonate_Mine(Mine);
+						return PLUGIN_CONTINUE;
 					}
 				}
 					

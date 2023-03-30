@@ -328,7 +328,7 @@ CMD_Handle( id, szCmd[])
 	else if ( CMD_Equal( id,  szCmd, "resetskills" ) )
 	{
 		// Special message for csdm
-		if ( CVAR_csdm_active > 0 && get_pcvar_num( CVAR_csdm_active ) == 1 )
+		if ( CVAR_csdm_active > 0 && get_pcvar_num( CVAR_csdm_active ) == 1 || CVAR_hws_active > 0 && get_pcvar_num( CVAR_hws_active ) == 1)
 		{
 			client_print( id, print_center, "Your skills will be reset when you respawn." );
 			client_print_color( id, print_team_default, "^4%s ^3Your skills will be reset when you respawn.", GAME_NAME );

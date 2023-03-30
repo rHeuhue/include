@@ -1131,7 +1131,7 @@ public WC3_Death( iVictim, iKiller, iWeaponID, iHeadshot )
 		}
 
 		// Lets give a little extra money if CSDM is on...
-		if ( CVAR_csdm_active > 0 && get_pcvar_num( CVAR_csdm_active ) == 1 )
+		if ( CVAR_csdm_active > 0 && get_pcvar_num( CVAR_csdm_active ) == 1 || CVAR_hws_active > 0 && get_pcvar_num( CVAR_hws_active ) == 1 )
 		{
 			SHARED_SetUserMoney( iKiller, SHARED_GetUserMoney( iKiller ) + 300, 1 );
 		}
@@ -1541,7 +1541,7 @@ WC3_PostSpawn( id )
 
 
 	// Find out if they need to choose a race or select a skill
-	set_task( 0.3, "WC3_GetUserInput", TASK_GETINPUT + id );
+	set_task( get_pcvar_float( CVAR_wc3_show_race_menu_after ), "WC3_GetUserInput", TASK_GETINPUT + id );
 
 	// Set this last - otherwise some skills might be screwed up
 	p_data_b[id][PB_DIEDLASTROUND]	= false;
@@ -1586,7 +1586,7 @@ WC3_NewSession( id )
 	if ( g_MOD == GAME_CSTRIKE || g_MOD == GAME_CZERO )
 	{
 		// CSDM isn't running!
-		if ( ! ( CVAR_csdm_active > 0 && get_pcvar_num( CVAR_csdm_active ) == 1 ) )
+		if ( ! ( CVAR_csdm_active > 0 && get_pcvar_num( CVAR_csdm_active ) == 1 ) || ! ( CVAR_hws_active > 0 && get_pcvar_num( CVAR_hws_active ) == 1 ) )
 		{
 			// Copy the global ULT timeout over to just this user...
 			p_data[id][P_ULTIMATEDELAY] = g_iUltimateDelay;
