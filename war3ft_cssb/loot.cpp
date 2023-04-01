@@ -246,53 +246,52 @@ public bIsItemUserSlot(idUser,iSlot)
 //Цвет выпавших вещей
 stock fColorItems(iItemVictimShop1,iItemVictimShop2,iItemVictimShop3)
 {
-				new bIsDropItems = 3;
-				
-				if(iItemVictimShop1 != ITEM_NONE)//Если были у жертвы вещи в слоте 1
-				{
-					arrColorItemsRGB[0] = 255;
-					arrColorItemsRGB[1] = 0;
-					arrColorItemsRGB[2] = 0;
-					return arrColorItemsRGB;
-				}
-				else
-				{
-					bIsDropItems -= 1;
-				}
-				
-				if(iItemVictimShop2 != ITEM_NONE)//Если были у жертвы вещи в слоте 2
-				{
-					arrColorItemsRGB[0] = 255;
-					arrColorItemsRGB[1] = 0;
-					arrColorItemsRGB[2] = 0;
-					return arrColorItemsRGB;
-				}
-				else
-				{
-					bIsDropItems -= 1;
-				}
+	new bIsDropItems = 3;
+	
+	if(iItemVictimShop1 != ITEM_NONE)//Если были у жертвы вещи в слоте 1
+	{
+		arrColorItemsRGB[0] = 255;
+		arrColorItemsRGB[1] = 0;
+		arrColorItemsRGB[2] = 0;
+		return arrColorItemsRGB;
+	}
+	else
+	{
+		bIsDropItems -= 1;
+	}
+	
+	if(iItemVictimShop2 != ITEM_NONE)//Если были у жертвы вещи в слоте 2
+	{
+		arrColorItemsRGB[0] = 255;
+		arrColorItemsRGB[1] = 0;
+		arrColorItemsRGB[2] = 0;
+		return arrColorItemsRGB;
+	}
+	else
+	{
+		bIsDropItems -= 1;
+	}
 
-				if(iItemVictimShop3 != ITEM_NONE)//Если были у жертвы вещи в слоте 3
-				{
-					arrColorItemsRGB[0] = 255;
-					arrColorItemsRGB[1] = 0;
-					arrColorItemsRGB[2] = 0;
-					return arrColorItemsRGB;
-				}
-				else
-				{
-					bIsDropItems -= 1;
-				}
-				
-				//Если у жертвы совсем не оказалось предметов
-				if(bIsDropItems == 0)
-				{
-					arrColorItemsRGB[0] = 30;
-					arrColorItemsRGB[1] = 144;
-					arrColorItemsRGB[2] = 255;
-					return arrColorItemsRGB;
-				}	
-				
+	if(iItemVictimShop3 != ITEM_NONE)//Если были у жертвы вещи в слоте 3
+	{
+		arrColorItemsRGB[0] = 255;
+		arrColorItemsRGB[1] = 0;
+		arrColorItemsRGB[2] = 0;
+		return arrColorItemsRGB;
+	}
+	else
+	{
+		bIsDropItems -= 1;
+	}
+	
+	//Если у жертвы совсем не оказалось предметов
+	if(bIsDropItems == 0)
+	{
+		arrColorItemsRGB[0] = 30;
+		arrColorItemsRGB[1] = 144;
+		arrColorItemsRGB[2] = 255;
+		return arrColorItemsRGB;
+	}	
 	return arrColorItemsRGB;
 }
 
@@ -333,7 +332,6 @@ stock fShowMessagePickUpItem(idUserTouch,szShowMessage[256],iRed,iGreen,iBlue,iT
 	UTIL_ClearHudChannel(idUserTouch,HUD_XP);
 	WC3_ShowBar(idUserTouch);
 
-
 	switch(iTypeLoot)
 	{
 		case enMoney:
@@ -370,8 +368,6 @@ stock fShowMessagePickUpItem(idUserTouch,szShowMessage[256],iRed,iGreen,iBlue,iT
 	
 }
 
-
-
 //Запуск счетчика отсчета на удаление предмета 
 public fRunCalcRemoveLootItem()
 {
@@ -399,8 +395,6 @@ public fRunCalcRemoveLootItem()
 
 		}
 	}
-
-
 }
 		
 //Удаление предмета если он долго лежит на земле
@@ -421,7 +415,6 @@ public fRemoveLootItem(idEntLootItem)
 	arrParams[1] = 250;
 
 	fEffectRemoveLootItem(arrParams);
-
 }
 
 public fEffectRemoveLootItem(arr[2]) // arr = [idEntLootItem, Float:fStart
@@ -449,10 +442,10 @@ public fEffectRemoveLootItem(arr[2]) // arr = [idEntLootItem, Float:fStart
 	{
 		entity_set_float(idEntLootItem, EV_FL_renderamt, fFadeAmount[idEntLootItem]);
 
-			new arrParams[2];
-			arrParams[0] = idEntLootItem;
-			arrParams[1] = 0;
-			task_set(0.1, "fEffectRemoveLootItem",TASK_LOOTITEM + idEntLootItem,arrParams, sizeof(arrParams));
+		new arrParams[2];
+		arrParams[0] = idEntLootItem;
+		arrParams[1] = 0;
+		task_set(0.1, "fEffectRemoveLootItem",TASK_LOOTITEM + idEntLootItem,arrParams, sizeof(arrParams));
 	}
 	else
 	{
@@ -525,7 +518,7 @@ public client_PostThink(idUser)
 stock create_icon_origin(id, ent, sprite)
 {
 	if(!is_user_alive(id) || !is_user_connected(id)) 
-      return;
+		return;
 
 	if (!pev_valid(ent)) 
 		return;

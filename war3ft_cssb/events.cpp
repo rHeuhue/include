@@ -149,12 +149,9 @@ public EVENT_NewRound()
 
 }
 
-
-
 // Forwards from the CSX module
 public grenade_throw( idUser, greindex, wId )
 {
-	
 	if ( !WC3_Check() )
 	{
 		return;
@@ -204,7 +201,6 @@ public grenade_throw( idUser, greindex, wId )
 // HamSandwich implementation
 public EVENT_TakeDamage(idVictim, iWeapon, idAttacker, Float:f_Damage, damagetype )
 {
-
 	static szWeaponClassName[32];
 	pev ( iWeapon, pev_classname, szWeaponClassName, charsmax ( szWeaponClassName ) );
 
@@ -278,7 +274,6 @@ public EVENT_TakeDamage(idVictim, iWeapon, idAttacker, Float:f_Damage, damagetyp
 
 public client_damage(idAttacker, idVictim, iDamage, iWeapon, iHitPlace, TA )
 {
-
 	if (!WC3_Check())
 		return;
 	
@@ -534,7 +529,6 @@ public on_Death(idVictim, idAttacker, iWeaponID, iHeadshot )
 // Hook for CS/CZ
 public on_DeathMsg()
 {
-
 	if ( !WC3_Check() )
 	{
 		return;
@@ -648,7 +642,7 @@ public EVENT_Spawn(idUser)
 	// Start a new session under the following conditions:
 	//		- CSDM - rounds never end!!!
 //	if (( CVAR_csdm_active > 0 && get_pcvar_num( CVAR_csdm_active ) == 1 ) )
-		WC3_NewSession( idUser );
+	WC3_NewSession( idUser );
 
 	// Should be called at the end of each spawn
 	WC3_PostSpawn(idUser);
@@ -665,7 +659,6 @@ public EVENT_Spawn(idUser)
 // Function called EVERYTIME a user spawns!
 public on_ResetHud( idUser )
 {
-
 	if ( !WC3_Check() )
 	{
 		return PLUGIN_CONTINUE;
@@ -727,12 +720,10 @@ public EVENT_PlayerInitialSpawn( idUser )
 	}
 
 	//if ( CVAR_csdm_active == 0)
-		WC3_NewSession(idUser);
+	WC3_NewSession(idUser);
 
 	return;
 }
-
-
 
 // Called when a user looks somewhere
 public TRIGGER_TraceLine( Float:v1[3], Float:v2[3], noMonsters, pentToSkip )
@@ -753,7 +744,7 @@ public TRIGGER_TraceLine( Float:v1[3], Float:v2[3], noMonsters, pentToSkip )
 
 
 	new iClipAmmo,iAmmo;
-    new iCurWeapon = get_user_weapon(idAttacker,iClipAmmo,iAmmo);
+	new iCurWeapon = get_user_weapon(idAttacker,iClipAmmo,iAmmo);
 
 	new iCurButton = pev(idAttacker,pev_button);
 

@@ -22,31 +22,31 @@ new const szTables[TOTAL_TABLES][] =
 // Инициализация подключения к базе данных MySQL
 MYSQLX_Init()
 {
-		// Данные для подключения к базе
-		new szHost[64], szUser[32], szPass[32], szDB[128], szError[256], iErrNum;
+	// Данные для подключения к базе
+	new szHost[64], szUser[32], szPass[32], szDB[128], szError[256], iErrNum;
 
-		get_pcvar_string( CVAR_wc3_sql_dbhost, szHost,charsmax(szHost));
-		get_pcvar_string( CVAR_wc3_sql_dbuser, szUser,charsmax(szUser));
-		get_pcvar_string( CVAR_wc3_sql_dbpass, szPass,charsmax(szPass));
-		get_pcvar_string( CVAR_wc3_sql_dbname, szDB,charsmax(szDB));
+	get_pcvar_string( CVAR_wc3_sql_dbhost, szHost,charsmax(szHost));
+	get_pcvar_string( CVAR_wc3_sql_dbuser, szUser,charsmax(szUser));
+	get_pcvar_string( CVAR_wc3_sql_dbpass, szPass,charsmax(szPass));
+	get_pcvar_string( CVAR_wc3_sql_dbname, szDB,charsmax(szDB));
 
-		// Подготовка к соединению с базой данных
-		g_DBTuple = SQL_MakeDbTuple( szHost, szUser, szPass, szDB );
+	// Подготовка к соединению с базой данных
+	g_DBTuple = SQL_MakeDbTuple( szHost, szUser, szPass, szDB );
 
-		// Подключаемся к базе
-		g_DBConn = SQL_Connect(g_DBTuple, iErrNum, szError, charsmax(szError));
+	// Подключаемся к базе
+	g_DBConn = SQL_Connect(g_DBTuple, iErrNum, szError, charsmax(szError));
 
-		if (g_DBConn == Empty_Handle)//если нет соединения
-		{
-			WC3_Log(true, "[MYSQL] Database Connection Failed: [%d] %s", iErrNum, szError );
-			return;
-		}
+	if (g_DBConn == Empty_Handle)//если нет соединения
+	{
+		WC3_Log(true, "[MYSQL] Database Connection Failed: [%d] %s", iErrNum, szError );
+		return;
+	}
 
-		server_print( "[WAR3FT] MySQL database connection successful!!!" );
+	server_print( "[WAR3FT] MySQL database connection successful!!!" );
 
-		bDBAvailable = true;
+	bDBAvailable = true;
 
-		MYSQLX_CreateTables();
+	MYSQLX_CreateTables();
 	
 }
 
@@ -62,8 +62,6 @@ bool:MYSQLX_Connection_Available()
 // Создание всех таблиц если их нет
 MYSQLX_CreateTables()
 {
-	
-
 	new Handle:hQuery;
 	for ( new i = 0; i < TOTAL_TABLES; i++ )
 	{
@@ -82,8 +80,6 @@ MYSQLX_CreateTables()
 //Считывание уникального идентификатора игрока
 MYSQLX_FetchUniqueID( idUser )
 {
-	
-
 	if (!MYSQLX_Connection_Available() )
 		return;
 
@@ -136,76 +132,75 @@ MYSQLX_FetchUniqueID( idUser )
 
 MYSQLX_Save(idUser)
 {
-	
-		if (!MYSQLX_Connection_Available())
-			return;
+	if (!MYSQLX_Connection_Available())
+	return;
 
-		new iUniqueID = DB_GetUniqueID( idUser );
+	new iUniqueID = DB_GetUniqueID( idUser );
 
-		// Если уникальный ID не является положительным считываем имя игрока и выбиваем ошибку с возвратом
-		if ( iUniqueID <= 0 )
-		{
-			new szName[128];
-			get_user_name( idUser, szName, charsmax(szName) );
-			WC3_Log( true, "Unable to save XP for user '%s', unique ID: %d", szName, iUniqueID );
-			return;
-		}
+	// Если уникальный ID не является положительным считываем имя игрока и выбиваем ошибку с возвратом
+	if ( iUniqueID <= 0 )
+	{
+		new szName[128];
+		get_user_name( idUser, szName, charsmax(szName) );
+		WC3_Log( true, "Unable to save XP for user '%s', unique ID: %d", szName, iUniqueID );
+		return;
+	}
 
-		// Сохранение опыта XP
-		new szQueryXP[512];
-		new Handle:hQueryXP;
-		format(szQueryXP, charsmax(szQueryXP), "REPLACE INTO `cssb_player_race` ( `player_id` , `race_id` , `race_xp` ) VALUES ( '%d', '%d', '%d');", iUniqueID, arrIntData[idUser][P_RACE], arrIntData[idUser][P_XP] );
-		hQueryXP = SQL_PrepareQuery(g_DBConn, szQueryXP);
+	// Сохранение опыта XP
+	new szQueryXP[512];
+	new Handle:hQueryXP;
+	format(szQueryXP, charsmax(szQueryXP), "REPLACE INTO `cssb_player_race` ( `player_id` , `race_id` , `race_xp` ) VALUES ( '%d', '%d', '%d');", iUniqueID, arrIntData[idUser][P_RACE], arrIntData[idUser][P_XP] );
+	hQueryXP = SQL_PrepareQuery(g_DBConn, szQueryXP);
 
-		if (!SQL_Execute(hQueryXP))
-		{
-			formatex(szMessage, charsmax(szMessage), "%L",LANG_PLAYER,"CLIENT_PRINT_MYSQL_ERR_SAVE");	
-			cssbChatColor(idUser,"%s%s",fTagWar3ft(),szMessage);
-			MYSQLX_Error(hQueryXP, szQueryXP, 4 );
-			return;
-		}
+	if (!SQL_Execute(hQueryXP))
+	{
+		formatex(szMessage, charsmax(szMessage), "%L",LANG_PLAYER,"CLIENT_PRINT_MYSQL_ERR_SAVE");	
+		cssbChatColor(idUser,"%s%s",fTagWar3ft(),szMessage);
+		MYSQLX_Error(hQueryXP, szQueryXP, 4 );
+		return;
+	}
 
-		SQL_FreeHandle(hQueryXP);//+
+	SQL_FreeHandle(hQueryXP);//+
 
 
 		
-		if (arrIntData[idUser][P_RACE] != RACE_CHAMELEON )
+	if (arrIntData[idUser][P_RACE] != RACE_CHAMELEON )
+	{
+		for (new iSkillID = 0; iSkillID < MAX_SKILLS; iSkillID++ )
 		{
-			for (new iSkillID = 0; iSkillID < MAX_SKILLS; iSkillID++ )
+			if (g_SkillType[iSkillID] != SKILL_TYPE_PASSIVE )
 			{
-				if (g_SkillType[iSkillID] != SKILL_TYPE_PASSIVE )
+				new iCurrentLevel = SM_GetSkillLevel(idUser, iSkillID);
+
+				if (iCurrentLevel >= 0 && g_iDBPlayerSkillStore[idUser][iSkillID] != iCurrentLevel )
 				{
-					new iCurrentLevel = SM_GetSkillLevel(idUser, iSkillID);
-		
-					if (iCurrentLevel >= 0 && g_iDBPlayerSkillStore[idUser][iSkillID] != iCurrentLevel )
+					new szQuerySkill[512];
+					new Handle:hQuerySkill;
+					g_iDBPlayerSkillStore[idUser][iSkillID] = iCurrentLevel;
+					format(szQuerySkill, charsmax(szQuerySkill), "REPLACE INTO `cssb_player_skill` ( `player_id` , `skill_id` , `skill_level` ) VALUES ( '%d', '%d', '%d' );", iUniqueID, iSkillID, iCurrentLevel );
+					hQuerySkill = SQL_PrepareQuery( g_DBConn, szQuerySkill );
+
+					if (!SQL_Execute(hQuerySkill))
 					{
-						new szQuerySkill[512];
-						new Handle:hQuerySkill;
-						g_iDBPlayerSkillStore[idUser][iSkillID] = iCurrentLevel;
-						format(szQuerySkill, charsmax(szQuerySkill), "REPLACE INTO `cssb_player_skill` ( `player_id` , `skill_id` , `skill_level` ) VALUES ( '%d', '%d', '%d' );", iUniqueID, iSkillID, iCurrentLevel );
-						hQuerySkill = SQL_PrepareQuery( g_DBConn, szQuerySkill );
-		
-						if (!SQL_Execute(hQuerySkill))
-						{
-							formatex(szMessage, charsmax(szMessage), "%L",LANG_PLAYER,"CLIENT_PRINT_MYSQL_ERR_SAVE");	
-							cssbChatColor(idUser,"%s%s",fTagWar3ft(),szMessage);
+						formatex(szMessage, charsmax(szMessage), "%L",LANG_PLAYER,"CLIENT_PRINT_MYSQL_ERR_SAVE");	
+						cssbChatColor(idUser,"%s%s",fTagWar3ft(),szMessage);
 
-							MYSQLX_Error(hQuerySkill, szQuerySkill, 5 );
-							return;
-
-						}//if
-
-						SQL_FreeHandle(hQuerySkill);//+
+						MYSQLX_Error(hQuerySkill, szQuerySkill, 5 );
+						return;
 
 					}//if
-				}//if
-			}//for
-		}//if
 
-		//Сохранение талисманов
-		if(MAX_MODE_TALISMAN == 1)
-			fTalisman_MYSQLX_Save( idUser,iUniqueID );
-	
+					SQL_FreeHandle(hQuerySkill);//+
+
+				}//if
+			}//if
+		}//for
+	}//if
+
+	//Сохранение талисманов
+	if(MAX_MODE_TALISMAN == 1)
+		fTalisman_MYSQLX_Save( idUser,iUniqueID );
+
 
 	return;
 }
@@ -213,54 +208,49 @@ MYSQLX_Save(idUser)
 //Сохраненеи в потоке данных
 MYSQLX_Save_T(idUser)
 {
-	
-		if (!MYSQLX_Connection_Available() )
-			return;
+	if (!MYSQLX_Connection_Available() )
+		return;
 
-		new iUniqueID = DB_GetUniqueID( idUser );
-		if ( iUniqueID <= 0 )
+	new iUniqueID = DB_GetUniqueID( idUser );
+	if ( iUniqueID <= 0 )
+	{
+		new szName[128];
+		get_user_name( idUser, szName, charsmax(szName) );
+		WC3_Log( true, "Unable to save XP for user '%s', unique ID: %d", szName, iUniqueID );
+		return;
+	}
+
+	new szQueryXP[512];
+	format(szQueryXP, charsmax(szQueryXP), "REPLACE INTO `cssb_player_race` ( `player_id` , `race_id` , `race_xp` ) VALUES ( '%d', '%d', '%d');", iUniqueID, arrIntData[idUser][P_RACE], arrIntData[idUser][P_XP] );
+	SQL_ThreadQuery(g_DBTuple, "_MYSQLX_Save_T",szQueryXP);
+
+	if (arrIntData[idUser][P_RACE] != RACE_CHAMELEON)
+	{
+		for (new iSkillID = 0; iSkillID < MAX_SKILLS; iSkillID++ )
 		{
-			new szName[128];
-			get_user_name( idUser, szName, charsmax(szName) );
-			WC3_Log( true, "Unable to save XP for user '%s', unique ID: %d", szName, iUniqueID );
-			return;
-		}
-
-		new szQueryXP[512];
-		format(szQueryXP, charsmax(szQueryXP), "REPLACE INTO `cssb_player_race` ( `player_id` , `race_id` , `race_xp` ) VALUES ( '%d', '%d', '%d');", iUniqueID, arrIntData[idUser][P_RACE], arrIntData[idUser][P_XP] );
-		SQL_ThreadQuery(g_DBTuple, "_MYSQLX_Save_T",szQueryXP);
-
-		if (arrIntData[idUser][P_RACE] != RACE_CHAMELEON)
-		{
-			for (new iSkillID = 0; iSkillID < MAX_SKILLS; iSkillID++ )
+			if (g_SkillType[iSkillID] != SKILL_TYPE_PASSIVE )
 			{
-				if (g_SkillType[iSkillID] != SKILL_TYPE_PASSIVE )
+				new iCurrentLevel = SM_GetSkillLevel(idUser, iSkillID);
+				if (iCurrentLevel >= 0 && g_iDBPlayerSkillStore[idUser][iSkillID] != iCurrentLevel )
 				{
-					new iCurrentLevel = SM_GetSkillLevel(idUser, iSkillID);
-					if (iCurrentLevel >= 0 && g_iDBPlayerSkillStore[idUser][iSkillID] != iCurrentLevel )
-					{
-						new szQuerySkill[512];
-						g_iDBPlayerSkillStore[idUser][iSkillID] = iCurrentLevel;
-						format(szQuerySkill, charsmax(szQuerySkill), "REPLACE INTO `cssb_player_skill` ( `player_id` , `skill_id` , `skill_level` ) VALUES ( '%d', '%d', '%d' );", iUniqueID, iSkillID, iCurrentLevel );
-						SQL_ThreadQuery(g_DBTuple, "_MYSQLX_Save_T", szQuerySkill);
-					}//if
+					new szQuerySkill[512];
+					g_iDBPlayerSkillStore[idUser][iSkillID] = iCurrentLevel;
+					format(szQuerySkill, charsmax(szQuerySkill), "REPLACE INTO `cssb_player_skill` ( `player_id` , `skill_id` , `skill_level` ) VALUES ( '%d', '%d', '%d' );", iUniqueID, iSkillID, iCurrentLevel );
+					SQL_ThreadQuery(g_DBTuple, "_MYSQLX_Save_T", szQuerySkill);
 				}//if
-			}//for
-		}//if
+			}//if
+		}//for
+	}//if
 		
-		//Для talisman +
-		if(MAX_MODE_TALISMAN == 1)
-			fTalisman_MYSQLX_Save_T( idUser,iUniqueID );
-
-	
+	//Для talisman +
+	if(MAX_MODE_TALISMAN == 1)
+		fTalisman_MYSQLX_Save_T( idUser,iUniqueID );
 
 	return;
 }
 
 public _MYSQLX_Save_T( iFailState, Handle:hQuery, szError[], iErrNum, szData[], iSize )
 {
-	
-
     if(iFailState != TQUERY_SUCCESS)
     {
 		new szQuery[256];
@@ -272,59 +262,58 @@ public _MYSQLX_Save_T( iFailState, Handle:hQuery, szError[], iErrNum, szData[], 
 
 MYSQLX_GetAllXP(idUser,iSelectIdMenu)
 {
-	
-		if ( !MYSQLX_Connection_Available() )
-			return;
+	if ( !MYSQLX_Connection_Available() )
+		return;
 		
-		new iUniqueID = DB_GetUniqueID( idUser );
-		if (iUniqueID <= 0 )
-		{
-			formatex(szMessage, charsmax(szMessage), "%L",LANG_PLAYER,"CLIENT_PRINT_MYSQL_UN_RET_XP");	
-			cssbChatColor(idUser,"%s%s",fTagWar3ft(),szMessage);
-			WC3_Log( true, "[ERROR] Unable to retreive user's Unique ID" );
-			return;
-		}
+	new iUniqueID = DB_GetUniqueID( idUser );
+	if (iUniqueID <= 0 )
+	{
+		formatex(szMessage, charsmax(szMessage), "%L",LANG_PLAYER,"CLIENT_PRINT_MYSQL_UN_RET_XP");	
+		cssbChatColor(idUser,"%s%s",fTagWar3ft(),szMessage);
+		WC3_Log( true, "[ERROR] Unable to retreive user's Unique ID" );
+		return;
+	}
 
-		new szQueryXP[256];
-		format(szQueryXP, charsmax(szQueryXP), "SELECT `race_id`, `race_xp` FROM `cssb_player_race` WHERE ( `player_id` = '%d' );", iUniqueID );
-		new Handle:hQueryXP = SQL_PrepareQuery( g_DBConn, szQueryXP );
+	new szQueryXP[256];
+	format(szQueryXP, charsmax(szQueryXP), "SELECT `race_id`, `race_xp` FROM `cssb_player_race` WHERE ( `player_id` = '%d' );", iUniqueID );
+	new Handle:hQueryXP = SQL_PrepareQuery( g_DBConn, szQueryXP );
 
-		if (!SQL_Execute(hQueryXP))
-		{
-			formatex(szMessage, charsmax(szMessage), "%L",LANG_PLAYER,"CLIENT_PRINT_MYSQL_ERR_UN_RET_XP");	
-			cssbChatColor(idUser,"%s%s",fTagWar3ft(),szMessage);
-			MYSQLX_Error(hQueryXP, szQueryXP, 6 );
-			return;
-		}
+	if (!SQL_Execute(hQueryXP))
+	{
+		formatex(szMessage, charsmax(szMessage), "%L",LANG_PLAYER,"CLIENT_PRINT_MYSQL_ERR_UN_RET_XP");	
+		cssbChatColor(idUser,"%s%s",fTagWar3ft(),szMessage);
+		MYSQLX_Error(hQueryXP, szQueryXP, 6 );
+		return;
+	}
 
-		//Обнуление массива опыта перед считыванием из базы данных
-		for ( new i = 0; i < MAX_RACES; i++ )
-		{
-			g_iDBPlayerXPInfoStore[idUser][i] = 0;
-			arrPlayerLevelsInfo[idUser][i] = 0;
-		}
+	//Обнуление массива опыта перед считыванием из базы данных
+	for ( new i = 0; i < MAX_RACES; i++ )
+	{
+		g_iDBPlayerXPInfoStore[idUser][i] = 0;
+		arrPlayerLevelsInfo[idUser][i] = 0;
+	}
 
-		//Считываем XP из базы данных
-		new iXP, iRace;
-		while (SQL_MoreResults(hQueryXP))
-		{
-			iRace	= SQL_ReadResult(hQueryXP, 0 );
-			iXP		= SQL_ReadResult(hQueryXP, 1 );
+	//Считываем XP из базы данных
+	new iXP, iRace;
+	while (SQL_MoreResults(hQueryXP))
+	{
+		iRace	= SQL_ReadResult(hQueryXP, 0 );
+		iXP		= SQL_ReadResult(hQueryXP, 1 );
 			
-			if (iRace > 0 && iRace < MAX_RACES + 1 )
-			{
-				g_iDBPlayerXPInfoStore[idUser][iRace-1] = iXP;
-				arrPlayerLevelsInfo[idUser][iRace-1] = XP_GetLevelByXP( iXP ); 
-			}
-
-			SQL_NextRow( hQueryXP );
+		if (iRace > 0 && iRace < MAX_RACES + 1 )
+		{
+			g_iDBPlayerXPInfoStore[idUser][iRace-1] = iXP;
+			arrPlayerLevelsInfo[idUser][iRace-1] = XP_GetLevelByXP( iXP ); 
 		}
 
-		SQL_FreeHandle( hQueryXP );
+		SQL_NextRow( hQueryXP );
+	}
+
+	SQL_FreeHandle( hQueryXP );
 
 
-		// Вызов меню с выбором рас после считывания опыта из базы данных
-		WC3_ChangeRaceShowMenu(idUser, g_iDBPlayerXPInfoStore[idUser],arrPlayerLevelsInfo[idUser],iSelectIdMenu );
+	// Вызов меню с выбором рас после считывания опыта из базы данных
+	WC3_ChangeRaceShowMenu(idUser, g_iDBPlayerXPInfoStore[idUser],arrPlayerLevelsInfo[idUser],iSelectIdMenu );
 	
 
 	return;
@@ -332,60 +321,55 @@ MYSQLX_GetAllXP(idUser,iSelectIdMenu)
 
 MYSQLX_SetDataForRace(idUser)
 {
-	
-		if (!MYSQLX_Connection_Available() )
-			return;
+	if (!MYSQLX_Connection_Available() )
+		return;
 
-		new szQuerySkillLevel[256];
-		format(szQuerySkillLevel, charsmax(szQuerySkillLevel), "SELECT `skill_id`, `skill_level` FROM `cssb_player_skill` WHERE `player_id` = '%d';", DB_GetUniqueID( idUser ) );
-		new Handle:hQuerySkillLevel = SQL_PrepareQuery( g_DBConn, szQuerySkillLevel );
+	new szQuerySkillLevel[256];
+	format(szQuerySkillLevel, charsmax(szQuerySkillLevel), "SELECT `skill_id`, `skill_level` FROM `cssb_player_skill` WHERE `player_id` = '%d';", DB_GetUniqueID( idUser ) );
+	new Handle:hQuerySkillLevel = SQL_PrepareQuery( g_DBConn, szQuerySkillLevel );
 
-		if (!SQL_Execute( hQuerySkillLevel ) )
-		{
-			formatex(szMessage, charsmax(szMessage), "%L",LANG_PLAYER,"CLIENT_PRINT_MYSQL_ERR_UN_RET_XP");	
-			cssbChatColor(idUser,"%s%s",fTagWar3ft(),szMessage);
-			MYSQLX_Error( hQuerySkillLevel, szQuerySkillLevel, 21 );
-			return;
-		}
+	if (!SQL_Execute( hQuerySkillLevel ) )
+	{
+		formatex(szMessage, charsmax(szMessage), "%L",LANG_PLAYER,"CLIENT_PRINT_MYSQL_ERR_UN_RET_XP");	
+		cssbChatColor(idUser,"%s%s",fTagWar3ft(),szMessage);
+		MYSQLX_Error( hQuerySkillLevel, szQuerySkillLevel, 21 );
+		return;
+	}
 
-		// Устанавливаем опыт игроку
-		arrIntData[idUser][P_XP] = g_iDBPlayerXPInfoStore[idUser][arrIntData[idUser][P_RACE]-1];
+	// Устанавливаем опыт игроку
+	arrIntData[idUser][P_XP] = g_iDBPlayerXPInfoStore[idUser][arrIntData[idUser][P_RACE]-1];
 
-		// Обнуляем все склилы перед считыванием из базы данных
-		for (new iSkillID = 0; iSkillID < MAX_SKILLS; iSkillID++ )
-		{
-			if (g_SkillType[iSkillID] != SKILL_TYPE_PASSIVE )
-				SM_SetSkillLevel( idUser, iSkillID, 0, 2 );
-		}
+	// Обнуляем все склилы перед считыванием из базы данных
+	for (new iSkillID = 0; iSkillID < MAX_SKILLS; iSkillID++ )
+	{
+		if (g_SkillType[iSkillID] != SKILL_TYPE_PASSIVE )
+			SM_SetSkillLevel( idUser, iSkillID, 0, 2 );
+	}
 		
-		new iSkillID, iSkillLevel;
-		while ( SQL_MoreResults( hQuerySkillLevel ) )
-		{
-			iSkillID = SQL_ReadResult( hQuerySkillLevel, 0 );
-			iSkillLevel = SQL_ReadResult( hQuerySkillLevel, 1 );
+	new iSkillID, iSkillLevel;
+	while ( SQL_MoreResults( hQuerySkillLevel ) )
+	{
+		iSkillID = SQL_ReadResult( hQuerySkillLevel, 0 );
+		iSkillLevel = SQL_ReadResult( hQuerySkillLevel, 1 );
 			
-			SM_SetSkillLevel( idUser, iSkillID, iSkillLevel, 3 );
-			g_iDBPlayerSkillStore[idUser][iSkillID] = iSkillLevel;
+		SM_SetSkillLevel( idUser, iSkillID, iSkillLevel, 3 );
+		g_iDBPlayerSkillStore[idUser][iSkillID] = iSkillLevel;
 
-			SQL_NextRow( hQuerySkillLevel );
-		}
+		SQL_NextRow( hQuerySkillLevel );
+	}
 
-		SQL_FreeHandle( hQuerySkillLevel );
+	SQL_FreeHandle( hQuerySkillLevel );
 		
 
-		WC3_SetRaceUp( idUser );
+	WC3_SetRaceUp( idUser );
 
-		// This user's XP has been set + retrieved! We can save now
-		bDBXPRetrieved[idUser] = true;
-
-	
-
+	// This user's XP has been set + retrieved! We can save now
+	bDBXPRetrieved[idUser] = true;
 	return;
 }
 
 MYSQLX_Close()
 {
-	
 	if (g_DBTuple)
 		SQL_FreeHandle(g_DBTuple);
 
@@ -400,7 +384,6 @@ MYSQLX_Close()
 // **********************************************************************
 MYSQLX_UpdateTimestamp(idUser)
 {
-	
 	if (!MYSQLX_Connection_Available())
 		return;
 
@@ -419,7 +402,6 @@ MYSQLX_UpdateTimestamp(idUser)
 
 public _MYSQLX_UpdateTimestamp( iFailState, Handle:hQuery, szError[], iErrNum, szData[], iSize )
 {
-	
     if(iFailState != TQUERY_SUCCESS)
     {
 		new szQuery[256];
@@ -440,8 +422,6 @@ public _MYSQLX_UpdateTimestamp( iFailState, Handle:hQuery, szError[], iErrNum, s
 // Prune the MySQL database
 MYSQLX_Prune()
 {
-		
-
 	if (!MYSQLX_Connection_Available() )
 		return;
 
@@ -515,7 +495,6 @@ MYSQLX_Prune()
 		}
 	}
 	while (bFound == false)
-
 }
 
 
@@ -525,8 +504,6 @@ MYSQLX_Prune()
 // The idUser should be a unique number, so we know what function called it (useful for debugging)
 MYSQLX_Error( Handle:query, szQuery[], idUser )
 {
-		
-
 	new szError[256];
 	new iErrNum = SQL_QueryError( query, szError, 255 );
 
@@ -551,7 +528,6 @@ MYSQLX_Error( Handle:query, szQuery[], idUser )
 
 MYSQLX_ThreadError(Handle:hQuery, szQuery[], szError[], iErrNum, iFailState, idError )
 {
-	
 	WC3_Log(true, "[MYSQL] Threaded query error, location: %d", idError);
 	WC3_Log(true, "[MYSQL] Message: %s (%d)", szError, iErrNum );
 	WC3_Log(true, "[MYSQL] Query statement: %s ", szQuery );

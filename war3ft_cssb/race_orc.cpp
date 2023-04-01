@@ -81,7 +81,7 @@ public _OR_ULT_ChainLightning( parm[5] )
 					// Just say the user was hit so they aren't tried to be hit the next round (possibility of removing multiple charges)
 					arrBoolData[iTarget][PB_LIGHTNINGHIT] = true;
 
-					 bFound = true;
+					bFound = true;
 				}
 
 				// Then we can hit this user!

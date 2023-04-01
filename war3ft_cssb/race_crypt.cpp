@@ -283,8 +283,9 @@ CL_HLP_Diff( iNum, iNum2 )
 	{
 		return (iNum2-iNum);
 	}
-
+	#if AMXX_VERSION_NUM < 183
 	return 0;
+	#endif
 }
 
 CL_SkillsOffensive( idAttacker, idVictim, iHitPlace )

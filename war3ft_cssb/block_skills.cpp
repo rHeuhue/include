@@ -315,7 +315,7 @@ bool:isDisabledSkillsOnMap(idUser,iSkillId,szSkillName[] = "")
 		ReadTravTrieString(trieIterator,szValue,charsmax(szValue));
 		//log_amx("Key: '%s' = '%s'",szKey,szValue);
 
-	   if ( (equal(szKey, "BLOCK_SKILL_VAMPIRICAURA")						&& iSkillId == SKILL_VAMPIRICAURA) ||
+		if ( (equal(szKey, "BLOCK_SKILL_VAMPIRICAURA")						&& iSkillId == SKILL_VAMPIRICAURA) ||
 			(equal(szKey, "BLOCK_SKILL_UNHOLYAURA")							&& iSkillId == SKILL_UNHOLYAURA) ||
 			(equal(szKey, "BLOCK_SKILL_LEVITATION")							&& iSkillId == SKILL_LEVITATION) ||
 			(equal(szKey, "BLOCK_ULTIMATE_SUICIDE")							&& iSkillId == ULTIMATE_SUICIDE) ||

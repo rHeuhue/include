@@ -27,7 +27,6 @@ fCheckBuyCmdWeapons(idUser, szCmd[])
 
 public fMenuBuyWeapons(idUser)
 {
-	
 	if( !is_user_alive(idUser))
 		return PLUGIN_CONTINUE;
 	
@@ -208,5 +207,5 @@ public mfClientBuyWeapons(idUser, iItemWpnBuy)
 //        return PLUGIN_HANDLED;
 //    }
 
-    return PLUGIN_CONTINUE;
+	return PLUGIN_CONTINUE;
 }

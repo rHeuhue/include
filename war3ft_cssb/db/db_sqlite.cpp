@@ -26,106 +26,95 @@ new const szTableNames[TOTAL_SQLITE_TABLES][] =
 // Initiate the connection to the SQLite database
 SQLITE_Init()
 {
-	
-	
-		new szError[256], iErrNum;
+	new szError[256], iErrNum;
 
-		// Set up the tuple that will be used for threading
-		g_DBTuple = SQL_MakeDbTuple( "", "", "", "war3ft" );
+	// Set up the tuple that will be used for threading
+	g_DBTuple = SQL_MakeDbTuple( "", "", "", "war3ft" );
 
-		// Attempt to connect
-		g_DBConn = SQL_Connect( g_DBTuple, iErrNum, szError, 255 );
+	// Attempt to connect
+	g_DBConn = SQL_Connect( g_DBTuple, iErrNum, szError, 255 );
 
-		if ( !g_DBConn )
+	if ( !g_DBConn )
+	{
+		WC3_Log( true, "[SQLITE] Database Connection Failed: [%d] %s", iErrNum, szError );
+		return;
+	}
+
+
+	server_print( "[WAR3FT] SQLite database connection successful" );
+
+	new Handle:query;
+
+	// Create the default tables if we need to
+	for ( new i = 0; i < TOTAL_SQLITE_TABLES; i++ )
+	{
+		query = SQL_PrepareQuery( g_DBConn, szTablesSQLite[i] );
+
+		if ( !sqlite_TableExists( g_DBConn, szTableNames[i] ) )
 		{
-			WC3_Log( true, "[SQLITE] Database Connection Failed: [%d] %s", iErrNum, szError );
-
-			return;
-		}
-
-
-		server_print( "[WAR3FT] SQLite database connection successful" );
-
-		new Handle:query;
-
-		// Create the default tables if we need to
-		for ( new i = 0; i < TOTAL_SQLITE_TABLES; i++ )
-		{
-			query = SQL_PrepareQuery( g_DBConn, szTablesSQLite[i] );
-
-			if ( !sqlite_TableExists( g_DBConn, szTableNames[i] ) )
+			if ( !SQL_Execute( query ) )
 			{
-				if ( !SQL_Execute( query ) )
-				{
-					SQLITE_Error( query, szTablesSQLite[i], 1 );
-
-					return;
-				}
+				SQLITE_Error( query, szTablesSQLite[i], 1 );
+				return;
 			}
-
-			SQL_FreeHandle( query );
 		}
-
-		/*
-			These probably should be subject to a CVAR
-			Lets fine tune the database:
-				"synchronous = NORMAL"	- Put back the 2.x behaviour (faster than the defalt
-							  for 3.x)
-				"synchronous = OFF"	- Way faster, but it might get corrupted data if a
-							  server os system crash occurs
-				"integrity_check"	- well it's what it says, we do have to check the
-							  value it returns since it's important
-			PRAGMA commands don't return anything so no need to check the result of the query
-		*/	
-
-		query = SQL_PrepareQuery( g_DBConn, "PRAGMA integrity_check" );
-		
-		if ( !SQL_Execute( query ) )
-		{
-			SQLITE_Error( query, "PRAGMA integrity_check", 2 );
-
-			return;
-		}
-		
-		// Get the integrity check value
-		new szIntegrityCheck[64];
-		if ( SQL_NumResults( query ) > 0 )
-		{
-			SQL_ReadResult( query, 0, szIntegrityCheck, 63 )
-		}
-
-		// Free the result
 		SQL_FreeHandle( query );
+	}
 
-		// Check to make sure the integrity check passed
-		if ( !equali(szIntegrityCheck, "ok") )
-		{
-			// Should we disable saving here?
-			WC3_Log( true, "[SQLITE] SQL Lite integrity check failed, disabling saving XP." );
-			return;
-		}
+	/*
+		These probably should be subject to a CVAR
+		Lets fine tune the database:
+			"synchronous = NORMAL"	- Put back the 2.x behaviour (faster than the defalt
+						  for 3.x)
+			"synchronous = OFF"	- Way faster, but it might get corrupted data if a
+						  server os system crash occurs
+			"integrity_check"	- well it's what it says, we do have to check the
+						  value it returns since it's important
+		PRAGMA commands don't return anything so no need to check the result of the query
+	*/	
+
+	query = SQL_PrepareQuery( g_DBConn, "PRAGMA integrity_check" );
 		
-		// Do some synchronous crap
-		new szQuery[128];
-		format( szQuery, 127, "PRAGMA synchronous = %d", SQLITE_SYNC_OFF );
-		query = SQL_PrepareQuery( g_DBConn, szQuery );
+	if ( !SQL_Execute( query ) )
+	{
+		SQLITE_Error( query, "PRAGMA integrity_check", 2 );
+		return;
+	}
+		
+	// Get the integrity check value
+	new szIntegrityCheck[64];
+	if ( SQL_NumResults( query ) > 0 )
+	{
+		SQL_ReadResult( query, 0, szIntegrityCheck, 63 )
+	}
 
-		if ( !SQL_Execute( query ) )
-		{
-			SQLITE_Error( query, szQuery, 3 );
+	// Free the result
+	SQL_FreeHandle( query );
 
-			return;
-		}
+	// Check to make sure the integrity check passed
+	if ( !equali(szIntegrityCheck, "ok") )
+	{
+		// Should we disable saving here?
+		WC3_Log( true, "[SQLITE] SQL Lite integrity check failed, disabling saving XP." );
+		return;
+	}
+		
+	// Do some synchronous crap
+	new szQuery[128];
+	format( szQuery, 127, "PRAGMA synchronous = %d", SQLITE_SYNC_OFF );
+	query = SQL_PrepareQuery( g_DBConn, szQuery );
 
-		bDBAvailable = true;
-	
+	if ( !SQL_Execute( query ) )
+	{
+		SQLITE_Error( query, szQuery, 3 );
+		return;
+	}
+	bDBAvailable = true;
 }
 
 // Close the SQLite connection
 SQLITE_Close()
 {
-		
-
 	if ( g_DBTuple )
 	{
 		SQL_FreeHandle( g_DBTuple );
@@ -139,7 +128,6 @@ SQLITE_Close()
 
 SQLITE_FetchUniqueID( idUser)
 {
-	
 	// Make sure our connection is working
 	if ( !SQLITE_Connection_Available() )
 	{
@@ -198,119 +186,112 @@ SQLITE_FetchUniqueID( idUser)
 
 SQLITE_Save( idUser )
 {
-	
-		// Make sure our connection is working
-		if ( !SQLITE_Connection_Available() )
+	// Make sure our connection is working
+	if ( !SQLITE_Connection_Available() )
+	{
+		return;
+	}
+
+	new iUniqueID = DB_GetUniqueID( idUser );
+
+	// Save the user's XP!
+	new szQuery[512];
+	format( szQuery, 511, "REPLACE INTO `cssb_player_race` ( `player_id` , `race_id` , `race_xp` ) VALUES ( '%d', '%d', '%d');", iUniqueID, arrIntData[idUser][P_RACE], arrIntData[idUser][P_XP] );
+	new Handle:query = SQL_PrepareQuery( g_DBConn, szQuery );
+
+	if ( !SQL_Execute( query ) )
+	{
+		SQLITE_Error( query, szQuery, 6 );
+
+		return;
+	}
+
+	static iCurrentLevel;
+
+	// Only save skill levels if the user does NOT play chameleon
+	if ( arrIntData[idUser][P_RACE] != RACE_CHAMELEON )
+	{
+		// Now we need to save the skill levels!
+		for ( new iSkillID = 0; iSkillID < MAX_SKILLS; iSkillID++ )
 		{
-			return;
-		}
-
-		new iUniqueID = DB_GetUniqueID( idUser );
-
-		// Save the user's XP!
-		new szQuery[512];
-		format( szQuery, 511, "REPLACE INTO `cssb_player_race` ( `player_id` , `race_id` , `race_xp` ) VALUES ( '%d', '%d', '%d');", iUniqueID, arrIntData[idUser][P_RACE], arrIntData[idUser][P_XP] );
-		new Handle:query = SQL_PrepareQuery( g_DBConn, szQuery );
-
-		if ( !SQL_Execute( query ) )
-		{
-			SQLITE_Error( query, szQuery, 6 );
-
-			return;
-		}
-
-		static iCurrentLevel;
-
-		// Only save skill levels if the user does NOT play chameleon
-		if ( arrIntData[idUser][P_RACE] != RACE_CHAMELEON )
-		{
-			// Now we need to save the skill levels!
-			for ( new iSkillID = 0; iSkillID < MAX_SKILLS; iSkillID++ )
+			if ( g_SkillType[iSkillID] != SKILL_TYPE_PASSIVE )
 			{
-				if ( g_SkillType[iSkillID] != SKILL_TYPE_PASSIVE )
+				iCurrentLevel = SM_GetSkillLevel( idUser, iSkillID);
+		
+				// Then we need to save this!
+				if ( iCurrentLevel >= 0 && g_iDBPlayerSkillStore[idUser][iSkillID] != iCurrentLevel )
 				{
-					iCurrentLevel = SM_GetSkillLevel( idUser, iSkillID);
+					g_iDBPlayerSkillStore[idUser][iSkillID] = iCurrentLevel;
+					format( szQuery, 511, "REPLACE INTO `cssb_player_skill` ( `player_id` , `skill_id` , `skill_level` ) VALUES ( '%d', '%d', '%d' );", iUniqueID, iSkillID, iCurrentLevel );
+					query = SQL_PrepareQuery( g_DBConn, szQuery );
 		
-					// Then we need to save this!
-					if ( iCurrentLevel >= 0 && g_iDBPlayerSkillStore[idUser][iSkillID] != iCurrentLevel )
+					if ( !SQL_Execute( query ) )
 					{
-						g_iDBPlayerSkillStore[idUser][iSkillID] = iCurrentLevel;
-						format( szQuery, 511, "REPLACE INTO `cssb_player_skill` ( `player_id` , `skill_id` , `skill_level` ) VALUES ( '%d', '%d', '%d' );", iUniqueID, iSkillID, iCurrentLevel );
-						query = SQL_PrepareQuery( g_DBConn, szQuery );
+						SQLITE_Error( query, szQuery, 7 );
 		
-						if ( !SQL_Execute( query ) )
-						{
-							SQLITE_Error( query, szQuery, 7 );
-		
-							return;
-						}
+						return;
 					}
 				}
 			}
 		}
+	}
 
-		//Для talisman +
-		if(MAX_MODE_TALISMAN == 1)
-			fTalisman_SQLITE_Save( idUser,iUniqueID);
-	
-	
+	//Для talisman +
+	if(MAX_MODE_TALISMAN == 1)
+		fTalisman_SQLITE_Save( idUser,iUniqueID);
 
 	return;
 }
 
 SQLITE_Save_T( idUser )
 {
-	
-		//SQLITE_Save( idUser ); //Была расскоментирована строка и закоментирован весь нижний код функции
+	//SQLITE_Save( idUser ); //Была расскоментирована строка и закоментирован весь нижний код функции
 		
-		// Make sure our connection is working
-		if ( !SQLITE_Connection_Available() )
+	// Make sure our connection is working
+	if ( !SQLITE_Connection_Available() )
+	{
+		return;
+	}
+
+	new iUniqueID = DB_GetUniqueID( idUser );
+
+	// Save the user's XP!
+	new szQuery[512];
+	format( szQuery, 511, "REPLACE INTO `cssb_player_race` ( `player_id` , `race_id` , `race_xp` ) VALUES ( '%d', '%d', '%d');", iUniqueID, arrIntData[idUser][P_RACE], arrIntData[idUser][P_XP] );
+	SQL_ThreadQuery( g_DBTuple, "_SQLITE_Save_T", szQuery );
+
+	static iCurrentLevel;
+
+	// Only save skill levels if the user does NOT play chameleon
+	if ( arrIntData[idUser][P_RACE] != RACE_CHAMELEON )
+	{
+		// Now we need to save the skill levels!
+		for ( new iSkillID = 0; iSkillID < MAX_SKILLS; iSkillID++ )
 		{
-			return;
-		}
-
-		new iUniqueID = DB_GetUniqueID( idUser );
-
-		// Save the user's XP!
-		new szQuery[512];
-		format( szQuery, 511, "REPLACE INTO `cssb_player_race` ( `player_id` , `race_id` , `race_xp` ) VALUES ( '%d', '%d', '%d');", iUniqueID, arrIntData[idUser][P_RACE], arrIntData[idUser][P_XP] );
-		SQL_ThreadQuery( g_DBTuple, "_SQLITE_Save_T", szQuery );
-
-		static iCurrentLevel;
-
-		// Only save skill levels if the user does NOT play chameleon
-		if ( arrIntData[idUser][P_RACE] != RACE_CHAMELEON )
-		{
-			// Now we need to save the skill levels!
-			for ( new iSkillID = 0; iSkillID < MAX_SKILLS; iSkillID++ )
+			if ( g_SkillType[iSkillID] != SKILL_TYPE_PASSIVE )
 			{
-				if ( g_SkillType[iSkillID] != SKILL_TYPE_PASSIVE )
-				{
-					iCurrentLevel = SM_GetSkillLevel( idUser, iSkillID);
+				iCurrentLevel = SM_GetSkillLevel( idUser, iSkillID);
 		
-					// Then we need to save this!
-					if ( iCurrentLevel >= 0 && g_iDBPlayerSkillStore[idUser][iSkillID] != iCurrentLevel )
-					{
-						g_iDBPlayerSkillStore[idUser][iSkillID] = iCurrentLevel;
-						format( szQuery, 511, "REPLACE INTO `cssb_player_skill` ( `player_id` , `skill_id` , `skill_level` ) VALUES ( '%d', '%d', '%d' );", iUniqueID, iSkillID, iCurrentLevel );
-						SQL_ThreadQuery( g_DBTuple, "_SQLITE_Save_T", szQuery );
-					}
+				// Then we need to save this!
+				if ( iCurrentLevel >= 0 && g_iDBPlayerSkillStore[idUser][iSkillID] != iCurrentLevel )
+				{
+					g_iDBPlayerSkillStore[idUser][iSkillID] = iCurrentLevel;
+					format( szQuery, 511, "REPLACE INTO `cssb_player_skill` ( `player_id` , `skill_id` , `skill_level` ) VALUES ( '%d', '%d', '%d' );", iUniqueID, iSkillID, iCurrentLevel );
+					SQL_ThreadQuery( g_DBTuple, "_SQLITE_Save_T", szQuery );
 				}
 			}
 		}
+	}
 		
-		//Для talisman +
-		if(MAX_MODE_TALISMAN == 1)
-			fTalisman_SQLITE_Save_T( idUser,iUniqueID );
-	
+	//Для talisman +
+	if(MAX_MODE_TALISMAN == 1)
+		fTalisman_SQLITE_Save_T( idUser,iUniqueID );
 
 	return;
 }
 
 public _SQLITE_Save_T( failstate, Handle:query, error[], errnum, data[], size )
 {
-	
-
 	// Error during the query
 	if ( failstate )
 	{
@@ -323,127 +304,118 @@ public _SQLITE_Save_T( failstate, Handle:query, error[], errnum, data[], size )
 
 SQLITE_GetAllXP(idUser,iSelectIdMenu)
 {
-	
-		// Make sure our connection is working
-		if ( !SQLITE_Connection_Available() )
-		{
-			return;
-		}
+	// Make sure our connection is working
+	if ( !SQLITE_Connection_Available() )
+	{
+		return;
+	}
 
-		new iUniqueID = DB_GetUniqueID( idUser );
+	new iUniqueID = DB_GetUniqueID( idUser );
 
-		// Then we have a problem and cannot retreive the user's XP
-		if ( iUniqueID <= 0 )
-		{
-			format(szMessage, charsmax(szMessage), "%L",LANG_PLAYER,"CLIENT_PRINT_MYSQL_UN_RET_XP");	
-			cssbChatColor(idUser,"%s%s",fTagWar3ft(),szMessage);
+	// Then we have a problem and cannot retreive the user's XP
+	if ( iUniqueID <= 0 )
+	{
+		format(szMessage, charsmax(szMessage), "%L",LANG_PLAYER,"CLIENT_PRINT_MYSQL_UN_RET_XP");	
+		cssbChatColor(idUser,"%s%s",fTagWar3ft(),szMessage);
 
-			WC3_Log( true, "[ERROR] Unable to retreive user's Unique idUser" );
+		WC3_Log( true, "[ERROR] Unable to retreive user's Unique idUser" );
+		return;
+	}
 
-			return;
-		}
+	new szQuery[256];
+	format(szQuery, 255, "SELECT `race_id`, `race_xp` FROM `cssb_player_race` WHERE ( `player_id` = '%d' );", iUniqueID );
+	new Handle:query = SQL_PrepareQuery( g_DBConn, szQuery );
 
-		new szQuery[256];
-		format(szQuery, 255, "SELECT `race_id`, `race_xp` FROM `cssb_player_race` WHERE ( `player_id` = '%d' );", iUniqueID );
-		new Handle:query = SQL_PrepareQuery( g_DBConn, szQuery );
+	if ( !SQL_Execute( query ) )
+	{
+		SQLITE_Error( query, szQuery, 8 );
+		return;
+	}
 
-		if ( !SQL_Execute( query ) )
-		{
-			SQLITE_Error( query, szQuery, 8 );
+	// Set last saved XP to 0
+	for ( new i = 0; i < MAX_RACES; i++ )
+	{
+		g_iDBPlayerXPInfoStore[idUser][i] = 0;
+		arrPlayerLevelsInfo[idUser][i] = 0;
+	}
 
-			return;
-		}
+	new iXP, iRace;
 
-		// Set last saved XP to 0
-		for ( new i = 0; i < MAX_RACES; i++ )
-		{
-			g_iDBPlayerXPInfoStore[idUser][i] = 0;
-			arrPlayerLevelsInfo[idUser][i] = 0;
-		}
-
-		new iXP, iRace;
-
-		// Loop through all of the records to find the XP data
-		while ( SQL_MoreResults( query ) )
-		{
-			iRace	= SQL_ReadResult( query, 0 );
-			iXP		= SQL_ReadResult( query, 1 );
+	// Loop through all of the records to find the XP data
+	while ( SQL_MoreResults( query ) )
+	{
+		iRace	= SQL_ReadResult( query, 0 );
+		iXP		= SQL_ReadResult( query, 1 );
 			
-			// Save the user's XP in an array
-			if ( iRace > 0 && iRace < MAX_RACES + 1 )
-			{
-				g_iDBPlayerXPInfoStore[idUser][iRace-1] = iXP;
-				arrPlayerLevelsInfo[idUser][iRace-1] = XP_GetLevelByXP( iXP ); 
-			}
-
-			SQL_NextRow( query );
+		// Save the user's XP in an array
+		if ( iRace > 0 && iRace < MAX_RACES + 1 )
+		{
+			g_iDBPlayerXPInfoStore[idUser][iRace-1] = iXP;
+			arrPlayerLevelsInfo[idUser][iRace-1] = XP_GetLevelByXP( iXP ); 
 		}
+		SQL_NextRow( query );
+	}
 
-		// Free the handle
-		SQL_FreeHandle( query );
+	// Free the handle
+	SQL_FreeHandle( query );
 
-		// Call the function that will display the "select a race" menu
-		WC3_ChangeRaceShowMenu(idUser, g_iDBPlayerXPInfoStore[idUser],arrPlayerLevelsInfo[idUser],iSelectIdMenu );
-
-	
+	// Call the function that will display the "select a race" menu
+	WC3_ChangeRaceShowMenu(idUser, g_iDBPlayerXPInfoStore[idUser],arrPlayerLevelsInfo[idUser],iSelectIdMenu );
 
 	return;
 }
 
 SQLITE_SetDataForRace( idUser )
 {
-	
-		// Make sure our connection is working
-		if ( !SQLITE_Connection_Available() )
+	// Make sure our connection is working
+	if ( !SQLITE_Connection_Available() )
+	{
+		return;
+	}
+
+	new szQuery[256];
+	format( szQuery, 255, "SELECT `skill_id`, `skill_level` FROM `cssb_player_skill` WHERE `player_id` = '%d';", DB_GetUniqueID( idUser ) );
+	new Handle:query = SQL_PrepareQuery( g_DBConn, szQuery );
+
+	if ( !SQL_Execute( query ) )
+	{
+		SQLITE_Error( query, szQuery, 9 );
+		return;
+	}
+
+	//client_print(0,print_chat,"arrIntData[idUser][P_RACE]-1 : %d",arrIntData[idUser][P_RACE]-1);
+	arrIntData[idUser][P_XP] = g_iDBPlayerXPInfoStore[idUser][arrIntData[idUser][P_RACE]-1];
+
+	// Reset all skill data to 0!
+	for ( new iSkillID = 0; iSkillID < MAX_SKILLS; iSkillID++ )
+	{
+		if ( g_SkillType[iSkillID] != SKILL_TYPE_PASSIVE )
 		{
-			return;
+			SM_SetSkillLevel( idUser, iSkillID, 0, 4 );
 		}
+	}
 
-		new szQuery[256];
-		format( szQuery, 255, "SELECT `skill_id`, `skill_level` FROM `cssb_player_skill` WHERE `player_id` = '%d';", DB_GetUniqueID( idUser ) );
-		new Handle:query = SQL_PrepareQuery( g_DBConn, szQuery );
+	new iSkillID, iSkillLevel;
+	// While we have a result!
+	while ( SQL_MoreResults( query ) )
+	{
+		iSkillID = SQL_ReadResult( query, 0 );
+		iSkillLevel = SQL_ReadResult( query, 1 );
+		SM_SetSkillLevel( idUser, iSkillID, iSkillLevel, 5 );
+		g_iDBPlayerSkillStore[idUser][iSkillID] = iSkillLevel;
 
-		if ( !SQL_Execute( query ) )
-		{
-			SQLITE_Error( query, szQuery, 9 );
+		SQL_NextRow( query );
+	}
 
-			return;
-		}
-
-		//client_print(0,print_chat,"arrIntData[idUser][P_RACE]-1 : %d",arrIntData[idUser][P_RACE]-1);
-		arrIntData[idUser][P_XP] = g_iDBPlayerXPInfoStore[idUser][arrIntData[idUser][P_RACE]-1];
-
-		// Reset all skill data to 0!
-		for ( new iSkillID = 0; iSkillID < MAX_SKILLS; iSkillID++ )
-		{
-			if ( g_SkillType[iSkillID] != SKILL_TYPE_PASSIVE )
-			{
-				SM_SetSkillLevel( idUser, iSkillID, 0, 4 );
-			}
-		}
-
-		new iSkillID, iSkillLevel;
-		// While we have a result!
-		while ( SQL_MoreResults( query ) )
-		{
-			iSkillID = SQL_ReadResult( query, 0 );
-			iSkillLevel = SQL_ReadResult( query, 1 );
-			SM_SetSkillLevel( idUser, iSkillID, iSkillLevel, 5 );
-			g_iDBPlayerSkillStore[idUser][iSkillID] = iSkillLevel;
-
-			SQL_NextRow( query );
-		}
-
-		// Free the handle
-		SQL_FreeHandle( query );
+	// Free the handle
+	SQL_FreeHandle( query );
 		
-		// Set the race up
-		WC3_SetRaceUp( idUser );
+	// Set the race up
+	WC3_SetRaceUp( idUser );
 
-		// This user's XP has been retrieved! We can save now
-		bDBXPRetrieved[idUser] = true;
+	// This user's XP has been retrieved! We can save now
+	bDBXPRetrieved[idUser] = true;
 	
-
 	return;
 }
 
@@ -455,7 +427,6 @@ bool:SQLITE_Connection_Available()
 	{
 		return false;
 	}
-
 	return true;
 }
 
@@ -463,8 +434,6 @@ bool:SQLITE_Connection_Available()
 
 SQLITE_Prune()
 {
-		
-
 	new const szPruneQuery[SQLITE_TOTAL_PRUNE_QUERY][] = 
 	{
 		"DELETE FROM cssb_player_race  WHERE player_id IN ( SELECT `player_id` FROM `cssb_player` WHERE ( (julianday(`time`) + %d) < julianday('now') ) );",
@@ -491,9 +460,6 @@ SQLITE_Prune()
 
 SQLITE_UpdateTimestamp( idUser )
 {
-	
-	
-
 	// Make sure our connection is working
 	if ( !SQLITE_Connection_Available() )
 	{
@@ -511,9 +477,6 @@ SQLITE_UpdateTimestamp( idUser )
 
 public _SQLITE_UpdateTimestamp( failstate, Handle:query, error[], errnum, data[], size )
 {
-	
-	
-
 	// Error during the query
 	if ( failstate )
 	{
@@ -536,9 +499,6 @@ public _SQLITE_UpdateTimestamp( failstate, Handle:query, error[], errnum, data[]
 // The idUser should be a unique number, so we know what function called it (useful for debugging)
 SQLITE_Error( Handle:query, szQuery[], idFunction )
 {
-	
-	
-
 	new szError[256];
 	new iErrNum = SQL_QueryError( query, szError, 255 );
 
@@ -552,8 +512,6 @@ SQLITE_Error( Handle:query, szQuery[], idFunction )
 
 SQLITE_ThreadError( Handle:query, szQuery[], szError[], iErrNum, failstate, idUser )
 {
-		
-
 	WC3_Log( true, "[SQLITE] Threaded query error, location: %d", idUser );
 	WC3_Log( true, "[SQLITE] Message: %s (%d)", szError, iErrNum );
 	WC3_Log( true, "[SQLITE] Query statement: %s ", szQuery );

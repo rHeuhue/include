@@ -319,75 +319,75 @@ clRaceBlackMag::setSkillsDefensive(idAttacker,idVictim)
 
 public clRaceBlackMag::setAbilityBlast(idUser)
 {
-   if( g_friezadisk[idUser] > 0 && is_user_alive(idUser))
-   {
-    //Makes an array of origin in the (x,y,z) coordinate system.
-    new origin[3]
-	g_friezadisk[idUser] = g_friezadisk[idUser] - 1
+	if( g_friezadisk[idUser] > 0 && is_user_alive(idUser))
+	{
+		//Makes an array of origin in the (x,y,z) coordinate system.
+		new origin[3]
+		g_friezadisk[idUser] = g_friezadisk[idUser] - 1
 
-    //Makes an array of velocity, specifically in the (x,y,z) coordinate system 
-    new velocity[3] 
+		//Makes an array of velocity, specifically in the (x,y,z) coordinate system 
+		new velocity[3] 
 
-    new Float:fOrigin[3], Float:fVelocity[3]
-    get_user_origin(idUser, origin, 1)
-    new Float: minBound[3] = {-50.0, -50.0, 0.0}  //sets the minimum bound of entity
-    new Float: maxBound[3] = {50.0, 50.0, 0.0}    //sets the maximum bound of entity
-    IVecFVec(origin, fOrigin)
+		new Float:fOrigin[3], Float:fVelocity[3]
+		get_user_origin(idUser, origin, 1)
+		new Float: minBound[3] = {-50.0, -50.0, 0.0}  //sets the minimum bound of entity
+		new Float: maxBound[3] = {50.0, 50.0, 0.0}    //sets the maximum bound of entity
+		IVecFVec(origin, fOrigin)
 
-   
-    new Float:viewing_angles[3]
-    new distance_from_user = 70
-    entity_get_vector(idUser, EV_VEC_angles, viewing_angles)
-    fOrigin[0] += floatcos(viewing_angles[1], degrees) * distance_from_user
-    fOrigin[1] += floatsin(viewing_angles[1], degrees) * distance_from_user
-    fOrigin[2] += floatsin(-viewing_angles[0], degrees) * distance_from_user
 
-    new NewEnt = create_entity("info_target")  //Makes an object 
-    entity_set_string(NewEnt, EV_SZ_classname, szClassNameDisk); //sets the classname of the entity
- 
-    //This tells what the object will look like 
-    entity_set_model(NewEnt, arrStrModels[MDL_FRIEZADISC]);
+		new Float:viewing_angles[3]
+		new distance_from_user = 70
+		entity_get_vector(idUser, EV_VEC_angles, viewing_angles)
+		fOrigin[0] += floatcos(viewing_angles[1], degrees) * distance_from_user
+		fOrigin[1] += floatsin(viewing_angles[1], degrees) * distance_from_user
+		fOrigin[2] += floatsin(-viewing_angles[0], degrees) * distance_from_user
 
-    //This will set the origin of the entity 
-    entity_set_origin(NewEnt, fOrigin) 
+		new NewEnt = create_entity("info_target")  //Makes an object 
+		entity_set_string(NewEnt, EV_SZ_classname, szClassNameDisk); //sets the classname of the entity
 
-    //This will set the movetype of the entity 
-    entity_set_int(NewEnt,EV_INT_movetype, MOVETYPE_BOUNCE) 
+		//This tells what the object will look like 
+		entity_set_model(NewEnt, arrStrModels[MDL_FRIEZADISC]);
 
-	set_pev(NewEnt, pev_gravity, 0.01);
+		//This will set the origin of the entity 
+		entity_set_origin(NewEnt, fOrigin) 
 
-    //This makes the entity touchable
-    entity_set_int(NewEnt, EV_INT_solid, SOLID_BBOX)
+		//This will set the movetype of the entity 
+		entity_set_int(NewEnt,EV_INT_movetype, MOVETYPE_BOUNCE) 
 
-    //This will set the velocity of the entity 
-    velocity_by_aim(idUser, 750, fVelocity) 
-    FVecIVec(fVelocity, velocity)
+		set_pev(NewEnt, pev_gravity, 0.01);
 
-    //Sets the size of the entity
-    entity_set_size(NewEnt, minBound, maxBound)
+		//This makes the entity touchable
+		entity_set_int(NewEnt, EV_INT_solid, SOLID_BBOX)
 
-    //Sets who the owner of the entity is
-    entity_set_edict(NewEnt, EV_ENT_owner, idUser)
+		//This will set the velocity of the entity 
+		velocity_by_aim(idUser, 750, fVelocity) 
+		FVecIVec(fVelocity, velocity)
 
-    //This will set the entity in motion 
-    entity_set_vector(NewEnt, EV_VEC_velocity, fVelocity) 
-   
-    new lifetime = 5
+		//Sets the size of the entity
+		entity_set_size(NewEnt, minBound, maxBound)
 
-    message_begin(MSG_BROADCAST, SVC_TEMPENTITY)
-    write_byte(22)       //TE_BEAMFOLLOW
-    write_short(NewEnt)  //The entity to attach the sprite to
-    write_short(arrIdSprites[SPR_MFLASH2_BLACK_MAG])  //sprite's model
-    write_byte(lifetime)   //life in 0.1 seconds
-    write_byte(50)   //width of sprite
-    write_byte(255)  //red
-    write_byte(0)    //green
-    write_byte(255)  //blue
-    write_byte(255)  //brightness
-    message_end()
-	
-    return
-  }
+		//Sets who the owner of the entity is
+		entity_set_edict(NewEnt, EV_ENT_owner, idUser)
+
+		//This will set the entity in motion 
+		entity_set_vector(NewEnt, EV_VEC_velocity, fVelocity) 
+
+		new lifetime = 5
+
+		message_begin(MSG_BROADCAST, SVC_TEMPENTITY)
+		write_byte(22)       //TE_BEAMFOLLOW
+		write_short(NewEnt)  //The entity to attach the sprite to
+		write_short(arrIdSprites[SPR_MFLASH2_BLACK_MAG])  //sprite's model
+		write_byte(lifetime)   //life in 0.1 seconds
+		write_byte(50)   //width of sprite
+		write_byte(255)  //red
+		write_byte(0)    //green
+		write_byte(255)  //blue
+		write_byte(255)  //brightness
+		message_end()
+
+		return
+	}
 }
 
 public touchBmDisk(entDisk, idWorldPlayer)
@@ -404,12 +404,12 @@ public touchBmDisk(entDisk, idWorldPlayer)
 		return 0;
 	}
 
-    new aimvec[3], Float:fAimvec[3]; 
-    entity_get_vector(idWorldPlayer, EV_VEC_origin, fAimvec);
-    FVecIVec(fAimvec, aimvec); 
+	new aimvec[3], Float:fAimvec[3]; 
+	entity_get_vector(idWorldPlayer, EV_VEC_origin, fAimvec);
+	FVecIVec(fAimvec, aimvec); 
 
 
-    if(idWorldPlayer == entity_get_edict(entDisk, EV_ENT_owner))
+	if(idWorldPlayer == entity_get_edict(entDisk, EV_ENT_owner))
 		return PLUGIN_HANDLED;
          
 	special_effects(entDisk, 0, aimvec);

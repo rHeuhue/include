@@ -39,7 +39,7 @@ public BM_ULT_Immolate( iCaster, iTarget )
 public BM_ULT_Immolate_DoT( parm_DoT[3] )
 {
 	new iCaster = parm_DoT[0];
-    new iTarget = parm_DoT[1];
+	new iTarget = parm_DoT[1];
 	new iCounter = parm_DoT[2];
 	
 	// Stop DoT if the max number of ticks is reached
@@ -52,8 +52,8 @@ public BM_ULT_Immolate_DoT( parm_DoT[3] )
 
 	// Emit sound and show the burning effect on the player
 
-    new vTargetOrigin[3];
-    get_user_origin( iTarget, vTargetOrigin );
+	new vTargetOrigin[3];
+	get_user_origin( iTarget, vTargetOrigin );
 
 	emit_sound( iTarget, CHAN_STATIC, arrStrSounds[SOUND_IMMOLATE_BURNING], 0.5, ATTN_NORM, 0, PITCH_NORM );
 
@@ -65,11 +65,11 @@ public BM_ULT_Immolate_DoT( parm_DoT[3] )
 
 	// If the target is still alive after this, make their screen glow orange and start the task again
 
-    if ( is_user_alive( iTarget ) )
-    {
+	if ( is_user_alive( iTarget ) )
+	{
 		arrIntData[iTarget][PB_ISBURNING] = true;
 
-        Create_ScreenFade( iTarget, (1<<10), (1<<10), (1<<12), 255, 108, 0, 160 );
+		Create_ScreenFade( iTarget, (1<<10), (1<<10), (1<<12), 255, 108, 0, 160 );
 
 		parm_DoT[2]++;
 
@@ -86,9 +86,9 @@ BM_ULT_Immolate_Remove(iTarget)
 	arrIntData[iTarget][PB_ISBURNING] = false;
 
 	new TaskId = TASK_BURNING + iTarget;
-    remove_task( TaskId, 0 );
+	remove_task( TaskId, 0 );
 
-    return PLUGIN_HANDLED;
+	return PLUGIN_HANDLED;
 }
 
 // Check to see if a player will become a Phoenix
@@ -254,10 +254,10 @@ BM_SkillsOffensive( idAttacker, idVictim, iDamage )
 BM_SkillsDefensive(idAttacker, idVictim, iDamage )
 {
 	if(!is_user_alive(idVictim)|| !is_user_connected(idVictim))  
-      return;
+		return;
 
 	if(!is_user_alive(idAttacker) || !is_user_connected(idAttacker)) 
-      return;
+		return;
 	
 	// Resistant Skin - Стандарт
 	new iSkillLevel = SM_GetSkillLevel( idVictim, PASS_RESISTANTSKIN );

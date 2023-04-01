@@ -258,8 +258,6 @@ bool:isContentRaceArrayBaseMenu(Array:arrIntKeyMenuData)
 //Регистрация всех меню для поддержки мультиязычности
 public InitLangAllMenus()
 {
-
-
 	new iTotalLanguages = get_langsnum();
 	new lang[3], menu[256];
 	new curMenuId = -1, highestMenuId = -1;
@@ -291,52 +289,46 @@ public InitLangAllMenus()
 //Вызов отображения менюшек
 public fDisplay_Menu_ChangeRace( idUser, iRaceXP[MAX_RACES],iRaceLevel[MAX_RACES],iSelectIdMenu)
 {
+	arrRaceXP = iRaceXP;
 	
-
-		arrRaceXP = iRaceXP;
-		
-		switch (iSelectIdMenu)
+	switch (iSelectIdMenu)
+	{
+		case MENU_ID_DEFAULT:
 		{
-			case MENU_ID_DEFAULT:
-			{
-				fBuildMenu(idUser,"MENU_SELECT_RACE",iRaceXP,iRaceLevel,arrIntBaseMenuData,MENU_ID_DEFAULT);
-			}
-			case MENU_ID_RACE_1:
-			{
-				fBuildMenu(idUser,"MENU_ID_RACE_1",iRaceXP,iRaceLevel,arrIntBaseMenuDataSub_1,MENU_ID_RACE_1);
-			}
-			case MENU_ID_RACE_2:
-			{
-				fBuildMenu(idUser,"MENU_ID_RACE_2",iRaceXP,iRaceLevel,arrIntBaseMenuDataSub_2,MENU_ID_RACE_2);
-			}
-			case MENU_ID_RACE_3:
-			{
-				fBuildMenu(idUser,"MENU_ID_RACE_3",iRaceXP,iRaceLevel,arrIntBaseMenuDataSub_3,MENU_ID_RACE_3);
-			}
-			case MENU_ID_RACE_4:
-			{
-				fBuildMenu(idUser,"MENU_ID_RACE_4",iRaceXP,iRaceLevel,arrIntBaseMenuDataSub_4,MENU_ID_RACE_4);
-			}
-			case MENU_ID_RACE_5:
-			{
-				fBuildMenu(idUser,"MENU_ID_RACE_5",iRaceXP,iRaceLevel,arrIntBaseMenuDataSub_5,MENU_ID_RACE_5);
-			}
-			case MENU_ID_RACE_6:
-			{
-				fBuildMenu(idUser,"MENU_ID_RACE_6",iRaceXP,iRaceLevel,arrIntBaseMenuDataSub_6,MENU_ID_RACE_6);
-			}
-			
+			fBuildMenu(idUser,"MENU_SELECT_RACE",iRaceXP,iRaceLevel,arrIntBaseMenuData,MENU_ID_DEFAULT);
 		}
-	
-
+		case MENU_ID_RACE_1:
+		{
+			fBuildMenu(idUser,"MENU_ID_RACE_1",iRaceXP,iRaceLevel,arrIntBaseMenuDataSub_1,MENU_ID_RACE_1);
+		}
+		case MENU_ID_RACE_2:
+		{
+			fBuildMenu(idUser,"MENU_ID_RACE_2",iRaceXP,iRaceLevel,arrIntBaseMenuDataSub_2,MENU_ID_RACE_2);
+		}
+		case MENU_ID_RACE_3:
+		{
+			fBuildMenu(idUser,"MENU_ID_RACE_3",iRaceXP,iRaceLevel,arrIntBaseMenuDataSub_3,MENU_ID_RACE_3);
+		}
+		case MENU_ID_RACE_4:
+		{
+			fBuildMenu(idUser,"MENU_ID_RACE_4",iRaceXP,iRaceLevel,arrIntBaseMenuDataSub_4,MENU_ID_RACE_4);
+		}
+		case MENU_ID_RACE_5:
+		{
+			fBuildMenu(idUser,"MENU_ID_RACE_5",iRaceXP,iRaceLevel,arrIntBaseMenuDataSub_5,MENU_ID_RACE_5);
+		}
+		case MENU_ID_RACE_6:
+		{
+			fBuildMenu(idUser,"MENU_ID_RACE_6",iRaceXP,iRaceLevel,arrIntBaseMenuDataSub_6,MENU_ID_RACE_6);
+		}
+		
+	}
 	return PLUGIN_CONTINUE;
 }
 
 //Общая функция формирования менюшек
 public fBuildMenu(idUser,szKeyLangMenu[],iRaceXP[MAX_RACES],iRaceLevel[MAX_RACES],const Array:arrListItemId,iMenuID)
 {
-	
-
 	new iMaxItemList = ArraySize(arrListItemId);
 
 	new iPos = 0;
@@ -517,8 +509,6 @@ public fBuildMenu(idUser,szKeyLangMenu[],iRaceXP[MAX_RACES],iRaceLevel[MAX_RACES
 //Выбор рас
 public fSelectRace(idUser,iRace)
 {
-	
-
 	//Заблокирована ли раса на карте
 	new szShortRaceName[32];
 	if(isDisabledRaceOnMap(idUser,iRace,szShortRaceName) == true)
@@ -645,9 +635,6 @@ public fSelectRace(idUser,iRace)
 //Определяет какой пункт выбран раса или меню (дает расу или открывает другое меню)
 public fSelectKeyMenu(idUser,iMenuID)
 {
-
-	
-
 	switch (iMenuID)
 	{
 		case RACE_UNDEAD,RACE_HUMAN,RACE_ORC,
@@ -692,7 +679,6 @@ public fSelectKeyMenu(idUser,iMenuID)
 //Проверка является игрок VIP или нет
 bool:isPlayerSelectRaceVIP(idUser,iRaceVip)
 {
-	
 	new szRaceName[64];
 	Lang_GetRaceName(iRaceVip, idUser, szRaceName, 63 );
 	new szMotdPath[255];
@@ -793,8 +779,6 @@ bool:isPlayerSelectRaceVIP(idUser,iRaceVip)
 //Функция выбора пунктов в меню выбора рас		
 public _Callback_MENU_SelectRace(idUser,iKey)
 {
-	
-
 	if ( !WC3_Check() )
 		return PLUGIN_HANDLED;
 
@@ -810,7 +794,6 @@ public _Callback_MENU_SelectRace(idUser,iKey)
 //Функция выбора пунктов в под меню "Гильдия Нежити"
 public _Callback_SUB_MENU_ID_1(idUser,iKey)
 {
-	
 	if ( !WC3_Check() )
 		return PLUGIN_HANDLED;
 
@@ -834,8 +817,6 @@ public _Callback_SUB_MENU_ID_1(idUser,iKey)
 //Функция выбора пунктов в под меню "Гильдия Магов"
 public _Callback_SUB_MENU_ID_2(idUser,iKey)
 {
-
-
 	if ( !WC3_Check() )
 		return PLUGIN_HANDLED;
 
@@ -859,8 +840,6 @@ public _Callback_SUB_MENU_ID_2(idUser,iKey)
 //Функция выбора пунктов в под меню "Гильдия Альянса"
 public _Callback_SUB_MENU_ID_3(idUser,iKey)
 {
-	
-
 	if ( !WC3_Check() )
 		return PLUGIN_HANDLED;
 
@@ -884,7 +863,6 @@ public _Callback_SUB_MENU_ID_3(idUser,iKey)
 //Функция выбора пунктов в под меню "Гильдия Убийц"
 public _Callback_SUB_MENU_ID_4(idUser,iKey)
 {
-	
 	if ( !WC3_Check() )
 		return PLUGIN_HANDLED;
 
@@ -908,7 +886,6 @@ public _Callback_SUB_MENU_ID_4(idUser,iKey)
 //Функция выбора пунктов в под меню "Гильдия Света"
 public _Callback_SUB_MENU_ID_5(idUser,iKey)
 {
-	
 	if ( !WC3_Check() )
 		return PLUGIN_HANDLED;
 
@@ -932,7 +909,6 @@ public _Callback_SUB_MENU_ID_5(idUser,iKey)
 //Функция выбора пунктов в под меню "Гильдия Тьмы"
 public _Callback_SUB_MENU_ID_6(idUser,iKey)
 {
-	
 	if ( !WC3_Check() )
 		return PLUGIN_HANDLED;
 
@@ -960,7 +936,6 @@ public _Callback_SUB_MENU_ID_6(idUser,iKey)
 
 public fResetSelectRace(idUser)
 {
-	
 	if(arrResetRace[idUser] == false)
 	{
 		if(arrIntData[idUser][P_RACE] == RACE_NONE)
@@ -980,7 +955,6 @@ public fResetSelectRace(idUser)
 
 public taskRestRace(idUser)
 {
-	
 	if (idUser >= TASKID_RESETRACE )
 		idUser -= TASKID_RESETRACE;
 
@@ -999,7 +973,6 @@ public taskRestRace(idUser)
 
 public fGetNumRacePlayers(idUser,arrRaceTeam[3][MAX_RACES+1])
 {
-	
 	new iPlayers[32], iNumPlayers;
 	get_players( iPlayers, iNumPlayers );
 
@@ -1035,9 +1008,7 @@ public fGetNumRacePlayers(idUser,arrRaceTeam[3][MAX_RACES+1])
 				}//end player loop
 			}//end team loop
 		}
-
 	}//end race loop
-
 }
 
 

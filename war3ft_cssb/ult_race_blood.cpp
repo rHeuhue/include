@@ -4,16 +4,16 @@
 
 Ultimate_FlameStrike(id)
 { 
-   emit_sound(id, CHAN_STATIC, arrStrSounds[SOUND_FLAMESTRIKE], 1.0, ATTN_NORM, 0, PITCH_NORM) 
+	emit_sound(id, CHAN_STATIC, arrStrSounds[SOUND_FLAMESTRIKE], 1.0, ATTN_NORM, 0, PITCH_NORM) 
 
-   new vec[3] 
-   new aimvec[3] 
-   new velocityvec[3] 
-   new length
-   new speed = 10 
-   get_user_origin(id,vec) 
-   get_user_origin(id,aimvec,2) 
-   new dist = get_distance(vec,aimvec) 
+	new vec[3] 
+	new aimvec[3] 
+	new velocityvec[3] 
+	new length
+	new speed = 10 
+	get_user_origin(id,vec) 
+	get_user_origin(id,aimvec,2) 
+	new dist = get_distance(vec,aimvec) 
 
 	if (arrIntData[id][P_FLAMECOUNT] == 1)
 	{
@@ -22,71 +22,71 @@ Ultimate_FlameStrike(id)
 		_ULT_Delay();
 	}
 
-   new speed1 = 160 
-   new speed2 = 350 
-   new radius = 105 
+	new speed1 = 160 
+	new speed2 = 350 
+	new radius = 105 
 
-   if(dist < 50){ 
-      radius = 0 
-      speed = 5 
-   } 
-   else if(dist < 150){ 
-      speed1 = speed2 = 1 
-      speed = 5 
-      radius = 50 
-   } 
-   else if(dist < 200){ 
-      speed1 = speed2 = 1 
-      speed = 5 
-      radius = 90 
-   } 
-   else if(dist < 250){ 
-      speed1 = speed2 = 90 
-      speed = 6 
-      radius = 90 
-   } 
-   else if(dist < 300){ 
-      speed1 = speed2 = 140 
-      speed = 7 
-   } 
-   else if(dist < 350){ 
-      speed1 = speed2 = 190 
-      speed = 7 
-   } 
-   else if(dist < 400){ 
-      speed1 = 150 
-      speed2 = 240 
-      speed = 8 
-   } 
-   else if(dist < 450){ 
-      speed1 = 150 
-      speed2 = 290 
-      speed = 8 
-   } 
-   else if(dist < 500){ 
-      speed1 = 180 
-      speed2 = 340 
-      speed = 9 
-   } 
+	if(dist < 50){ 
+		radius = 0 
+		speed = 5 
+	} 
+	else if(dist < 150){ 
+		speed1 = speed2 = 1 
+		speed = 5 
+		radius = 50 
+	} 
+	else if(dist < 200){ 
+		speed1 = speed2 = 1 
+		speed = 5 
+		radius = 90 
+	} 
+	else if(dist < 250){ 
+		speed1 = speed2 = 90 
+		speed = 6 
+		radius = 90 
+	} 
+	else if(dist < 300){ 
+		speed1 = speed2 = 140 
+		speed = 7 
+	} 
+	else if(dist < 350){ 
+		speed1 = speed2 = 190 
+		speed = 7 
+	} 
+	else if(dist < 400){ 
+		speed1 = 150 
+		speed2 = 240 
+		speed = 8 
+	} 
+	else if(dist < 450){ 
+		speed1 = 150 
+		speed2 = 290 
+		speed = 8 
+	} 
+	else if(dist < 500){ 
+		speed1 = 180 
+		speed2 = 340 
+		speed = 9 
+	} 
 
-   velocityvec[0]=aimvec[0]-vec[0] 
-   velocityvec[1]=aimvec[1]-vec[1] 
-   velocityvec[2]=aimvec[2]-vec[2] 
-   length=sqroot(velocityvec[0]*velocityvec[0]+velocityvec[1]*velocityvec[1]+velocityvec[2]*velocityvec[2]) 
-   velocityvec[0]=velocityvec[0]*speed/length 
-   velocityvec[1]=velocityvec[1]*speed/length 
-   velocityvec[2]=velocityvec[2]*speed/length 
+	velocityvec[0]=aimvec[0]-vec[0] 
+	velocityvec[1]=aimvec[1]-vec[1] 
+	velocityvec[2]=aimvec[2]-vec[2] 
+	length=sqroot(velocityvec[0]*velocityvec[0]+velocityvec[1]*velocityvec[1]+velocityvec[2]*velocityvec[2]) 
+	velocityvec[0]=velocityvec[0]*speed/length 
+	velocityvec[1]=velocityvec[1]*speed/length 
+	velocityvec[2]=velocityvec[2]*speed/length 
 
-   new args[8] 
-   args[0] = vec[0] 
-   args[1] = vec[1] 
-   args[2] = vec[2] 
-   args[3] = velocityvec[0] 
-   args[4] = velocityvec[1] 
-   args[5] = velocityvec[2] 
+	new args[8] 
+	args[0] = vec[0] 
+	args[1] = vec[1] 
+	args[2] = vec[2] 
+	args[3] = velocityvec[0] 
+	args[4] = velocityvec[1] 
+	args[5] = velocityvec[2] 
 	
-   set_task(0.1,"te_spray",TASK_ONFIRE+id,args,8,"a",2) 
-   check_burnzone(id,vec,aimvec,speed1,speed2,radius) 
+	set_task(0.1,"te_spray",TASK_ONFIRE+id,args,8,"a",2) 
+	check_burnzone(id,vec,aimvec,speed1,speed2,radius) 
 
 } 
 

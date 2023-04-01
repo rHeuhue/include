@@ -679,7 +679,7 @@ public SHARED_SetSpeed(idUser)
 	if (fNewSpeed > 0.0)
 	{
 		//if(!(get_user_flags(idUser) & ADMIN_LEVEL_H)) 
-			set_user_maxspeed(idUser,fNewSpeed);
+		set_user_maxspeed(idUser, fNewSpeed);
 		//else
 		//	set_user_maxspeed( idUser, 1000.0 );
 		//client_print(0,print_chat,"Speed: %f",fNewSpeed);
@@ -890,7 +890,7 @@ SHARED_FindFreeSpawn( idUser, bImmunityCheck = false, bReverseTeam = false )
 	if ( bReverseTeam )
 		iTeam = ( ( iTeam == TEAM_CT ) ? TEAM_T : TEAM_CT );
 
-		iSpawnID = ( ( iTeam == TEAM_CT ) ? 0 : 1 );
+	iSpawnID = ( ( iTeam == TEAM_CT ) ? 0 : 1 );
 	
 	// Loop through each ent until we find a spawn entity that we want
 	do {

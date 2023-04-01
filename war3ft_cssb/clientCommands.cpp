@@ -3,8 +3,6 @@
 // This isn't actually called when they join spectator
 public cmd_Teamselect( idUser, key )
 {
-	
-
 	if ( !WC3_Check() )
 		return;
 
@@ -32,7 +30,6 @@ public cmd_fullupdate()
 // Called when the user buys a he grenade
 public cmd_hegren( idUser )
 { 
-	
 	if ( !WC3_Check() )
 		return PLUGIN_CONTINUE;
 
@@ -59,13 +56,13 @@ public cmd_hegren( idUser )
 
 		return PLUGIN_CONTINUE;
 	}
-
+	#if AMXX_VERSION_NUM < 183
 	return PLUGIN_CONTINUE;
+	#endif
 } 
 
 public cmd_Ultimate(idUser)
 {
-	
 	if ( !WC3_Check( idUser ) )
 		return PLUGIN_HANDLED;
 	
@@ -474,7 +471,6 @@ public cmd_Ultimate(idUser)
 
 public CMD_Handler( idUser )
 {
-	
 	new szCmd[32];
 
 	read_argv( 0, szCmd, 31 );
@@ -486,7 +482,6 @@ public CMD_Handler( idUser )
 
 public cmd_Say( idUser )
 {
-	
 	new szSaid[32];
 	read_args( szSaid, 31 );
 
@@ -500,7 +495,6 @@ public cmd_Say( idUser )
 // Command handler
 CMD_Handle(idUser, szCmd[])
 {
-	
 	// Change the user's race
 	if ( CMD_Equal( idUser,  szCmd, "changerace" ) )
 	{
@@ -1191,8 +1185,6 @@ CMD_Handle(idUser, szCmd[])
 // Function will check if the first string is equal to the second (checks for NAME or /NAME)
 CMD_Equal( idUser,  szCmd[], szCorrectCmd[] )
 {
-		
-
 	new szTmp[64];
 	formatex( szTmp, 63, "/%s", szCorrectCmd );
 

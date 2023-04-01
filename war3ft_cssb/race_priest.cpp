@@ -347,8 +347,8 @@ public clRacePriest::ultDarkWordDeath(idVictim)
 	//Ѕлокировка супер навыка если у игрока ќжерелье }
 
 	set_pev(idVictim, pev_sequence, 12);
-    set_pev(idVictim, pev_animtime, halflife_time());
-    set_pev(idVictim, pev_framerate, 1.0);
+	set_pev(idVictim, pev_animtime, halflife_time());
+	set_pev(idVictim, pev_framerate, 1.0);
 	set_pev(idVictim, pev_movetype, MOVETYPE_NONE);
 	
 	new Float:ptOrigin[3];

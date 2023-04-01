@@ -495,49 +495,49 @@ stock Create_TE_FIREFIELD( origin[3], radius, iSprite, count, flags, duration )
 //#define TE_BEAMTORUS 19 // Кольцо расширяющиеся до радиуса указанного в параметрах (Screen aligned beam ring, expands to max radius over lifetime)
 stock Create_TE_BEAMTORUS(Float:fOrigin[3], iRadius, pSprite, iStartFrame = 0, iFrameRate = 0, iLife, iWidth, iAmplitude = 0, iRed, iGreen, iBlue, iBrightness, iScrollSpeed = 0, iReliable = 0)
 {
-        message_begin(iReliable ? MSG_ALL : MSG_BROADCAST, SVC_TEMPENTITY);
-        write_byte(TE_BEAMTORUS);
-        engfunc(EngFunc_WriteCoord, fOrigin[0]);
-        engfunc(EngFunc_WriteCoord, fOrigin[1]);
-        engfunc(EngFunc_WriteCoord, fOrigin[2]);
-        engfunc(EngFunc_WriteCoord, fOrigin[0]);
-        engfunc(EngFunc_WriteCoord, fOrigin[1]);
-        engfunc(EngFunc_WriteCoord, fOrigin[2] + 16.0 + iRadius * 2);
-		write_short(pSprite); // Индекс спрайта из прекеша (index of precached sprite)
-        write_byte(iStartFrame);
-        write_byte(iFrameRate); // 0.1's
-        write_byte(iLife); // 0.1's
-        write_byte(iWidth);
-        write_byte(iAmplitude); // 0.01's
-        write_byte(iRed);
-        write_byte(iGreen);
-        write_byte(iBlue);
-        write_byte(iBrightness);
-        write_byte(iScrollSpeed); // 0.1's
-        message_end();
+	message_begin(iReliable ? MSG_ALL : MSG_BROADCAST, SVC_TEMPENTITY);
+	write_byte(TE_BEAMTORUS);
+	engfunc(EngFunc_WriteCoord, fOrigin[0]);
+	engfunc(EngFunc_WriteCoord, fOrigin[1]);
+	engfunc(EngFunc_WriteCoord, fOrigin[2]);
+	engfunc(EngFunc_WriteCoord, fOrigin[0]);
+	engfunc(EngFunc_WriteCoord, fOrigin[1]);
+	engfunc(EngFunc_WriteCoord, fOrigin[2] + 16.0 + iRadius * 2);
+	write_short(pSprite); // Индекс спрайта из прекеша (index of precached sprite)
+	write_byte(iStartFrame);
+	write_byte(iFrameRate); // 0.1's
+	write_byte(iLife); // 0.1's
+	write_byte(iWidth);
+	write_byte(iAmplitude); // 0.01's
+	write_byte(iRed);
+	write_byte(iGreen);
+	write_byte(iBlue);
+	write_byte(iBrightness);
+	write_byte(iScrollSpeed); // 0.1's
+	message_end();
 }
 
 //#define TE_BEAMDISK 20 // Диск расширяющиеся до радиуса указанного в параметрах (Disk that expands to max radius over lifetime)
 stock Create_TE_BEAMDISK(Float:fOrigin[3], iRadius, pSprite, iStartFrame = 0, iFrameRate = 0, iLife, iWidth, iAmplitude = 0, iRed, iGreen, iBlue, iBrightness, iScrollSpeed = 0, iReliable = 0)
 {
-        message_begin(iReliable ? MSG_ALL : MSG_BROADCAST, SVC_TEMPENTITY);
-        write_byte(TE_BEAMDISK);
-        engfunc(EngFunc_WriteCoord, fOrigin[0]);
-        engfunc(EngFunc_WriteCoord, fOrigin[1]);
-        engfunc(EngFunc_WriteCoord, fOrigin[2]);
-        engfunc(EngFunc_WriteCoord, fOrigin[0]);
-        engfunc(EngFunc_WriteCoord, fOrigin[1]);
-        engfunc(EngFunc_WriteCoord, fOrigin[2] + 16.0 + iRadius * 2);
-        write_short(pSprite); // Индекс спрайта из прекеша (index of precached sprite)
-        write_byte(iStartFrame);
-        write_byte(iFrameRate); // 0.1's
-        write_byte(iLife); // 0.1's
-        write_byte(iWidth);
-        write_byte(iAmplitude); // 0.01's
-        write_byte(iRed);
-        write_byte(iGreen);
-        write_byte(iBlue);
-        write_byte(iBrightness);
-        write_byte(iScrollSpeed); // 0.1's
-        message_end();
+	message_begin(iReliable ? MSG_ALL : MSG_BROADCAST, SVC_TEMPENTITY);
+	write_byte(TE_BEAMDISK);
+	engfunc(EngFunc_WriteCoord, fOrigin[0]);
+	engfunc(EngFunc_WriteCoord, fOrigin[1]);
+	engfunc(EngFunc_WriteCoord, fOrigin[2]);
+	engfunc(EngFunc_WriteCoord, fOrigin[0]);
+	engfunc(EngFunc_WriteCoord, fOrigin[1]);
+	engfunc(EngFunc_WriteCoord, fOrigin[2] + 16.0 + iRadius * 2);
+	write_short(pSprite); // Индекс спрайта из прекеша (index of precached sprite)
+	write_byte(iStartFrame);
+	write_byte(iFrameRate); // 0.1's
+	write_byte(iLife); // 0.1's
+	write_byte(iWidth);
+	write_byte(iAmplitude); // 0.01's
+	write_byte(iRed);
+	write_byte(iGreen);
+	write_byte(iBlue);
+	write_byte(iBrightness);
+	write_byte(iScrollSpeed); // 0.1's
+	message_end();
 }

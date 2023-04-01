@@ -11,7 +11,7 @@ UTIL_AutoHideMenu(idUser)
 	if(idMenuAutoHide != 0 ) 
 	{
 		menu_cancel(idUser);				// force client to choose MENU_EXIT to destroy our menu
-        show_menu(idUser, 0, "^n", 1 );    // show empty menu to hide our menu on player's screen
+		show_menu(idUser, 0, "^n", 1 );    // show empty menu to hide our menu on player's screen
 	}
 }
 
@@ -311,7 +311,7 @@ stock Float:uRotate(Float:fAngleAux,Float:ptAux[3])
 	ptRotated[0] = ptAux[0] * cos(fAngleAux) - ptAux[1] * sin(fAngleAux);
 	ptRotated[1] = ptAux[0] * sin(fAngleAux) + ptAux[1] * cos(fAngleAux);
 
-   return ptRotated;
+	return ptRotated;
 }
 
 //Удаление всех сущностей по названию класса со всей карты
@@ -378,13 +378,13 @@ stock isEntUserOwner(const szClassNameEnt[], const idUser)
 */
 stock bool:uIsHullVacant(const Float:origin[3], hull) 
 {
-    new tr = 0;
-    engfunc(EngFunc_TraceHull, origin, origin, 0, hull, 0, tr);
-    if (!get_tr2(tr, TR_StartSolid) && !get_tr2(tr, TR_AllSolid) && get_tr2(tr, TR_InOpen))
-        return true;
-    
-    return false;
-} 
+	new tr = 0;
+	engfunc(EngFunc_TraceHull, origin, origin, 0, hull, 0, tr);
+	if (!get_tr2(tr, TR_StartSolid) && !get_tr2(tr, TR_AllSolid) && get_tr2(tr, TR_InOpen))
+		return true;
+	
+	return false;
+}
 
 //Возвращает точку до стены от игрока
 stock uGetPointTraceWall(idUser, Float:ptOriginWall[3])

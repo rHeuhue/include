@@ -151,139 +151,137 @@ public on_ShowStatus(idUser)
 	new idTarget = read_data( 2 );
 	if(is_user_alive(idUser) && is_user_connected(idUser) &&
 		is_user_alive(idTarget) && is_user_connected(idTarget))
-		{
+	{
 			//Отображение текущего здоровья и брони
-			new iCurrentHealth =  clHP:getUserHealth(idUser);
-			new iCurrentArmor = clAr:getArmorNum(idUser);
+		new iCurrentHealth =  clHP:getUserHealth(idUser);
+		new iCurrentArmor = clAr:getArmorNum(idUser);
 
-			if(iCurrentHealth > 255 || iCurrentArmor > 255)
+		if(iCurrentHealth > 255 || iCurrentArmor > 255)
+		{
+			new szMsgHealthArmor[256];
+			formatex(szMsgHealthArmor, charsmax(szMsgHealthArmor), 
+			 "%L: %d | %L: %d",LANG_PLAYER,"CURRENT_HEALTH",iCurrentHealth,
+	 							   LANG_PLAYER,"WORD_ARMOR",iCurrentArmor);
+
+			Create_StatusText(idUser, 0, szMsgHealthArmor);
+		}
+
+
+		new iTargetTeam = get_user_team( idTarget );
+		new iViewerTeam = get_user_team( idUser );
+
+		// Same team check
+		if ( iViewerTeam == iTargetTeam )
+		{
+			// Check if your teammate looks like the enemy!
+			if ( arrBoolData[idTarget][PB_SKINSWITCHED] )
 			{
-				new szMsgHealthArmor[256];
-				formatex(szMsgHealthArmor, charsmax(szMsgHealthArmor), 
-				 "%L: %d | %L: %d",LANG_PLAYER,"CURRENT_HEALTH",iCurrentHealth,
-	 								   LANG_PLAYER,"WORD_ARMOR",iCurrentArmor);
+				new szMessageDontShot[256];
+				format(szMessageDontShot, charsmax(szMessageDontShot),
+					"%L",LANG_PLAYER, "HES_ON_YOUR_TEAM_DONT_SHOOT");
 
-				Create_StatusText(idUser, 0, szMsgHealthArmor);
-			}
-
-
-			new iTargetTeam = get_user_team( idTarget );
-			new iViewerTeam = get_user_team( idUser );
-
-			// Same team check
-			if ( iViewerTeam == iTargetTeam )
-			{
-				// Check if your teammate looks like the enemy!
-				if ( arrBoolData[idTarget][PB_SKINSWITCHED] )
-				{
-					new szMessageDontShot[256];
-					format(szMessageDontShot, charsmax(szMessageDontShot),
-						"%L",LANG_PLAYER, "HES_ON_YOUR_TEAM_DONT_SHOOT");
-
-					set_dhudmessage(79, 79, 79 ,-1.0,0.30,0, 0.01, 1.0, 0.01, 0.01);
-					show_dhudmessage(idUser, szMessageDontShot);
+				set_dhudmessage(79, 79, 79 ,-1.0,0.30,0, 0.01, 1.0, 0.01, 0.01);
+				show_dhudmessage(idUser, szMessageDontShot);
 					
-					client_cmd( idUser, "speak %s", arrStrSounds[SOUND_ANTEND] );
-				}
+				client_cmd( idUser, "speak %s", arrStrSounds[SOUND_ANTEND] );
 			}
+		}
 
 		// Отображение информации на экране при наведении прицелом
 		if ( get_pcvar_num( CVAR_wc3_show_player ) )
 		{
-				new szTargetName[32];
-				get_user_name(idTarget, szTargetName,charsmax(szTargetName));
-							
-				if(!SM_IsValidRace( arrIntData[idTarget][P_RACE] ))
-					return;
-				
-				new szShortRaceNameTarget[32];
-				Lang_GetRaceName(arrIntData[idTarget][P_RACE], idUser, szShortRaceNameTarget,charsmax(szShortRaceNameTarget),true);
+			new szTargetName[32];
+			get_user_name(idTarget, szTargetName,charsmax(szTargetName));
+						
+			if(!SM_IsValidRace( arrIntData[idTarget][P_RACE] ))
+				return;
 			
-				new szMessageStatus[256];
+			new szShortRaceNameTarget[32];
+			Lang_GetRaceName(arrIntData[idTarget][P_RACE], idUser, szShortRaceNameTarget,charsmax(szShortRaceNameTarget),true);
+		
+			new szMessageStatus[256];
 
-				new iColorRGB_TEAM_T[3];
-				iColorRGB_TEAM_T[0] = 255;
-				iColorRGB_TEAM_T[1] = 69;
-				iColorRGB_TEAM_T[2] = 0;
+			new iColorRGB_TEAM_T[3];
+			iColorRGB_TEAM_T[0] = 255;
+			iColorRGB_TEAM_T[1] = 69;
+			iColorRGB_TEAM_T[2] = 0;
 
-				new iColorRGB_TEAM_CT[3];
-				iColorRGB_TEAM_CT[0] = 58;
-				iColorRGB_TEAM_CT[1] = 95;
-				iColorRGB_TEAM_CT[2] = 205;
+			new iColorRGB_TEAM_CT[3];
+			iColorRGB_TEAM_CT[0] = 58;
+			iColorRGB_TEAM_CT[1] = 95;
+			iColorRGB_TEAM_CT[2] = 205;
+			
+			if(iViewerTeam == TEAM_T)//Если наводящий курсор из команды террористов
+			{
+				if(iTargetTeam == TEAM_T)
+				{
+					format(szMessageStatus, charsmax(szMessageStatus), 
+					"%s ^n%L %d %L %d ^n%L %s ^n%L %d",
+					szTargetName,
+					LANG_PLAYER, "WC3_HEALTH",
+					clHP:getUserHealth(idTarget),
+					LANG_PLAYER, "WC3_ARMOR",
+					clAr:getArmorNum(idTarget),
+					LANG_PLAYER, "WC3_RACE",
+					szShortRaceNameTarget,				
+					LANG_PLAYER, "WORD_LEVEL",
+					arrIntData[idTarget][P_LEVEL]);
+										
+					set_hudmessage(iColorRGB_TEAM_T[0],iColorRGB_TEAM_T[1],iColorRGB_TEAM_T[2], -1.0, 0.60, 0, 0.01, 3.0, 0.01, 0.01, HUD_SHOWSTATUS );
+					show_hudmessage(idUser,szMessageStatus);
+					
+				}
+				if(iTargetTeam == TEAM_CT)
+				{
+					format(szMessageStatus, charsmax(szMessageStatus), 
+					"%s  ^n%L %s ^n%L %d",
+					szTargetName,
+					LANG_PLAYER, "WC3_RACE",
+					szShortRaceNameTarget,				
+					LANG_PLAYER, "WORD_LEVEL",
+					arrIntData[idTarget][P_LEVEL]);
+					
+					set_hudmessage(iColorRGB_TEAM_CT[0],iColorRGB_TEAM_CT[1],iColorRGB_TEAM_CT[2], -1.0, 0.60, 0, 0.01, 3.0, 0.01, 0.01, HUD_SHOWSTATUS );
+					show_hudmessage(idUser,szMessageStatus);
+				}
+			}
+
+			if(iViewerTeam == TEAM_CT)//Если наводящий курсор из команды коунтер-террористов
+			{
+				if(iTargetTeam == TEAM_T)
+				{
+					format(szMessageStatus, charsmax(szMessageStatus), 
+					"%s  ^n%L %s ^n%L %d",
+					szTargetName,
+					LANG_PLAYER, "WC3_RACE",
+					szShortRaceNameTarget,				
+					LANG_PLAYER, "WORD_LEVEL",
+					arrIntData[idTarget][P_LEVEL]);
+					
+					set_hudmessage(iColorRGB_TEAM_T[0],iColorRGB_TEAM_T[1],iColorRGB_TEAM_T[2], -1.0, 0.60, 0, 0.01, 3.0, 0.01, 0.01, HUD_SHOWSTATUS );
+					show_hudmessage(idUser,szMessageStatus);
+				}
+				if(iTargetTeam == TEAM_CT)
+				{
 				
-				if(iViewerTeam == TEAM_T)//Если наводящий курсор из команды террористов
-				{
-					if(iTargetTeam == TEAM_T)
-					{
-						format(szMessageStatus, charsmax(szMessageStatus), 
-						"%s ^n%L %d %L %d ^n%L %s ^n%L %d",
-						szTargetName,
-						LANG_PLAYER, "WC3_HEALTH",
-						clHP:getUserHealth(idTarget),
-						LANG_PLAYER, "WC3_ARMOR",
-						clAr:getArmorNum(idTarget),
-						LANG_PLAYER, "WC3_RACE",
-						szShortRaceNameTarget,				
-						LANG_PLAYER, "WORD_LEVEL",
-						arrIntData[idTarget][P_LEVEL]);
-											
-						set_hudmessage(iColorRGB_TEAM_T[0],iColorRGB_TEAM_T[1],iColorRGB_TEAM_T[2], -1.0, 0.60, 0, 0.01, 3.0, 0.01, 0.01, HUD_SHOWSTATUS );
-						show_hudmessage(idUser,szMessageStatus);
-						
-					}
-					if(iTargetTeam == TEAM_CT)
-					{
-						format(szMessageStatus, charsmax(szMessageStatus), 
-						"%s  ^n%L %s ^n%L %d",
-						szTargetName,
-						LANG_PLAYER, "WC3_RACE",
-						szShortRaceNameTarget,				
-						LANG_PLAYER, "WORD_LEVEL",
-						arrIntData[idTarget][P_LEVEL]);
-						
-						set_hudmessage(iColorRGB_TEAM_CT[0],iColorRGB_TEAM_CT[1],iColorRGB_TEAM_CT[2], -1.0, 0.60, 0, 0.01, 3.0, 0.01, 0.01, HUD_SHOWSTATUS );
-						show_hudmessage(idUser,szMessageStatus);
-					}
+					format(szMessageStatus, charsmax(szMessageStatus), 
+					"%s ^n%L %d %L %d ^n%L %s ^n%L %d",
+					szTargetName,
+					LANG_PLAYER, "WC3_HEALTH",
+					clHP:getUserHealth(idTarget),
+					LANG_PLAYER, "WC3_ARMOR",
+					clAr:getArmorNum(idTarget),
+					LANG_PLAYER, "WC3_RACE",
+					szShortRaceNameTarget,				
+					LANG_PLAYER, "WORD_LEVEL",
+					arrIntData[idTarget][P_LEVEL]);
+				
+					set_hudmessage(iColorRGB_TEAM_CT[0],iColorRGB_TEAM_CT[1],iColorRGB_TEAM_CT[2], -1.0, 0.60, 0, 0.01, 3.0, 0.01, 0.01, HUD_SHOWSTATUS );
+					show_hudmessage(idUser,szMessageStatus);
 				}
-
-				if(iViewerTeam == TEAM_CT)//Если наводящий курсор из команды коунтер-террористов
-				{
-					if(iTargetTeam == TEAM_T)
-					{
-						format(szMessageStatus, charsmax(szMessageStatus), 
-						"%s  ^n%L %s ^n%L %d",
-						szTargetName,
-						LANG_PLAYER, "WC3_RACE",
-						szShortRaceNameTarget,				
-						LANG_PLAYER, "WORD_LEVEL",
-						arrIntData[idTarget][P_LEVEL]);
-						
-						set_hudmessage(iColorRGB_TEAM_T[0],iColorRGB_TEAM_T[1],iColorRGB_TEAM_T[2], -1.0, 0.60, 0, 0.01, 3.0, 0.01, 0.01, HUD_SHOWSTATUS );
-						show_hudmessage(idUser,szMessageStatus);
-					}
-					if(iTargetTeam == TEAM_CT)
-					{
-					
-						format(szMessageStatus, charsmax(szMessageStatus), 
-						"%s ^n%L %d %L %d ^n%L %s ^n%L %d",
-						szTargetName,
-						LANG_PLAYER, "WC3_HEALTH",
-						clHP:getUserHealth(idTarget),
-						LANG_PLAYER, "WC3_ARMOR",
-						clAr:getArmorNum(idTarget),
-						LANG_PLAYER, "WC3_RACE",
-						szShortRaceNameTarget,				
-						LANG_PLAYER, "WORD_LEVEL",
-						arrIntData[idTarget][P_LEVEL]);
-					
-						set_hudmessage(iColorRGB_TEAM_CT[0],iColorRGB_TEAM_CT[1],iColorRGB_TEAM_CT[2], -1.0, 0.60, 0, 0.01, 3.0, 0.01, 0.01, HUD_SHOWSTATUS );
-						show_hudmessage(idUser,szMessageStatus);
-					}
-				}
-
+			}
 		}//if ( get_pcvar_num( CVAR_wc3_show_player ) )
-
-	 }//if(is_user_alive(idUser) && is_user_connected(idUser)
+	} //if(is_user_alive(idUser) && is_user_connected(idUser)
 
 	return;
 }

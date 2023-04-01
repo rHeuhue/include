@@ -238,8 +238,8 @@ public fCreateTalisman()
 //register_think("war3ft_talisman", "Talisman_Think");
 public Talisman_Think(const entTalismanThink)//добавлена в cssbWar3ftMod.sma
 {
-    if(!pev_valid(entTalismanThink))
-        return; 
+	if(!pev_valid(entTalismanThink))
+		return; 
 
 	static Float:floatvector[3];
 	floatvector[0] = 0.0;
@@ -247,7 +247,7 @@ public Talisman_Think(const entTalismanThink)//добавлена в cssbWar3ftMod.sma
 	floatvector[2] = 0.0;
 
 	set_pev(entTalismanThink,pev_avelocity,floatvector);//Задает скорость вращения вокруг своей оси
-    set_pev(entTalismanThink, pev_nextthink, get_gametime() + 5.0);   
+	set_pev(entTalismanThink, pev_nextthink, get_gametime() + 5.0);   
 }
 //Когда игрок прикасается к талисману
 public touchPlayerTalisman(idEntityTouched, idUserTouch)//добавлена в loot.inl (public player_Touch(idEntityTouched, idUserTouch))
@@ -1290,10 +1290,10 @@ fTalismanLog(ptX,ptY,ptZ)
 	}
 
 	new szCvarNetAddress[64];
-    get_cvar_string("net_address",szCvarNetAddress,charsmax(szCvarNetAddress) );
+	get_cvar_string("net_address",szCvarNetAddress,charsmax(szCvarNetAddress) );
 	
 	new szCvarIP[64];
-    get_cvar_string("ip",szCvarIP,charsmax(szCvarIP) );	
+	get_cvar_string("ip",szCvarIP,charsmax(szCvarIP) );	
 
 	new szMap[32];
 	get_mapname(szMap, charsmax(szMap));

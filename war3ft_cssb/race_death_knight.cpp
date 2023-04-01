@@ -253,12 +253,12 @@ public clRaceDeathKnight::getCorrectedOrigin(id, Float:fOutPointFSet[3], Float:f
 		xs_vec_normalize(fUpNormal, fUpNormal)			// down
 		xs_vec_neg(fUpNormal, fUpNormal)				// up
 		
-	if(!clRaceDeathKnight::checkWallInCycleDouble(fUpRightPoint, fUpLeftPoint, fDownLeftPoint, fDownRightPoint, fRightNormal, fUpNormal, fWallNormal, check_step_n1, check_step_n2))
+		if(!clRaceDeathKnight::checkWallInCycleDouble(fUpRightPoint, fUpLeftPoint, fDownLeftPoint, fDownRightPoint, fRightNormal, fUpNormal, fWallNormal, check_step_n1, check_step_n2))
 			return 0
 	}
 	else return 0
 	
-		angle_vector(fWallAngles, ANGLEVECTOR_UP, fUpNormal)
+	angle_vector(fWallAngles, ANGLEVECTOR_UP, fUpNormal)
 	angle_vector(fWallAngles, ANGLEVECTOR_RIGHT, fRightNormal)
 	
 	xs_1_neg(fUpNormal[2])

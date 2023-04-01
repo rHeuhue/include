@@ -1,8 +1,11 @@
 // ******************************************************************
 // 
 // ******************************************************************
-
+#if AMXX_VERSION_NUM < 183
 public client_disconnect(idUser)
+#else
+public client_disconnected(idUser)
+#endif
 {
 	if ( !WC3_Check() )
 		return;

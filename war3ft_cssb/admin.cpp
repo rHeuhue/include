@@ -55,7 +55,7 @@ public ADMIN_Handler( idUser )
 	}
 	
 	// Make sure the user is an admin
-    if ( !( get_user_flags( idUser ) & XP_GetAdminFlag() ) )
+	if ( !( get_user_flags( idUser ) & XP_GetAdminFlag() ) )
 	{
 		format(szMessage, charsmax(szMessage), "%L%L%L %L",
 		LANG_PLAYER,"WC3_BRACKET_LEFT",LANG_PLAYER,"WC3_MODCLIENT",LANG_PLAYER,"WC3_BRACKET_RIGHT",

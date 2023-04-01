@@ -11,338 +11,336 @@
 public WC3_Precache()
 {	
 	
-		//*******************************************************
-		// Инициализация массивов файла настройки вип героев - vip_system.ini
-		//*******************************************************
-		clVIP:vfLoadVipSystemFile();
+	//*******************************************************
+	// Инициализация массивов файла настройки вип героев - vip_system.ini
+	//*******************************************************
+	clVIP:vfLoadVipSystemFile();
 
-		//*******************************************************
-		// Инициализация массивов файла настройки брони героев - armor_races.ini
-		//*******************************************************
-		clAr:cfLoadArmorFile();
+	//*******************************************************
+	// Инициализация массивов файла настройки брони героев - armor_races.ini
+	//*******************************************************
+	clAr:cfLoadArmorFile();
 
-		//*******************************************************
-		// Инициализация массивов файла настройки здоровья героев - health_races.ini
-		//*******************************************************
-		clHP:cfLoadHealthFile();
+	//*******************************************************
+	// Инициализация массивов файла настройки здоровья героев - health_races.ini
+	//*******************************************************
+	clHP:cfLoadHealthFile();
 
-		//*******************************************************
-		// Инициализация массивов файла настройки времени супер навыков - ultimate_races.ini
-		//*******************************************************
-		cfLoadUltimateFile();
+	//*******************************************************
+	// Инициализация массивов файла настройки времени супер навыков - ultimate_races.ini
+	//*******************************************************
+	cfLoadUltimateFile();
 		
-		// *******************************************************
-		// Инициализация массивов файла настройки меню - war3ftmenu.ini
-		// *******************************************************
-		cfLoadCMenuFile();
+	// *******************************************************
+	// Инициализация массивов файла настройки меню - war3ftmenu.ini
+	// *******************************************************
+	cfLoadCMenuFile();
 
-		// *******************************************************
-		// Инициализация файла настроек скилов - skills_options.ini
-		// *******************************************************
-		cfLoadSkillsFile();
+	// *******************************************************
+	// Инициализация файла настроек скилов - skills_options.ini
+	// *******************************************************
+	cfLoadSkillsFile();
 
-		// *******************************************************
-		// Инициализация файла настроек опыта - xp.ini
-		// *******************************************************
-		cfLoadXPFile();
+	// *******************************************************
+	// Инициализация файла настроек опыта - xp.ini
+	// *******************************************************
+	cfLoadXPFile();
 
-		// *******************************************************
-		// Инициализация файла настроек - war3ftmod.ini
-		// *******************************************************
-		cfLoadCustomizationFile();
+	// *******************************************************
+	// Инициализация файла настроек - war3ftmod.ini
+	// *******************************************************
+	cfLoadCustomizationFile();
 
-		// *******************************************************
-		// Инициализация файла настроек - block_items.ini
-		// *******************************************************
-		cfLoadBlockItemsFile();
+	// *******************************************************
+	// Инициализация файла настроек - block_items.ini
+	// *******************************************************
+	cfLoadBlockItemsFile();
 
-		// *******************************************************
-		// Инициализация файла настроек - block_items_race.ini
-		// *******************************************************
-		cfLoadBlockItemsRaceFile();
+	// *******************************************************
+	// Инициализация файла настроек - block_items_race.ini
+	// *******************************************************
+	cfLoadBlockItemsRaceFile();
 
-		// *******************************************************
-		// Инициализация файла настроек - block_races.ini
-		// *******************************************************
-		cfLoadBlockRacesFile();
+	// *******************************************************
+	// Инициализация файла настроек - block_races.ini
+	// *******************************************************
+	cfLoadBlockRacesFile();
 
-		// *******************************************************
-		// Инициализация файла настроек - block_skills.ini
-		// *******************************************************
-		cfLoadBlockSkillsFile();
+	// *******************************************************
+	// Инициализация файла настроек - block_skills.ini
+	// *******************************************************
+	cfLoadBlockSkillsFile();
 
 
-		// *******************************************************
-		// Precache - Звуки для рас
-		// *******************************************************
-		if(iSoundRaceOnOff > 0)
+	// *******************************************************
+	// Precache - Звуки для рас
+	// *******************************************************
+	if(iSoundRaceOnOff > 0)
+	{
+		for (new i = 0; i < ArraySize(arrStrSoundRaceData); i++)
 		{
-			for (new i = 0; i < ArraySize(arrStrSoundRaceData); i++)
-			{
-				new szSoundData[255];
-				ArrayGetString(arrStrSoundRaceData,i, szSoundData, charsmax(szSoundData));
-				precache_sound(szSoundData);
-			}
+			new szSoundData[255];
+			ArrayGetString(arrStrSoundRaceData,i, szSoundData, charsmax(szSoundData));
+			precache_sound(szSoundData);
 		}
+	}
 
 
 
-		// *******************************************************
-		// Precache - Звуки мода
-		// *******************************************************
-		copy(arrStrSounds[SOUND_VENGEANCE]				, 63, "warcraft3/MiniSpiritPissed1.wav"				);	// Warden's Ultimate
-		copy(arrStrSounds[SOUND_SUICIDE]				, 63, "warcraft3/undead_exp.wav"					);	// Undead's Ultimate
-		copy(arrStrSounds[SOUND_BANISH]					, 63, "warcraft3/banishcaster.wav"					);	// Banish
-		copy(arrStrSounds[SOUND_LOCUSTSWARM]			, 63, "warcraft3/locustswarmloop.wav"				);	// Locust Swarm
-		copy(arrStrSounds[SOUND_SHADOWSTRIKE]			, 63, "warcraft3/shadowstrikebirth.wav"				);	// Shadow Strike
-		copy(arrStrSounds[SOUND_CARRION]				, 63, "warcraft3/carrionswarmlaunch1.wav"			);	// Carrion Beetles
-		copy(arrStrSounds[SOUND_IMPALE]					, 63, "warcraft3/impalehit.wav"						);	// Impale
-		copy(arrStrSounds[SOUND_VOODOO]					, 63, "warcraft3/divineshield.wav"					);	// Big Bad Voodoo
-		copy(arrStrSounds[SOUND_FLAMESTRIKE]			, 63, "warcraft3/flamestriketargetwavenonloop1.wav"	);	// Flame Strike
-		copy(arrStrSounds[SOUND_ENTANGLING]				, 63, "warcraft3/entanglingrootstarget1.wav"		);	// Entangling Roots
-		copy(arrStrSounds[SOUND_LIGHTNING]				, 63, "warcraft3/lightningbolt.wav"					);	// Chain Lightning
-		copy(arrStrSounds[SOUND_TELEPORT]				, 63, "warcraft3/massteleporttarget.wav"			);	// Teleport
-		copy(arrStrSounds[SOUND_BLINK]					, 63, "warcraft3/blinkarrival.wav"					);	// Blink Teleport
-		copy(arrStrSounds[SOUND_LEVELUP]				, 63, "warcraft3/levelupcaster.wav"					);	// Level up
-		copy(arrStrSounds[SOUND_PICKUPITEM]				, 63, "warcraft3/pickupitem.wav"					);	// Buy / Pick up item
-		copy(arrStrSounds[SOUND_TOME]					, 63, "warcraft3/Tomes.wav"							);	// Tome of Experience
+	// *******************************************************
+	// Precache - Звуки мода
+	// *******************************************************
+	copy(arrStrSounds[SOUND_VENGEANCE]				, 63, "warcraft3/MiniSpiritPissed1.wav"				);	// Warden's Ultimate
+	copy(arrStrSounds[SOUND_SUICIDE]				, 63, "warcraft3/undead_exp.wav"					);	// Undead's Ultimate
+	copy(arrStrSounds[SOUND_BANISH]					, 63, "warcraft3/banishcaster.wav"					);	// Banish
+	copy(arrStrSounds[SOUND_LOCUSTSWARM]			, 63, "warcraft3/locustswarmloop.wav"				);	// Locust Swarm
+	copy(arrStrSounds[SOUND_SHADOWSTRIKE]			, 63, "warcraft3/shadowstrikebirth.wav"				);	// Shadow Strike
+	copy(arrStrSounds[SOUND_CARRION]				, 63, "warcraft3/carrionswarmlaunch1.wav"			);	// Carrion Beetles
+	copy(arrStrSounds[SOUND_IMPALE]					, 63, "warcraft3/impalehit.wav"						);	// Impale
+	copy(arrStrSounds[SOUND_VOODOO]					, 63, "warcraft3/divineshield.wav"					);	// Big Bad Voodoo
+	copy(arrStrSounds[SOUND_FLAMESTRIKE]			, 63, "warcraft3/flamestriketargetwavenonloop1.wav"	);	// Flame Strike
+	copy(arrStrSounds[SOUND_ENTANGLING]				, 63, "warcraft3/entanglingrootstarget1.wav"		);	// Entangling Roots
+	copy(arrStrSounds[SOUND_LIGHTNING]				, 63, "warcraft3/lightningbolt.wav"					);	// Chain Lightning
+	copy(arrStrSounds[SOUND_TELEPORT]				, 63, "warcraft3/massteleporttarget.wav"			);	// Teleport
+	copy(arrStrSounds[SOUND_BLINK]					, 63, "warcraft3/blinkarrival.wav"					);	// Blink Teleport
+	copy(arrStrSounds[SOUND_LEVELUP]				, 63, "warcraft3/levelupcaster.wav"					);	// Level up
+	copy(arrStrSounds[SOUND_PICKUPITEM]				, 63, "warcraft3/pickupitem.wav"					);	// Buy / Pick up item
+	copy(arrStrSounds[SOUND_TOME]					, 63, "warcraft3/Tomes.wav"							);	// Tome of Experience
 
-		//copy(arrStrSounds[SOUND_ULTIMATESCAN]			, 63, "warcraft3/ultimate_beep.wav"							);	// Ultimate Beep
-		copy(arrStrSounds[SOUND_ULTIMATESCAN]			, 63, "warcraft3/ultimate_beep_2.wav"							);	// Ultimate Beep
+	//copy(arrStrSounds[SOUND_ULTIMATESCAN]			, 63, "warcraft3/ultimate_beep.wav"							);	// Ultimate Beep
+	copy(arrStrSounds[SOUND_ULTIMATESCAN]			, 63, "warcraft3/ultimate_beep_2.wav"							);	// Ultimate Beep
 
-		copy(arrStrSounds[SOUND_ULTIMATEREADY]			, 63, "warcraft3/resurrecttarget.wav"				);	// Ultimate Beep
-		copy(arrStrSounds[SOUND_ANNIHILATION]			, 63, "warcraft3/PurgeTarget1.wav"					);	// Orb of Annihilation
-		copy(arrStrSounds[SOUND_CONCOCTION_CAST]		, 63, "warcraft3/PossessionMissileLaunch1.wav"		);	// Unstable Concoction Cast
-		copy(arrStrSounds[SOUND_CONCOCTION_HIT]			, 63, "warcraft3/PossessionMissileHit1.wav"			);	// Unstable Concoction Hit
-		copy(arrStrSounds[SOUND_HEX]					, 63, "warcraft3/PolymorphDone.wav"					);	// Hex
-		copy(arrStrSounds[SOUND_IMMOLATE]				, 63, "warcraft3/ImmolationDecay1.wav"				);	// Immolate
-		copy(arrStrSounds[SOUND_IMMOLATE_BURNING]		, 63, "warcraft3/immolate_burning.wav"				    );	// Immolate Burning
-		copy(arrStrSounds[SOUND_REINCARNATION]			, 63, "warcraft3/soundpack/reincarnation.wav"		);	// Weapon Reincarnation/Ankh
-		copy(arrStrSounds[SOUND_ANTEND]					, 63, "warcraft3/antend.wav"						);	// Sound played when you try to shoot a chameleoned teammate 
-		copy(arrStrSounds[SOUND_ERROR]					, 63, "warcraft3/bonus/Error.wav"					);	// Sound played on errors 
-		copy(arrStrSounds[SOUND_DISPELL]				, 63, "warcraft3/DispelMagicTarget.wav"				);	// Dispell an ultimate - played on idAttacker
-		copy(arrStrSounds[SOUND_SPELLSHIELD]			, 63, "warcraft3/SpellShieldImpact1.wav"			);	// Dispell an ultimate - played on blocker
-		copy(arrStrSounds[SOUND_DEATH_TOUCH]			, 63, "warcraft3/item_death_touch.wav"			);	// Item Death Touch
-		copy(arrStrSounds[SOUND_HEALTH_POTION]			, 63, "warcraft3/item_health_potion.wav"		);	// Item Health Potion
-		copy(arrStrSounds[SOUND_STEEL_SKIN]				, 63, "warcraft3/item_steel_skin.wav"			);	// Item  Steel Skin
-		copy(arrStrSounds[SOUND_BLIZZARD]				, 63, "warcraft3/skill_blizzard.wav"			);	// Frost Mage Ultimate Blizzard
-		copy(arrStrSounds[SOUND_ICE_SPLINTERS]			, 63, "warcraft3/skill_ice_splinters.wav"	);	// Frost Mage Skill Ice splinters
-		copy(arrStrSounds[SOUND_ICE_ARROW_MISSILE]		, 63, "warcraft3/ice_arrow_missile.wav"	);	// Frost Mage Skill Ice Arrow
-		copy(arrStrSounds[SOUND_ICE_EXPLODE]			, 63, "warcraft3/ice_explode.wav"	);	// Frost Mage Skill Ice Arrow Explode
-		copy(arrStrSounds[SOUND_COLD_CONE_S]			, 63, "warcraft3/cold_cone_s.wav"	);	// Frost Mage Cold Cone
-		copy(arrStrSounds[SOUND_COLD_CONE_E]			, 63, "warcraft3/cold_cone_e.wav"	);	// Frost Mage Cold Cone (remove)
-		copy(arrStrSounds[SOUND_ICE_BLOCK_EXPLODE]		, 63, "warcraft3/ice_block_explode.wav"	);							//Взрыв Ледяной глыбы
-		copy(arrStrSounds[SOUND_ICE_BLOCK_FROZEN]		, 63, "warcraft3/ice_block_frozen.wav"	);						//Заморозка Ледяной глыбы
-		copy(arrStrSounds[SOUND_ICE_BLOCK_UNFROZEN]		, 63, "warcraft3/ice_block_unfrozen.wav"	);						//Разморозка Ледяной глыбы
-		copy(arrStrSounds[SOUND_ICE_BLOCK_CHILLED]		, 63, "warcraft3/ice_block_chilled.wav"	);						//Заморожен Ледяной глыбой
-		copy(arrStrSounds[SOUND_MIRROR_ULTIMATE_BLOCK]	, 63, "warcraft3/item_mirror_ult.wav"	);			//Блокировка отражателя супер навыка
-		copy(arrStrSounds[SOUND_DEATHCOIL]				, 63, "warcraft3/DeathCoilSpecialArt1.wav"	);		//Лик смерти
-		copy(arrStrSounds[SOUND_DEATHCOIL_MISSILE]		, 63, "warcraft3/DeathCoilMissileLaunch1.wav"	);	//Срабатывание Лик смерти
-		copy(arrStrSounds[SOUND_SLEEP]					, 63, "warcraft3/SleepBirth1.wav"	);				//Сонная аура
-		copy(arrStrSounds[SOUND_BOOK_DEAD_RAISE]		, 63, "warcraft3/book_dead_raise.wav"	);			//Вызов мертвецов хозяином
-		copy(arrStrSounds[SOUND_BOOK_DEAD_WARLOCK]		, 63, "warcraft3/book_dead_warlock.wav"	);			//Звук для ожившего мертвеца
-		copy(arrStrSounds[SOUND_TRANQUILITY]			, 63, "warcraft3/Tranquility.wav"	);				// Tranquility - Спокойствие
-		copy(arrStrSounds[SOUND_PRECAST_HOLY]			, 63, "warcraft3/PreCastHolyMagicLow.wav"	);	
-		copy(arrStrSounds[SOUND_CAST_HOLY]				, 63, "warcraft3/HolyCast.wav"	);			
-		copy(arrStrSounds[SOUND_NO_GOLD]				, 63, "warcraft3/no_gold.wav"	);//Звук когда при покупке не хватает денег
-		copy(arrStrSounds[SOUND_DK_UNARMOR]				, 63, "warcraft3/dk_unarmor3.wav"	); 	//Рыцарь смерти
-		copy(arrStrSounds[SOUND_POISON]					, 63, "warcraft3/SpiritTouch.wav" );	//Алхимик
-		copy(arrStrSounds[SOUND_FROST]					, 63, "warcraft3/FrostArrowHit1.wav" );
-		copy(arrStrSounds[SOUND_RADIATION]				, 63, "warcraft3/radiation.wav" );
-		copy(arrStrSounds[SOUND_FIREBALL_EXP_PRIEST]	, 63, "warcraft3/priest_fireball_exp.wav" );	//Жрец
-		copy(arrStrSounds[SOUND_FIREBALL_PRIEST]		, 63, "warcraft3/priest_fireball.wav" );
-		copy(arrStrSounds[SOUND_MENU_CLICK]				, 63, "warcraft3/menu_click_2.wav" );
-		copy(arrStrSounds[SOUND_SINISTER_STRIKE]		, 63, "warcraft3/sinister_strike_2.wav" );
-		copy(arrStrSounds[SOUND_VANISH]					, 63, "warcraft3/vanish.wav" );
-		copy(arrStrSounds[SOUND_SHURIKEN_TOSS_EXP]		, 63, "warcraft3/shuriken_toss_exp.wav" );
-		copy(arrStrSounds[SOUND_WISP_SPAWN]				, 63, "warcraft3/wisp_spawn.wav" );
-		copy(arrStrSounds[SOUND_WISP_DEATH]				, 63, "warcraft3/wisp_death.wav" );
-		copy(arrStrSounds[SOUND_ASTRAL_STORM]			, 63, "warcraft3/3_astral_storm.wav" );
-		copy(arrStrSounds[SOUND_MANGLE]					, 63, "warcraft3/mangle.wav" );
-		copy(arrStrSounds[SOUND_BLOODRAGE]				, 63, "warcraft3/bloodseeker_bloodrage.wav" );
-		copy(arrStrSounds[SOUND_BLOODRITE]				, 63, "warcraft3/bloodseeker_bloodrite.wav" );
-		copy(arrStrSounds[SOUND_HEALING_WARD]			, 63, "warcraft3/j_healing_ward.wav" );
-		copy(arrStrSounds[SOUND_HEADSHOT]				, 63, "warcraft3/sniper_headshot_2.wav" );
-		copy(arrStrSounds[SOUND_SHRAPNEL_FIRE]			, 63, "warcraft3/shrapnel_fire.wav" );
-		copy(arrStrSounds[SOUND_SHRAPNEL_DAMAGE]		, 63, "warcraft3/shrapnel_damage.wav" );
-		copy(arrStrSounds[SOUND_SHRAPNEL_EXPLODE]		, 63, "warcraft3/shrapnel_explode.wav" );
-		copy(arrStrSounds[SOUND_EYE_STORM]				, 63, "warcraft3/razor_eye_storm.wav" );
-		copy(arrStrSounds[SOUND_STATIC_LINK]			, 63, "warcraft3/razor_static_link.wav" );
-		copy(arrStrSounds[SOUND_UNSTABLE_CURRENT]		, 63, "warcraft3/razor_unstable_current.wav" );
-		copy(arrStrSounds[SOUND_PLASMA_FIELD]			, 63, "warcraft3/razor_plasma_field.wav" );
-		copy(arrStrSounds[SOUND_FATAL_BONDS]			, 63, "warcraft3/warlock_fatal_bonds.wav" );
-		copy(arrStrSounds[SOUND_SHADOW_WORD]			, 63, "warcraft3/warlock_shadow_word.wav" );
-		copy(arrStrSounds[SOUND_FLAMING_FISTS]			, 63, "warcraft3/warlock_flaming_fists.wav" );
-		copy(arrStrSounds[SOUND_PERM_IMMOL]				, 63, "warcraft3/warlock_permanent_immolation.wav" );
-		copy(arrStrSounds[SOUND_CRY_HEART]				, 63, "warcraft3/shadow_fiend_cry_heart.wav" );
-		copy(arrStrSounds[SOUND_NECROMASTERY]			, 63, "warcraft3/shadow_fiend_necromastery.wav" );
-		copy(arrStrSounds[SOUND_NECROMASTERY_HP]		, 63, "warcraft3/shadow_fiend_necromastery_hp.wav" );
-		copy(arrStrSounds[SOUND_REQUIEM_OF_SOULS]		, 63, "warcraft3/shadow_fiend_requiem_of_souls.wav" );
-		copy(arrStrSounds[SOUND_REQUIEM_OF_SOULS_DMG]	, 63, "warcraft3/shadow_fiend_requiem_of_souls_dmg.wav" );
-		copy(arrStrSounds[SOUND_BUY_ITEMS]				, 63, "warcraft3/buy_items.wav" );
-		copy(arrStrSounds[SOUND_BLADE_FURY]				, 63, "warcraft3/j_blade_fury.wav" );
-		copy(arrStrSounds[SOUND_DEMON_BLADE]			, 63, "warcraft3/j_demon_blade.wav" );
-		copy(arrStrSounds[SOUND_CRITICAL_BLADE]			, 63, "warcraft3/j_critical_blade.wav" );
-		copy(arrStrSounds[SOUND_TOMES]					, 63, "warcraft3/Tomes.wav" );
-		copy(arrStrSounds[SOUND_THUNDER_CLAP]			, 63, "warcraft3/thunder_clap.wav" );
+	copy(arrStrSounds[SOUND_ULTIMATEREADY]			, 63, "warcraft3/resurrecttarget.wav"				);	// Ultimate Beep
+	copy(arrStrSounds[SOUND_ANNIHILATION]			, 63, "warcraft3/PurgeTarget1.wav"					);	// Orb of Annihilation
+	copy(arrStrSounds[SOUND_CONCOCTION_CAST]		, 63, "warcraft3/PossessionMissileLaunch1.wav"		);	// Unstable Concoction Cast
+	copy(arrStrSounds[SOUND_CONCOCTION_HIT]			, 63, "warcraft3/PossessionMissileHit1.wav"			);	// Unstable Concoction Hit
+	copy(arrStrSounds[SOUND_HEX]					, 63, "warcraft3/PolymorphDone.wav"					);	// Hex
+	copy(arrStrSounds[SOUND_IMMOLATE]				, 63, "warcraft3/ImmolationDecay1.wav"				);	// Immolate
+	copy(arrStrSounds[SOUND_IMMOLATE_BURNING]		, 63, "warcraft3/immolate_burning.wav"				    );	// Immolate Burning
+	copy(arrStrSounds[SOUND_REINCARNATION]			, 63, "warcraft3/soundpack/reincarnation.wav"		);	// Weapon Reincarnation/Ankh
+	copy(arrStrSounds[SOUND_ANTEND]					, 63, "warcraft3/antend.wav"						);	// Sound played when you try to shoot a chameleoned teammate 
+	copy(arrStrSounds[SOUND_ERROR]					, 63, "warcraft3/bonus/Error.wav"					);	// Sound played on errors 
+	copy(arrStrSounds[SOUND_DISPELL]				, 63, "warcraft3/DispelMagicTarget.wav"				);	// Dispell an ultimate - played on idAttacker
+	copy(arrStrSounds[SOUND_SPELLSHIELD]			, 63, "warcraft3/SpellShieldImpact1.wav"			);	// Dispell an ultimate - played on blocker
+	copy(arrStrSounds[SOUND_DEATH_TOUCH]			, 63, "warcraft3/item_death_touch.wav"			);	// Item Death Touch
+	copy(arrStrSounds[SOUND_HEALTH_POTION]			, 63, "warcraft3/item_health_potion.wav"		);	// Item Health Potion
+	copy(arrStrSounds[SOUND_STEEL_SKIN]				, 63, "warcraft3/item_steel_skin.wav"			);	// Item  Steel Skin
+	copy(arrStrSounds[SOUND_BLIZZARD]				, 63, "warcraft3/skill_blizzard.wav"			);	// Frost Mage Ultimate Blizzard
+	copy(arrStrSounds[SOUND_ICE_SPLINTERS]			, 63, "warcraft3/skill_ice_splinters.wav"	);	// Frost Mage Skill Ice splinters
+	copy(arrStrSounds[SOUND_ICE_ARROW_MISSILE]		, 63, "warcraft3/ice_arrow_missile.wav"	);	// Frost Mage Skill Ice Arrow
+	copy(arrStrSounds[SOUND_ICE_EXPLODE]			, 63, "warcraft3/ice_explode.wav"	);	// Frost Mage Skill Ice Arrow Explode
+	copy(arrStrSounds[SOUND_COLD_CONE_S]			, 63, "warcraft3/cold_cone_s.wav"	);	// Frost Mage Cold Cone
+	copy(arrStrSounds[SOUND_COLD_CONE_E]			, 63, "warcraft3/cold_cone_e.wav"	);	// Frost Mage Cold Cone (remove)
+	copy(arrStrSounds[SOUND_ICE_BLOCK_EXPLODE]		, 63, "warcraft3/ice_block_explode.wav"	);							//Взрыв Ледяной глыбы
+	copy(arrStrSounds[SOUND_ICE_BLOCK_FROZEN]		, 63, "warcraft3/ice_block_frozen.wav"	);						//Заморозка Ледяной глыбы
+	copy(arrStrSounds[SOUND_ICE_BLOCK_UNFROZEN]		, 63, "warcraft3/ice_block_unfrozen.wav"	);						//Разморозка Ледяной глыбы
+	copy(arrStrSounds[SOUND_ICE_BLOCK_CHILLED]		, 63, "warcraft3/ice_block_chilled.wav"	);						//Заморожен Ледяной глыбой
+	copy(arrStrSounds[SOUND_MIRROR_ULTIMATE_BLOCK]	, 63, "warcraft3/item_mirror_ult.wav"	);			//Блокировка отражателя супер навыка
+	copy(arrStrSounds[SOUND_DEATHCOIL]				, 63, "warcraft3/DeathCoilSpecialArt1.wav"	);		//Лик смерти
+	copy(arrStrSounds[SOUND_DEATHCOIL_MISSILE]		, 63, "warcraft3/DeathCoilMissileLaunch1.wav"	);	//Срабатывание Лик смерти
+	copy(arrStrSounds[SOUND_SLEEP]					, 63, "warcraft3/SleepBirth1.wav"	);				//Сонная аура
+	copy(arrStrSounds[SOUND_BOOK_DEAD_RAISE]		, 63, "warcraft3/book_dead_raise.wav"	);			//Вызов мертвецов хозяином
+	copy(arrStrSounds[SOUND_BOOK_DEAD_WARLOCK]		, 63, "warcraft3/book_dead_warlock.wav"	);			//Звук для ожившего мертвеца
+	copy(arrStrSounds[SOUND_TRANQUILITY]			, 63, "warcraft3/Tranquility.wav"	);				// Tranquility - Спокойствие
+	copy(arrStrSounds[SOUND_PRECAST_HOLY]			, 63, "warcraft3/PreCastHolyMagicLow.wav"	);	
+	copy(arrStrSounds[SOUND_CAST_HOLY]				, 63, "warcraft3/HolyCast.wav"	);			
+	copy(arrStrSounds[SOUND_NO_GOLD]				, 63, "warcraft3/no_gold.wav"	);//Звук когда при покупке не хватает денег
+	copy(arrStrSounds[SOUND_DK_UNARMOR]				, 63, "warcraft3/dk_unarmor3.wav"	); 	//Рыцарь смерти
+	copy(arrStrSounds[SOUND_POISON]					, 63, "warcraft3/SpiritTouch.wav" );	//Алхимик
+	copy(arrStrSounds[SOUND_FROST]					, 63, "warcraft3/FrostArrowHit1.wav" );
+	copy(arrStrSounds[SOUND_RADIATION]				, 63, "warcraft3/radiation.wav" );
+	copy(arrStrSounds[SOUND_FIREBALL_EXP_PRIEST]	, 63, "warcraft3/priest_fireball_exp.wav" );	//Жрец
+	copy(arrStrSounds[SOUND_FIREBALL_PRIEST]		, 63, "warcraft3/priest_fireball.wav" );
+	copy(arrStrSounds[SOUND_MENU_CLICK]				, 63, "warcraft3/menu_click_2.wav" );
+	copy(arrStrSounds[SOUND_SINISTER_STRIKE]		, 63, "warcraft3/sinister_strike_2.wav" );
+	copy(arrStrSounds[SOUND_VANISH]					, 63, "warcraft3/vanish.wav" );
+	copy(arrStrSounds[SOUND_SHURIKEN_TOSS_EXP]		, 63, "warcraft3/shuriken_toss_exp.wav" );
+	copy(arrStrSounds[SOUND_WISP_SPAWN]				, 63, "warcraft3/wisp_spawn.wav" );
+	copy(arrStrSounds[SOUND_WISP_DEATH]				, 63, "warcraft3/wisp_death.wav" );
+	copy(arrStrSounds[SOUND_ASTRAL_STORM]			, 63, "warcraft3/3_astral_storm.wav" );
+	copy(arrStrSounds[SOUND_MANGLE]					, 63, "warcraft3/mangle.wav" );
+	copy(arrStrSounds[SOUND_BLOODRAGE]				, 63, "warcraft3/bloodseeker_bloodrage.wav" );
+	copy(arrStrSounds[SOUND_BLOODRITE]				, 63, "warcraft3/bloodseeker_bloodrite.wav" );
+	copy(arrStrSounds[SOUND_HEALING_WARD]			, 63, "warcraft3/j_healing_ward.wav" );
+	copy(arrStrSounds[SOUND_HEADSHOT]				, 63, "warcraft3/sniper_headshot_2.wav" );
+	copy(arrStrSounds[SOUND_SHRAPNEL_FIRE]			, 63, "warcraft3/shrapnel_fire.wav" );
+	copy(arrStrSounds[SOUND_SHRAPNEL_DAMAGE]		, 63, "warcraft3/shrapnel_damage.wav" );
+	copy(arrStrSounds[SOUND_SHRAPNEL_EXPLODE]		, 63, "warcraft3/shrapnel_explode.wav" );
+	copy(arrStrSounds[SOUND_EYE_STORM]				, 63, "warcraft3/razor_eye_storm.wav" );
+	copy(arrStrSounds[SOUND_STATIC_LINK]			, 63, "warcraft3/razor_static_link.wav" );
+	copy(arrStrSounds[SOUND_UNSTABLE_CURRENT]		, 63, "warcraft3/razor_unstable_current.wav" );
+	copy(arrStrSounds[SOUND_PLASMA_FIELD]			, 63, "warcraft3/razor_plasma_field.wav" );
+	copy(arrStrSounds[SOUND_FATAL_BONDS]			, 63, "warcraft3/warlock_fatal_bonds.wav" );
+	copy(arrStrSounds[SOUND_SHADOW_WORD]			, 63, "warcraft3/warlock_shadow_word.wav" );
+	copy(arrStrSounds[SOUND_FLAMING_FISTS]			, 63, "warcraft3/warlock_flaming_fists.wav" );
+	copy(arrStrSounds[SOUND_PERM_IMMOL]				, 63, "warcraft3/warlock_permanent_immolation.wav" );
+	copy(arrStrSounds[SOUND_CRY_HEART]				, 63, "warcraft3/shadow_fiend_cry_heart.wav" );
+	copy(arrStrSounds[SOUND_NECROMASTERY]			, 63, "warcraft3/shadow_fiend_necromastery.wav" );
+	copy(arrStrSounds[SOUND_NECROMASTERY_HP]		, 63, "warcraft3/shadow_fiend_necromastery_hp.wav" );
+	copy(arrStrSounds[SOUND_REQUIEM_OF_SOULS]		, 63, "warcraft3/shadow_fiend_requiem_of_souls.wav" );
+	copy(arrStrSounds[SOUND_REQUIEM_OF_SOULS_DMG]	, 63, "warcraft3/shadow_fiend_requiem_of_souls_dmg.wav" );
+	copy(arrStrSounds[SOUND_BUY_ITEMS]				, 63, "warcraft3/buy_items.wav" );
+	copy(arrStrSounds[SOUND_BLADE_FURY]				, 63, "warcraft3/j_blade_fury.wav" );
+	copy(arrStrSounds[SOUND_DEMON_BLADE]			, 63, "warcraft3/j_demon_blade.wav" );
+	copy(arrStrSounds[SOUND_CRITICAL_BLADE]			, 63, "warcraft3/j_critical_blade.wav" );
+	copy(arrStrSounds[SOUND_TOMES]					, 63, "warcraft3/Tomes.wav" );
+	copy(arrStrSounds[SOUND_THUNDER_CLAP]			, 63, "warcraft3/thunder_clap.wav" );
 
 
-		//arrStrSounds[SOUND_THUNDER_CLAP]
+	//arrStrSounds[SOUND_THUNDER_CLAP]
 
-		// Lets make sure we have all of the sound files!!!
-		new i, szTmp[128];
+	// Lets make sure we have all of the sound files!!!
+	new i, szTmp[128];
 		
-		for ( i = 0; i < MAX_SOUNDS; i++ )
+	for ( i = 0; i < MAX_SOUNDS; i++ )
+	{
+		formatex( szTmp, 127, "sound/%s", arrStrSounds[i] );
+
+		if (!file_exists(szTmp))// Проверка не существование файла звука
 		{
-			formatex( szTmp, 127, "sound/%s", arrStrSounds[i] );
-
-			if (!file_exists(szTmp))// Проверка не существование файла звука
-			{
-				WC3_Log( true, "[ERROR] Missing sound file '%s'", szTmp );
-				set_fail_state( "Sound files are missing, unable to load plugin" );
-			}
-			else
-			{
-				precache_sound( arrStrSounds[i] );
-			}
+			WC3_Log( true, "[ERROR] Missing sound file '%s'", szTmp );
+			set_fail_state( "Sound files are missing, unable to load plugin" );
 		}
-
-		// *******************************************************
-		// Precache - Спрайты мода
-		// *******************************************************
-		copy(arrStrSprites[SPR_BANISH]				, 63, "sprites/warcraft3/blood_banish.spr" );				//Race: Blood Mage
-		copy(arrStrSprites[SPR_SHADOWSTRIKE]		, 63, "sprites/warcraft3/warden_shadowstrike.spr" );		//Race: Warden
-		copy(arrStrSprites[SPR_FIRE]				, 63, "sprites/warcraft3/blood_fire.spr" );					//Race: Blood Mage
-		copy(arrStrSprites[SPR_BURNING]				, 63, "sprites/warcraft3/blood_burning.spr" );				//Race: Blood Mage
-		copy(arrStrSprites[SPR_BEETLE]				, 63, "sprites/warcraft3/crypt_lord_beetle.spr" );			//Race: Crypt Lord
-		copy(arrStrSprites[SPR_FIREBALL]			, 63, "sprites/warcraft3/undead_exp.spr" );					//Race: Undead Scourge
-		copy(arrStrSprites[SPR_BEAM]				, 63, "sprites/warcraft3/elf_beam.spr" );					//Race: Night Elf
-		copy(arrStrSprites[SPR_TRAIL]				, 63, "sprites/warcraft3/elf_trail.spr" );					//Race: Night Elf
-		copy(arrStrSprites[SPR_SHOCKWAVE]			, 63, "sprites/warcraft3/undead_shockwave.spr" );			//Race: Undead Scourge
-		copy(arrStrSprites[SPR_LIGHTNING]			, 63, "sprites/warcraft3/orc_lgtning.spr" );				//Race: Orcish Horde
-		copy(arrStrSprites[SPR_FLARE]				, 63, "sprites/warcraft3/human_blueflare2.spr" );			//Race: Human Alliance
-		copy(arrStrSprites[SPR_WAVE]				, 63, "sprites/warcraft3/crypt_lord_gwave1.spr" );			//Race: Crypt Lord
-		copy(arrStrSprites[SPR_IMMOLATE]			, 63, "sprites/warcraft3/blood_fireball.spr" );				//Race: Blood Mage
-		copy(arrStrSprites[SPR_DEATH_TOUCH]			, 63, "sprites/warcraft3/eff_death_touch.spr" );			//Death's Touch
-		copy(arrStrSprites[SPR_HEALTH_POTION]		, 63, "sprites/warcraft3/eff_health_potion.spr" );			// Health Potion
-		copy(arrStrSprites[SPR_STEEL_SKIN]			, 63, "sprites/warcraft3/eff_steel_skin.spr" );				// Steel Skin
-		copy(arrStrSprites[SPR_BLUE_LIGHTNING]		, 63, "sprites/warcraft3/blue_lightning_blizzard.spr" );	// Frost Mage Ultimate Blizzard
-		copy(arrStrSprites[SPR_ICE_FROSTBOLT]		, 63, "sprites/warcraft3/ice_frostbolt.spr" );				
-		copy(arrStrSprites[SPR_ICE_SPLINTERS]		, 63, "sprites/warcraft3/ice_splinters.spr" );				// Frost Mage Ice splinters
-		copy(arrStrSprites[SPR_ICE_ARROW_TRAIL]		, 63, "sprites/warcraft3/ice_arrow_trail.spr" );			// Frost Mage Ледяная стрела (Ice Arrow)
-		copy(arrStrSprites[SPR_ICE_ARROW]			, 63, "sprites/warcraft3/ice_arrow.spr" );
-		copy(arrStrSprites[SPR_ICE_EXPLODE]			, 63, "sprites/warcraft3/ice_explode.spr" );
-		copy(arrStrSprites[SPR_SMOKE]				, 63, "sprites/warcraft3/undead_steam1.spr");	//Race: Undead Scourge
-		copy(arrStrSprites[SPR_SNOW]				, 63, "sprites/warcraft3/crypt_lord_snow.spr");		//Race: Crypt Lord
-		copy(arrStrSprites[SPR_ICE_BLOCK_TRAIL]		, 63, "sprites/warcraft3/ice_block_trail.spr"); 	//Для shopmenu4
-		copy(arrStrSprites[SPR_MIRROR_ULTIMATE]		, 63, "sprites/warcraft3/mirror_ultimate.spr");
-		copy(arrStrSprites[SPR_DEATHCOIL]			, 63, "sprites/warcraft3/deathcoil.spr");			//Лик смерти
-		copy(arrStrSprites[SPR_BLOODSPRAY]			, 63, "sprites/warcraft3/bloodspray.spr");		//New Impale
-		copy(arrStrSprites[SPR_BLOODDROP]			, 63, "sprites/warcraft3/blood.spr");				//New Impale2
-		copy(arrStrSprites[SPR_SLEEP]				, 63, "sprites/warcraft3/sleep.spr");	//Сонная аура
-		copy(arrStrSprites[SPR_DK_UNARMOR]			, 63, "sprites/warcraft3/dk_unarmor.spr" );		//Рыцарь смерти
-		copy(arrStrSprites[SPR_BLACKSTRIKE]			, 63, "sprites/warcraft3/blackstrike.spr" );		//Черный маг
-		copy(arrStrSprites[SPR_BLACKFIRE]			, 63, "sprites/warcraft3/blackfire.spr" );
-		copy(arrStrSprites[SPR_BURNFIRE]			, 63, "sprites/warcraft3/burnfire.spr" );
-		copy(arrStrSprites[SPR_POISON]				, 63, "sprites/warcraft3/PoisonSkill.spr" );	//Алхимик
-		copy(arrStrSprites[SPR_ECLIPSE]				, 63, "sprites/warcraft3/Eclipse.spr" );
-		copy(arrStrSprites[SPR_FIRE_PRIEST]			, 63, "sprites/warcraft3/priest_fire.spr" );		//Жрец
-		copy(arrStrSprites[SPR_SMOKE_PRIEST]		, 63, "sprites/warcraft3/priest_black_smoke.spr" );
-		copy(arrStrSprites[SPR_FLAME_PRIEST]		, 63, "sprites/warcraft3/priest_flame.spr" );
-		copy(arrStrSprites[SPR_ZEXPLODE_PRIEST]		, 63, "sprites/warcraft3/priest_zerogxplode.spr" );
-		copy(arrStrSprites[SPR_BUBBLE_PRIEST]		, 63, "sprites/warcraft3/priest_bubble.spr" );
-		copy(arrStrSprites[SPR_ICON_TALISMAN]		, 63, "sprites/warcraft3/icon_talisman.spr" );
-		copy(arrStrSprites[SPR_MFLASH2_BLACK_MAG]	, 63, "sprites/warcraft3/black_mag_muzzleflash2.spr" );
-		copy(arrStrSprites[SPR_SINISTER_STRIKE]		, 63, "sprites/warcraft3/sinister_strike.spr" );
-		copy(arrStrSprites[SPR_ROGUE_BEAM]			, 63, "sprites/warcraft3/shuriken_toss_beam.spr" );//луч
-		copy(arrStrSprites[SPR_ROGUE_RING]			, 63, "sprites/warcraft3/shuriken_toss_ring.spr" );//кольцо
-		copy(arrStrSprites[SPR_ROGUE_SHURIKEN]		, 63, "sprites/warcraft3/shuriken_toss.spr" );//телепорт и сам шар
-		copy(arrStrSprites[SPR_DRUID_ENTANGLE]		, 63, "sprites/warcraft3/wild_mush_entangle.spr" );
-		copy(arrStrSprites[SPR_DRUID_HEALING]		, 63, "sprites/warcraft3/wild_mush_healing.spr" );
-		copy(arrStrSprites[SPR_ASTRAL_STORM]		, 63, "sprites/warcraft3/3_astral_storm.spr" );
-		copy(arrStrSprites[SPR_MANGLE]				, 63, "sprites/warcraft3/mangle.spr" );
-		copy(arrStrSprites[SPR_BLOODRITE]			, 63, "sprites/warcraft3/bloodseeker_bloodrite1.spr" );
-		copy(arrStrSprites[SPR_HEADSHOT]			, 63, "sprites/warcraft3/sniper_headshot_exp.spr" );
-		copy(arrStrSprites[SPR_SHRAPNEL]			, 63, "sprites/warcraft3/sniper_shrapnel_2.spr" );
-		copy(arrStrSprites[SPR_SHRAPNEL_EXPLODE]	, 63, "sprites/warcraft3/sniper_shrapnel_exp_3.spr" );
-		copy(arrStrSprites[SPR_STATIC_STORM]		, 63, "sprites/warcraft3/disruptor_static_storm_2.spr" );
-		copy(arrStrSprites[SPR_PLASMA_FIELD]		, 63, "sprites/warcraft3/razor_plasma_field.spr" );
-		copy(arrStrSprites[SPR_FL_FISTS_ARMOR]		, 63, "sprites/warcraft3/warlock_flaming_fists_armor.spr" );
-		copy(arrStrSprites[SPR_FL_FISTS_DMG]		, 63, "sprites/warcraft3/warlock_flaming_fists_dmg.spr" );
-		copy(arrStrSprites[SPR_PERM_IMMOL]			, 63, "sprites/warcraft3/warlock_perm_immolation.spr" );
-		copy(arrStrSprites[SPR_NECROMASTERY]		, 63, "sprites/warcraft3/sf_necromastery.spr" );
-		copy(arrStrSprites[SPR_NECROMASTERY_EXP]		, 63, "sprites/warcraft3/sf_necromastery_exp.spr" );
-
-				
-		//arrStrSprites[SPR_PLASMA_FIELD]
-		//arrIdSprites[SPR_PLASMA_FIELD]	
-				
-
-		for ( i = 0; i < MAX_SPRITES; i++ )
+		else
 		{
-			if (!file_exists(arrStrSprites[i]))// Проверка не существование файла спрайта
-			{
-				WC3_Log( true, "[ERROR] Missing sprite file '%s'", arrStrSprites[i]);
-				set_fail_state( "Sprite files are missing, unable to load plugin!" );
-			}
-			else
-			{
-				if (arrStrSprites[i][0])
-					arrIdSprites[i] = precache_model( arrStrSprites[i] );
-			}
+			precache_sound( arrStrSounds[i] );
 		}
+	}
 
-		// *******************************************************
-		// Precache - Модели мода
-		// *******************************************************
-		//Модели игроков (данные модели не входят в массив и идут сами по себе т.к. не используются напрямую через массив)
-		precache_model( "models/player/gign/gign.mdl"			);
-		precache_model( "models/player/sas/sas.mdl"				);
-		precache_model( "models/player/gsg9/gsg9.mdl"			);
-		precache_model( "models/player/urban/urban.mdl"			);
-		precache_model( "models/player/arctic/arctic.mdl"		);
-		precache_model( "models/player/leet/leet.mdl"			);
-		precache_model( "models/player/guerilla/guerilla.mdl"	);
-		precache_model( "models/player/terror/terror.mdl"		);
-		precache_model( "models/player/skull_t/skull_t.mdl");	//Модель скелета теров
-		precache_model( "models/player/skull_ct/skull_ct.mdl");	//Модель скелета контров
+	// *******************************************************
+	// Precache - Спрайты мода
+	// *******************************************************
+	copy(arrStrSprites[SPR_BANISH]				, 63, "sprites/warcraft3/blood_banish.spr" );				//Race: Blood Mage
+	copy(arrStrSprites[SPR_SHADOWSTRIKE]		, 63, "sprites/warcraft3/warden_shadowstrike.spr" );		//Race: Warden
+	copy(arrStrSprites[SPR_FIRE]				, 63, "sprites/warcraft3/blood_fire.spr" );					//Race: Blood Mage
+	copy(arrStrSprites[SPR_BURNING]				, 63, "sprites/warcraft3/blood_burning.spr" );				//Race: Blood Mage
+	copy(arrStrSprites[SPR_BEETLE]				, 63, "sprites/warcraft3/crypt_lord_beetle.spr" );			//Race: Crypt Lord
+	copy(arrStrSprites[SPR_FIREBALL]			, 63, "sprites/warcraft3/undead_exp.spr" );					//Race: Undead Scourge
+	copy(arrStrSprites[SPR_BEAM]				, 63, "sprites/warcraft3/elf_beam.spr" );					//Race: Night Elf
+	copy(arrStrSprites[SPR_TRAIL]				, 63, "sprites/warcraft3/elf_trail.spr" );					//Race: Night Elf
+	copy(arrStrSprites[SPR_SHOCKWAVE]			, 63, "sprites/warcraft3/undead_shockwave.spr" );			//Race: Undead Scourge
+	copy(arrStrSprites[SPR_LIGHTNING]			, 63, "sprites/warcraft3/orc_lgtning.spr" );				//Race: Orcish Horde
+	copy(arrStrSprites[SPR_FLARE]				, 63, "sprites/warcraft3/human_blueflare2.spr" );			//Race: Human Alliance
+	copy(arrStrSprites[SPR_WAVE]				, 63, "sprites/warcraft3/crypt_lord_gwave1.spr" );			//Race: Crypt Lord
+	copy(arrStrSprites[SPR_IMMOLATE]			, 63, "sprites/warcraft3/blood_fireball.spr" );				//Race: Blood Mage
+	copy(arrStrSprites[SPR_DEATH_TOUCH]			, 63, "sprites/warcraft3/eff_death_touch.spr" );			//Death's Touch
+	copy(arrStrSprites[SPR_HEALTH_POTION]		, 63, "sprites/warcraft3/eff_health_potion.spr" );			// Health Potion
+	copy(arrStrSprites[SPR_STEEL_SKIN]			, 63, "sprites/warcraft3/eff_steel_skin.spr" );				// Steel Skin
+	copy(arrStrSprites[SPR_BLUE_LIGHTNING]		, 63, "sprites/warcraft3/blue_lightning_blizzard.spr" );	// Frost Mage Ultimate Blizzard
+	copy(arrStrSprites[SPR_ICE_FROSTBOLT]		, 63, "sprites/warcraft3/ice_frostbolt.spr" );				
+	copy(arrStrSprites[SPR_ICE_SPLINTERS]		, 63, "sprites/warcraft3/ice_splinters.spr" );				// Frost Mage Ice splinters
+	copy(arrStrSprites[SPR_ICE_ARROW_TRAIL]		, 63, "sprites/warcraft3/ice_arrow_trail.spr" );			// Frost Mage Ледяная стрела (Ice Arrow)
+	copy(arrStrSprites[SPR_ICE_ARROW]			, 63, "sprites/warcraft3/ice_arrow.spr" );
+	copy(arrStrSprites[SPR_ICE_EXPLODE]			, 63, "sprites/warcraft3/ice_explode.spr" );
+	copy(arrStrSprites[SPR_SMOKE]				, 63, "sprites/warcraft3/undead_steam1.spr");	//Race: Undead Scourge
+	copy(arrStrSprites[SPR_SNOW]				, 63, "sprites/warcraft3/crypt_lord_snow.spr");		//Race: Crypt Lord
+	copy(arrStrSprites[SPR_ICE_BLOCK_TRAIL]		, 63, "sprites/warcraft3/ice_block_trail.spr"); 	//Для shopmenu4
+	copy(arrStrSprites[SPR_MIRROR_ULTIMATE]		, 63, "sprites/warcraft3/mirror_ultimate.spr");
+	copy(arrStrSprites[SPR_DEATHCOIL]			, 63, "sprites/warcraft3/deathcoil.spr");			//Лик смерти
+	copy(arrStrSprites[SPR_BLOODSPRAY]			, 63, "sprites/warcraft3/bloodspray.spr");		//New Impale
+	copy(arrStrSprites[SPR_BLOODDROP]			, 63, "sprites/warcraft3/blood.spr");				//New Impale2
+	copy(arrStrSprites[SPR_SLEEP]				, 63, "sprites/warcraft3/sleep.spr");	//Сонная аура
+	copy(arrStrSprites[SPR_DK_UNARMOR]			, 63, "sprites/warcraft3/dk_unarmor.spr" );		//Рыцарь смерти
+	copy(arrStrSprites[SPR_BLACKSTRIKE]			, 63, "sprites/warcraft3/blackstrike.spr" );		//Черный маг
+	copy(arrStrSprites[SPR_BLACKFIRE]			, 63, "sprites/warcraft3/blackfire.spr" );
+	copy(arrStrSprites[SPR_BURNFIRE]			, 63, "sprites/warcraft3/burnfire.spr" );
+	copy(arrStrSprites[SPR_POISON]				, 63, "sprites/warcraft3/PoisonSkill.spr" );	//Алхимик
+	copy(arrStrSprites[SPR_ECLIPSE]				, 63, "sprites/warcraft3/Eclipse.spr" );
+	copy(arrStrSprites[SPR_FIRE_PRIEST]			, 63, "sprites/warcraft3/priest_fire.spr" );		//Жрец
+	copy(arrStrSprites[SPR_SMOKE_PRIEST]		, 63, "sprites/warcraft3/priest_black_smoke.spr" );
+	copy(arrStrSprites[SPR_FLAME_PRIEST]		, 63, "sprites/warcraft3/priest_flame.spr" );
+	copy(arrStrSprites[SPR_ZEXPLODE_PRIEST]		, 63, "sprites/warcraft3/priest_zerogxplode.spr" );
+	copy(arrStrSprites[SPR_BUBBLE_PRIEST]		, 63, "sprites/warcraft3/priest_bubble.spr" );
+	copy(arrStrSprites[SPR_ICON_TALISMAN]		, 63, "sprites/warcraft3/icon_talisman.spr" );
+	copy(arrStrSprites[SPR_MFLASH2_BLACK_MAG]	, 63, "sprites/warcraft3/black_mag_muzzleflash2.spr" );
+	copy(arrStrSprites[SPR_SINISTER_STRIKE]		, 63, "sprites/warcraft3/sinister_strike.spr" );
+	copy(arrStrSprites[SPR_ROGUE_BEAM]			, 63, "sprites/warcraft3/shuriken_toss_beam.spr" );//луч
+	copy(arrStrSprites[SPR_ROGUE_RING]			, 63, "sprites/warcraft3/shuriken_toss_ring.spr" );//кольцо
+	copy(arrStrSprites[SPR_ROGUE_SHURIKEN]		, 63, "sprites/warcraft3/shuriken_toss.spr" );//телепорт и сам шар
+	copy(arrStrSprites[SPR_DRUID_ENTANGLE]		, 63, "sprites/warcraft3/wild_mush_entangle.spr" );
+	copy(arrStrSprites[SPR_DRUID_HEALING]		, 63, "sprites/warcraft3/wild_mush_healing.spr" );
+	copy(arrStrSprites[SPR_ASTRAL_STORM]		, 63, "sprites/warcraft3/3_astral_storm.spr" );
+	copy(arrStrSprites[SPR_MANGLE]				, 63, "sprites/warcraft3/mangle.spr" );
+	copy(arrStrSprites[SPR_BLOODRITE]			, 63, "sprites/warcraft3/bloodseeker_bloodrite1.spr" );
+	copy(arrStrSprites[SPR_HEADSHOT]			, 63, "sprites/warcraft3/sniper_headshot_exp.spr" );
+	copy(arrStrSprites[SPR_SHRAPNEL]			, 63, "sprites/warcraft3/sniper_shrapnel_2.spr" );
+	copy(arrStrSprites[SPR_SHRAPNEL_EXPLODE]	, 63, "sprites/warcraft3/sniper_shrapnel_exp_3.spr" );
+	copy(arrStrSprites[SPR_STATIC_STORM]		, 63, "sprites/warcraft3/disruptor_static_storm_2.spr" );
+	copy(arrStrSprites[SPR_PLASMA_FIELD]		, 63, "sprites/warcraft3/razor_plasma_field.spr" );
+	copy(arrStrSprites[SPR_FL_FISTS_ARMOR]		, 63, "sprites/warcraft3/warlock_flaming_fists_armor.spr" );
+	copy(arrStrSprites[SPR_FL_FISTS_DMG]		, 63, "sprites/warcraft3/warlock_flaming_fists_dmg.spr" );
+	copy(arrStrSprites[SPR_PERM_IMMOL]			, 63, "sprites/warcraft3/warlock_perm_immolation.spr" );
+	copy(arrStrSprites[SPR_NECROMASTERY]		, 63, "sprites/warcraft3/sf_necromastery.spr" );
+	copy(arrStrSprites[SPR_NECROMASTERY_EXP]		, 63, "sprites/warcraft3/sf_necromastery_exp.spr" );
 
-		//Прекеш дополнительных моделей которые привязаны к основной. К примеру модели _t (данные модели в моде не используются)
-		precache_model( "models/CSSB/tentacle2/tentacle2t.mdl" );	//моделька к tentacle2.mdl
+
+	//arrStrSprites[SPR_PLASMA_FIELD]
+	//arrIdSprites[SPR_PLASMA_FIELD]	
 
 
-		copy(arrStrModels[MDL_FIREBALL]			, 63, "models/CSSB/cssb_fireball/cssb_fireball.mdl");
-		copy(arrStrModels[MDL_FRIEZADISC]		, 63, "models/CSSB/r_black_magician/friezadisc.mdl");
-		copy(arrStrModels[MDL_FUN_SUPPLYBOX]	, 63, "models/CSSB/Items/fun_supplybox.mdl");
-		copy(arrStrModels[MDL_GLASSGIBS]		, 63, "models/CSSB/glassgibs/glassgibs.mdl");
-		copy(arrStrModels[MDL_BSKULL]			, 63, "models/CSSB/bskull/bskull.mdl");				// Death Coil
-		copy(arrStrModels[MDL_TENTACLE]			, 63, "models/CSSB/tentacle2/tentacle2.mdl");		// Impale
-		copy(arrStrModels[MDL_HEALINGWARD]		, 63, "models/CSSB/juggernaut/j_healing_ward.mdl");
-		copy(arrStrModels[MDL_JKNIFE]			, 63, "models/CSSB/juggernaut/j_knife.mdl");
-		//copy(arrStrModels[MDL_DKINETIC_FIELD]	, 63, "models/CSSB/disruptor/disruptor_kinetic_field.mdl");
-				
-
-		
-		
-		
-		//arrStrModels[MDL_DKINETIC_FIELD]
-		//arrIdModels[MDL_DKINETIC_FIELD]
-
-		for ( i = 0; i < MAX_MODELS; i++ )
+	for ( i = 0; i < MAX_SPRITES; i++ )
+	{
+		if (!file_exists(arrStrSprites[i]))// Проверка не существование файла спрайта
 		{
-			if (!file_exists(arrStrModels[i]))// Проверка не существование файла модели
-			{
-				WC3_Log( true, "[ERROR] Missing model file '%s'", arrStrModels[i]);
-				set_fail_state( "Model files are missing, unable to load plugin!" );
-			}
-			else
-			{
-				if (arrStrModels[i][0])
-					arrIdModels[i] = precache_model( arrStrModels[i] );
-			}
+			WC3_Log( true, "[ERROR] Missing sprite file '%s'", arrStrSprites[i]);
+			set_fail_state( "Sprite files are missing, unable to load plugin!" );
 		}
+		else
+		{
+			if (arrStrSprites[i][0])
+			arrIdSprites[i] = precache_model( arrStrSprites[i] );
+		}
+	}
+
+	// *******************************************************
+	// Precache - Модели мода
+	// *******************************************************
+	//Модели игроков (данные модели не входят в массив и идут сами по себе т.к. не используются напрямую через массив)
+	precache_model( "models/player/gign/gign.mdl"			);
+	precache_model( "models/player/sas/sas.mdl"				);
+	precache_model( "models/player/gsg9/gsg9.mdl"			);
+	precache_model( "models/player/urban/urban.mdl"			);
+	precache_model( "models/player/arctic/arctic.mdl"		);
+	precache_model( "models/player/leet/leet.mdl"			);
+	precache_model( "models/player/guerilla/guerilla.mdl"	);
+	precache_model( "models/player/terror/terror.mdl"		);
+	precache_model( "models/player/skull_t/skull_t.mdl");	//Модель скелета теров
+	precache_model( "models/player/skull_ct/skull_ct.mdl");	//Модель скелета контров
+
+	//Прекеш дополнительных моделей которые привязаны к основной. К примеру модели _t (данные модели в моде не используются)
+	precache_model( "models/CSSB/tentacle2/tentacle2t.mdl" );	//моделька к tentacle2.mdl
+
+
+	copy(arrStrModels[MDL_FIREBALL]			, 63, "models/CSSB/cssb_fireball/cssb_fireball.mdl");
+	copy(arrStrModels[MDL_FRIEZADISC]		, 63, "models/CSSB/r_black_magician/friezadisc.mdl");
+	copy(arrStrModels[MDL_FUN_SUPPLYBOX]	, 63, "models/CSSB/Items/fun_supplybox.mdl");
+	copy(arrStrModels[MDL_GLASSGIBS]		, 63, "models/CSSB/glassgibs/glassgibs.mdl");
+	copy(arrStrModels[MDL_BSKULL]			, 63, "models/CSSB/bskull/bskull.mdl");				// Death Coil
+	copy(arrStrModels[MDL_TENTACLE]			, 63, "models/CSSB/tentacle2/tentacle2.mdl");		// Impale
+	copy(arrStrModels[MDL_HEALINGWARD]		, 63, "models/CSSB/juggernaut/j_healing_ward.mdl");
+	copy(arrStrModels[MDL_JKNIFE]			, 63, "models/CSSB/juggernaut/j_knife.mdl");
+	//copy(arrStrModels[MDL_DKINETIC_FIELD]	, 63, "models/CSSB/disruptor/disruptor_kinetic_field.mdl");
+
+
 	
+	
+	
+	//arrStrModels[MDL_DKINETIC_FIELD]
+	//arrIdModels[MDL_DKINETIC_FIELD]
 
+	for ( i = 0; i < MAX_MODELS; i++ )
+	{
+		if (!file_exists(arrStrModels[i]))// Проверка не существование файла модели
+		{
+			WC3_Log( true, "[ERROR] Missing model file '%s'", arrStrModels[i]);
+			set_fail_state( "Model files are missing, unable to load plugin!" );
+		}
+		else
+		{
+			if (arrStrModels[i][0])
+			arrIdModels[i] = precache_model( arrStrModels[i] );
+		}
+	}
 }
 
 WC3_Check( idUser = 0, print_location = print_chat )
@@ -362,140 +360,137 @@ WC3_Check( idUser = 0, print_location = print_chat )
 // Function called when the plugin loads
 public WC3_Init()
 {
+	// Store this now so we don't need to make a native call everytime we use it
+	MAXPLAYERS = get_global_int( GL_maxClients );
+
+	// Register the CVARs
+	CVAR_Init();
 	
-		// Store this now so we don't need to make a native call everytime we use it
-		MAXPLAYERS = get_global_int( GL_maxClients );
+	// Initialize our items
+	ITEM_Init();
+	
+	// Initialize our skills
+	SM_Init();
 
-		// Register the CVARs
-		CVAR_Init();
-		
-		// Initialize our items
-		ITEM_Init();
-		
-		// Initialize our skills
-		SM_Init();
+	// Register the player menus
+	LANG_SetMenus();
+	InitLangAllMenus();
 
-		// Register the player menus
-		LANG_SetMenus();
-		InitLangAllMenus();
+	//Для авто закупки предметов
+	abi_InitLangAllMenus();
 
-		//Для авто закупки предметов
-		abi_InitLangAllMenus();
-
-		// Register any forwards
-		FWD_Register();
+	// Register any forwards
+	FWD_Register();
 
 
-		//Для talisman + BEGIN {
-		//Инициализация переменных
-		fInitTalisman();
+	//Для talisman + BEGIN {
+	//Инициализация переменных
+	fInitTalisman();
 
-		//Считывание файла респаунов талисмана для конкретной карты
-		fReadMapSpawnsTalisman();
-		
-		//Для talisman END }
+	//Считывание файла респаунов талисмана для конкретной карты
+	fReadMapSpawnsTalisman();
+	
+	//Для talisman END }
 
-		// We need to execute config file in a bit don't we?
-		set_task( 0.3, "_CVAR_ExecuteConfig", TASK_EXECUTECONFIG );
+	// We need to execute config file in a bit don't we?
+	set_task( 0.3, "_CVAR_ExecuteConfig", TASK_EXECUTECONFIG );
 
-		// Configure the database connection
-		set_task( 1.0, "DB_Init", TASK_SETSQL );
+	// Configure the database connection
+	set_task( 1.0, "DB_Init", TASK_SETSQL );
 
-		// Set up things when our config file has loaded the values
-		set_task( 1.5, "_WC3_RunAfterConfig", TASK_AFTERCONFIG );
+	// Set up things when our config file has loaded the values
+	set_task( 1.5, "_WC3_RunAfterConfig", TASK_AFTERCONFIG );
 
-		// cl_minmodels check
-		set_task( 4.5, "_CS_MinModelsLoop", TASK_MOLEFIX, "", 0, "b" );
+	// cl_minmodels check
+	set_task( 4.5, "_CS_MinModelsLoop", TASK_MOLEFIX, "", 0, "b" );
 
-		// Set up the spawn entities
-		copy( szSpawnEnt[0], 31, "info_player_start" );
-		copy( szSpawnEnt[1], 31, "info_player_deathmatch" );
-		
-		// Run the ultimate delay task
-		set_task(1.0, "_ULT_Delay", TASK_UDELAY, "", 0, "b" );
-		
-		// We need to determine the objective entities (if they exist)
-		new i, bool:bFound;
-		for ( i = 0; i <= get_global_int( GL_maxEntities ); i++ )
+	// Set up the spawn entities
+	copy( szSpawnEnt[0], 31, "info_player_start" );
+	copy( szSpawnEnt[1], 31, "info_player_deathmatch" );
+	
+	// Run the ultimate delay task
+	set_task(1.0, "_ULT_Delay", TASK_UDELAY, "", 0, "b" );
+	
+	// We need to determine the objective entities (if they exist)
+	new i, bool:bFound;
+	for ( i = 0; i <= get_global_int( GL_maxEntities ); i++ )
+	{
+		if ( !is_valid_ent( i ) )
 		{
-			if ( !is_valid_ent( i ) )
-			{
-				continue;
-			}
-			
-			// More than were necessary was found
-			if ( g_iTotalObjectiveEnts >= MAX_OBJECTIVES )
-			{
-				WC3_Log( true, "Woa we found more than 11" );
-				break;
-			}
-
-			bFound = false;
-
-			new szClassName[64];
-			entity_get_string( i, EV_SZ_classname, szClassName, 63 );
-			
-			// VIP Escape zone!!
-			if ( equal( szClassName, "func_vip_safetyzone") )	
-			{
-				g_iObjectiveEntType[g_iTotalObjectiveEnts] = OBJENT_VIP_ESCAPE;
-				bFound = true;
-			}
-
-			// Hostage zone
-			else if ( equal( szClassName, "hostage_entity") )
-			{
-				g_iObjectiveEntType[g_iTotalObjectiveEnts] = OBJENT_HOSTAGE;
-				bFound = true;
-			}
-
-			// Bomb zone
-			else if ( equal( szClassName, "func_bomb_target") )
-			{
-				g_iObjectiveEntType[g_iTotalObjectiveEnts] = OBJENT_BOMBSITE;
-				bFound = true;
-			}
-
-			// Hostage escape zone
-			else if ( equal( szClassName, "func_escapezone") )
-			{
-				g_iObjectiveEntType[g_iTotalObjectiveEnts] = OBJENT_HOSTAGE_ESCAPE;
-				bFound = true;
-			}
-
-			// We found an objective entity!!!
-			if ( bFound )
-			{
-				g_iObjectiveEnt[g_iTotalObjectiveEnts] = i;
-
-				get_brush_entity_origin( i, g_fObjectiveOrigin[g_iTotalObjectiveEnts] );
-
-				// Increment the total number
-				g_iTotalObjectiveEnts++;
-			}
+			continue;
+		}
+		
+		// More than were necessary was found
+		if ( g_iTotalObjectiveEnts >= MAX_OBJECTIVES )
+		{
+			WC3_Log( true, "Woa we found more than 11" );
+			break;
 		}
 
-		// Lets find out if we should disable orc nades or gloves of warmth
-		g_bOrcNadesDisabled				= WC3_MapDisableCheck( "skill_orc_nade.cfg" );
+		bFound = false;
 
-	
+		new szClassName[64];
+		entity_get_string( i, EV_SZ_classname, szClassName, 63 );
+		
+		// VIP Escape zone!!
+		if ( equal( szClassName, "func_vip_safetyzone") )	
+		{
+			g_iObjectiveEntType[g_iTotalObjectiveEnts] = OBJENT_VIP_ESCAPE;
+			bFound = true;
+		}
+
+		// Hostage zone
+		else if ( equal( szClassName, "hostage_entity") )
+		{
+			g_iObjectiveEntType[g_iTotalObjectiveEnts] = OBJENT_HOSTAGE;
+			bFound = true;
+		}
+
+		// Bomb zone
+		else if ( equal( szClassName, "func_bomb_target") )
+		{
+			g_iObjectiveEntType[g_iTotalObjectiveEnts] = OBJENT_BOMBSITE;
+			bFound = true;
+		}
+
+		// Hostage escape zone
+		else if ( equal( szClassName, "func_escapezone") )
+		{
+			g_iObjectiveEntType[g_iTotalObjectiveEnts] = OBJENT_HOSTAGE_ESCAPE;
+			bFound = true;
+		}
+
+		// We found an objective entity!!!
+		if ( bFound )
+		{
+			g_iObjectiveEnt[g_iTotalObjectiveEnts] = i;
+
+			get_brush_entity_origin( i, g_fObjectiveOrigin[g_iTotalObjectiveEnts] );
+
+			// Increment the total number
+			g_iTotalObjectiveEnts++;
+		}
+	}
+
+	// Lets find out if we should disable orc nades or gloves of warmth
+	g_bOrcNadesDisabled				= WC3_MapDisableCheck( "skill_orc_nade.cfg" );
+
+
 }
 
 public _WC3_RunAfterConfig()
 {
-	
-		// Configure the XP based on level
-		XP_Configure();
+	// Configure the XP based on level
+	XP_Configure();
 
-		// Set up our CVARs - some of them
-		CVAR_Configure();
+	// Set up our CVARs - some of them
+	CVAR_Configure();
 
-		// Randomize Chameleon if necessary
-		CHAM_Randomize();
+	// Randomize Chameleon if necessary
+	CHAM_Randomize();
 
-		// Инициализация цен на предметы
-		ITEM_InitCost();
-	
+	// Инициализация цен на предметы
+	ITEM_InitCost();
 }
 
 // Function will prompt a user for a race or skill selection
@@ -504,7 +499,6 @@ public WC3_GetUserInput( idUser )
 	if ( !WC3_Check() )
 		return;
 	
-
 	if ( idUser >= TASK_GETINPUT )
 	{
 		idUser -= TASK_GETINPUT;
@@ -554,7 +548,6 @@ public WC3_GetUserInput( idUser )
 //Функция срабатывает при рестарте
 public WC3_ResetGame()
 {
-	
 	new players[32], numplayers, idUser, i
 	get_players(players, numplayers);
 
@@ -612,7 +605,6 @@ WC3_ChangeRaceStart( idUser )
 		
 		
 	}
-
 	else
 	{
 		format(szMessage, charsmax(szMessage), "%L",LANG_PLAYER,"CLIENT_PRINT_WC3_CHANGE_RACE_START");
@@ -623,8 +615,6 @@ WC3_ChangeRaceStart( idUser )
 // Function will show the "select a race" menu to the user
 WC3_ChangeRaceShowMenu(idUser, iRaceXP[MAX_RACES] = {0},iRaceLevel[MAX_RACES] = {0},iSelectIdMenu = MENU_ID_DEFAULT )
 {
-		
-
 	// We don't want to replace the player's current XP with whats in the database now do we ?
 	if (arrIntData[idUser][P_RACE] )
 	{
@@ -641,8 +631,6 @@ WC3_ChangeRaceShowMenu(idUser, iRaceXP[MAX_RACES] = {0},iRaceLevel[MAX_RACES] = 
 // This will actually give the user a given race
 WC3_SetRace( idUser, race )
 {
-	
-
 	// Clear any ultimate icons that might exist
 	ULT_ClearIcons( idUser );
 	
@@ -712,7 +700,6 @@ WC3_SetRace( idUser, race )
 // Function called right after the user's race information is set
 WC3_SetRaceUp( idUser )
 {
-	
 	// Do we need to give this user XP?
 	new iStartLevel = get_pcvar_num( CVAR_wc3_start_level );
 	if ( arrIntData[idUser][P_XP] == 0 && iStartLevel > 0 && iStartLevel <= iMaxLevels )
@@ -752,13 +739,10 @@ WC3_SetRaceUp( idUser )
 
 	// Show ultimate info if available
 	ULT_IconHandler( idUser );
-
-	
 }
 
 public WC3_ShowBar(idUser)
 {
-
 	if (idUser >= TASKID_HUDINFO )
 		idUser -= TASKID_HUDINFO;
 
@@ -1058,8 +1042,6 @@ public WC3_ShowBar(idUser)
 // Function will display the level information in the center of the user's screen
 WC3_ShowRaceInfo( idUser )
 {
-	
-
 	if ( arrIntData[idUser][P_RACE] != 0 )
 	{
 		new szSkillName[64], iSkillLevel;
@@ -1127,9 +1109,6 @@ WC3_ShowRaceInfo( idUser )
 // Function simply checks if an enemy of idUser is near vOrigin and has a necklace/warden's blink
 WC3_IsImmunePlayerNear(idUser, vOrigin[3] )
 {
-	
-	
-
 	new players[32], numplayers, vTargetOrigin[3], i;
 	new iTeam = get_user_team( idUser );
 
@@ -1163,8 +1142,6 @@ WC3_IsImmunePlayerNear(idUser, vOrigin[3] )
 
 WC3_ResetSkills( idUser )
 {
-		
-
 	// Reset the user's skills
 	if ( arrBoolData[idUser][PB_RESETSKILLS] ) 
 	{
@@ -1184,8 +1161,6 @@ WC3_ResetSkills( idUser )
 
 WC3_ShowSpecInfo( idUser, iTargetID )
 {
-		
-
 	// Get the target's name
 	new szTargetName[32];
 	get_user_name( iTargetID, szTargetName, 31 ); 
@@ -1255,12 +1230,12 @@ WC3_ShowSpecInfo( idUser, iTargetID )
 		{
 
 			// Then they have rings, lets print how many there are
-            if (HasMoreThanOneRing && g_iShopMenuItems[iTargetID][ITEM_SLOT_TWO] == ITEM_RING)
-                iMsgPos += formatex( szMsg[iMsgPos], 512-iMsgPos, " %L %s x%d", LANG_PLAYER, "WORD_AND", szItemName2, g_iTotalRings[iTargetID] );
-            else
-                iMsgPos += formatex( szMsg[iMsgPos], 512-iMsgPos, " %L %s", LANG_PLAYER, "WORD_AND", szItemName2 );
+			if (HasMoreThanOneRing && g_iShopMenuItems[iTargetID][ITEM_SLOT_TWO] == ITEM_RING)
+				iMsgPos += formatex( szMsg[iMsgPos], 512-iMsgPos, " %L %s x%d", LANG_PLAYER, "WORD_AND", szItemName2, g_iTotalRings[iTargetID] );
+			else
+				iMsgPos += formatex( szMsg[iMsgPos], 512-iMsgPos, " %L %s", LANG_PLAYER, "WORD_AND", szItemName2 );
 
-				ItemSlotTwo = true;
+			ItemSlotTwo = true;
 		}
 		// We don't need the word "and"
 		else
@@ -1268,10 +1243,10 @@ WC3_ShowSpecInfo( idUser, iTargetID )
 			formatex(szCurrentItems, 31, "%L:",LANG_PLAYER,"WC3_CURRENT_ITEMS" );
 			
 			// Then they have rings, lets print how many there are
-            if (HasMoreThanOneRing && g_iShopMenuItems[iTargetID][ITEM_SLOT_TWO] == ITEM_RING)
-                iMsgPos += formatex( szMsg[iMsgPos], 512-iMsgPos, "^n%s %s x%d",szCurrentItems, szItemName2, g_iTotalRings[iTargetID] );
-            else
-                iMsgPos += formatex( szMsg[iMsgPos], 512-iMsgPos, "^n%s %s",szCurrentItems, szItemName2 );
+			if (HasMoreThanOneRing && g_iShopMenuItems[iTargetID][ITEM_SLOT_TWO] == ITEM_RING)
+				iMsgPos += formatex( szMsg[iMsgPos], 512-iMsgPos, "^n%s %s x%d",szCurrentItems, szItemName2, g_iTotalRings[iTargetID] );
+			else
+				iMsgPos += formatex( szMsg[iMsgPos], 512-iMsgPos, "^n%s %s",szCurrentItems, szItemName2 );
 			
 		}
 		
@@ -1284,10 +1259,10 @@ WC3_ShowSpecInfo( idUser, iTargetID )
 		if ( ItemSlotOne == true && ItemSlotTwo == true )
 		{
 			// Then they have rings, lets print how many there are
-            if (HasMoreThanOneRing && g_iShopMenuItems[iTargetID][ITEM_SLOT_THREE] == ITEM_RING)
-                iMsgPos += formatex( szMsg[iMsgPos], 512-iMsgPos, " %L %s x%d", LANG_PLAYER, "WORD_AND", szItemName3, g_iTotalRings[iTargetID] );
-            else
-                iMsgPos += formatex( szMsg[iMsgPos], 512-iMsgPos, " %L %s", LANG_PLAYER, "WORD_AND", szItemName3 );
+			if (HasMoreThanOneRing && g_iShopMenuItems[iTargetID][ITEM_SLOT_THREE] == ITEM_RING)
+				iMsgPos += formatex( szMsg[iMsgPos], 512-iMsgPos, " %L %s x%d", LANG_PLAYER, "WORD_AND", szItemName3, g_iTotalRings[iTargetID] );
+			else
+				iMsgPos += formatex( szMsg[iMsgPos], 512-iMsgPos, " %L %s", LANG_PLAYER, "WORD_AND", szItemName3 );
 			
 		}
 		// We don't need the word "and"
@@ -1296,10 +1271,10 @@ WC3_ShowSpecInfo( idUser, iTargetID )
 			formatex(szCurrentItems, 31, "%L:",LANG_PLAYER,"WC3_CURRENT_ITEMS" );
 			
 			// Then they have rings, lets print how many there are
-            if (HasMoreThanOneRing && g_iShopMenuItems[iTargetID][ITEM_SLOT_THREE] == ITEM_RING)
-                iMsgPos += formatex( szMsg[iMsgPos], 512-iMsgPos, "^n%s %s x%d",szCurrentItems, szItemName3, g_iTotalRings[iTargetID] );
-            else
-                iMsgPos += formatex( szMsg[iMsgPos], 512-iMsgPos, "^n%s %s",szCurrentItems, szItemName3 );	
+			if (HasMoreThanOneRing && g_iShopMenuItems[iTargetID][ITEM_SLOT_THREE] == ITEM_RING)
+				iMsgPos += formatex( szMsg[iMsgPos], 512-iMsgPos, "^n%s %s x%d",szCurrentItems, szItemName3, g_iTotalRings[iTargetID] );
+			else
+				iMsgPos += formatex( szMsg[iMsgPos], 512-iMsgPos, "^n%s %s",szCurrentItems, szItemName3 );	
 			
 		}
 		
@@ -1352,7 +1327,6 @@ WC3_ShowSpecInfo( idUser, iTargetID )
 // Function will print a message in the center of the screen
 WC3_StatusText( idUser, iType, const fmt[], ... )
 {
-	
 	static szFormattedText[512];
 
 	vformat( szFormattedText, 511, fmt, 4 );
@@ -1387,7 +1361,6 @@ WC3_StatusText( idUser, iType, const fmt[], ... )
 
 public WC3_Damage(idVictim, idAttacker, iDamage, iWeapon, iBodyPart )
 {
-
 	// We have an invalid attacker/victim, that sucks...
 	if (idAttacker == 0 || idVictim == 0)
 		return;
@@ -1515,7 +1488,6 @@ public WC3_Damage(idVictim, idAttacker, iDamage, iWeapon, iBodyPart )
 
 public WC3_Death(idVictim, idKiller, iWeaponID, iHeadshot )
 {
-		
 	new Float:ptOriginCorpse[3];	
 	pev(idVictim, pev_origin, ptOriginCorpse);
 	
@@ -1799,8 +1771,7 @@ public WC3_Death(idVictim, idKiller, iWeaponID, iHeadshot )
 }
 
 public WC3_Kill( idVictim, iKiller, iWeapon, iHeadshot )
-{	
-
+{
 	new szWpnName[64], iRet = 0;
 	UTIL_GetWeaponName( iWeapon, szWpnName, 63 );
 	ExecuteForward( fwd_ReportKill, iRet, iKiller, idVictim, iWeapon, szWpnName );
@@ -1944,7 +1915,6 @@ bool:WC3_MapDisableCheck( szFileName[] )
 //Срабатывает при каждом спавне
 WC3_InitPlayerSkills(idUser)
 {
-	
 	// Undead's Unholy Aura
 	SHARED_SetSpeed( idUser );
 
@@ -1955,7 +1925,7 @@ WC3_InitPlayerSkills(idUser)
 	SHARED_INVIS_Set( idUser );
 	
 	// Human's Health
-    HU_DevotionAura( idUser );
+	HU_DevotionAura( idUser );
 
 	// Blood Mage's Phoenix
 	BM_PhoenixCheck( idUser );
@@ -2001,8 +1971,6 @@ WC3_InitPlayerSkills(idUser)
 // Вызывается до респауна только в новом раунде
 WC3_BeforeSpawn(idUser)
 {
-	
-
 	// Remove the spectating info if necessary
 	if ( g_fLastSpecDisplay[idUser] >= halflife_time() )
 	{
@@ -2049,7 +2017,6 @@ WC3_BeforeSpawn(idUser)
 // Вызывается перед респауном
 WC3_PreSpawn( idUser )
 {
-		
 	// Reset human's devotion aura - this needs to be done here
 	//  - If we don't do it here, then a user can get > 145 health... i.e. 190
 	g_HU_DevotionAuraGiven[idUser]	= 0;
@@ -2076,8 +2043,6 @@ WC3_PreSpawn( idUser )
 // Вызывается после респауна
 WC3_PostSpawn(idUser)
 {
-	
-	
 	// These things need to be reset when the user spawns
 	WC3_ResetOnSpawn( idUser );
 
@@ -2184,10 +2149,10 @@ WC3_NewSession(idUser)
 			arrIntData[idUser][P_XP] = XP_GetByLevel( floatround(random_float(0.01,3.16)*random_float(0.01,3.16)) );
 			
 		
-			arrIntData[idUser][P_RACE] = random_num(1, MAX_RACES - 3);
+		arrIntData[idUser][P_RACE] = random_num(1, MAX_RACES - 3);
 			
-			// Now lets set the bot's race!
-			WC3_SetRace( idUser, arrIntData[idUser][P_RACE] );
+		// Now lets set the bot's race!
+		WC3_SetRace( idUser, arrIntData[idUser][P_RACE] );
 		
 	}
 
@@ -2266,7 +2231,6 @@ WC3_ResetOnNewSession(idUser)
 
 WC3_ResetOnSpawn( idUser )
 {
-	
 	fDeleteBlockItemTalisman(idUser);
 
 	// Human should gain health when he spawns right?
@@ -2300,15 +2264,12 @@ WC3_ResetOnSpawn( idUser )
 //Функция срабатывает когда игрок подсоединяется к серверу т.е. сбрасываются все значения
 WC3_PlayerInit(idUser)
 {
-		
 	clVIP:fInitItemsAccessVip(idUser);
 
 	clDruid::setChargeNum(idUser);
 	clRogue::setChargeNum(idUser);
 	clBloodseeker::setChargeNum(idUser);
 	clJuggernaut::setChargeNum(idUser);
-
-	
 
 	// Reset all skill information for this player!
 	SM_ResetSkillLevels( idUser );
@@ -2405,8 +2366,6 @@ WC3_PlayerInit(idUser)
 // Function will simply log to a file as well as amxx log
 WC3_Log( bool:bAmxx, const fmt[], ... )
 {
-		
-
 	static szFormattedText[512];
 	vformat( szFormattedText, 511, fmt, 3 );
 
@@ -2419,6 +2378,4 @@ WC3_Log( bool:bAmxx, const fmt[], ... )
 	new szLogFile[128];
 	get_configsdir( szLogFile, 127 );
 	formatex(szLogFile, 127, "%s/war3ft/logs/wc3_error.log", szLogFile);
-
-	
 }

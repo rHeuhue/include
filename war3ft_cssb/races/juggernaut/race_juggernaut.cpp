@@ -179,18 +179,18 @@ clJuggernaut::skillHealingWard(const idUser,const iSkillID)
 	emit_sound(idUser,CHAN_STATIC, arrStrSounds[SOUND_HEALING_WARD], 0.9, ATTN_NORM,SND_CHANGE_VOL, PITCH_NORM);
 
 
-    new idEntity = engfunc(EngFunc_CreateNamedEntity, engfunc(EngFunc_AllocString, "info_target"));
+	new idEntity = engfunc(EngFunc_CreateNamedEntity, engfunc(EngFunc_AllocString, "info_target"));
     
 	if(!pev_valid(idEntity))
 		return;
 
-    set_pev(idEntity, pev_classname, HEALING_WARD_CLASSNAME);
-    engfunc(EngFunc_SetModel, idEntity, arrStrModels[MDL_HEALINGWARD]);
-    set_pev(idEntity, pev_solid, SOLID_TRIGGER);
-    set_pev(idEntity, pev_movetype, MOVETYPE_TOSS);
-    set_pev(idEntity, pev_sequence, 1);
-    set_pev(idEntity, pev_animtime, 1.0);
-    set_pev(idEntity, pev_framerate, 1.0);
+	set_pev(idEntity, pev_classname, HEALING_WARD_CLASSNAME);
+	engfunc(EngFunc_SetModel, idEntity, arrStrModels[MDL_HEALINGWARD]);
+	set_pev(idEntity, pev_solid, SOLID_TRIGGER);
+	set_pev(idEntity, pev_movetype, MOVETYPE_TOSS);
+	set_pev(idEntity, pev_sequence, 1);
+	set_pev(idEntity, pev_animtime, 1.0);
+	set_pev(idEntity, pev_framerate, 1.0);
 	    
 	new Float:fMinSizeBox[3] =  {-13.490000, -0.540000, -7.150000};
 	new Float:fMaxSizeBx[3] =  {16.660000, 85.169998, 3.350000};
