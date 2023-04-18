@@ -1028,10 +1028,11 @@ stock rg_give_item_fix(const player, const pszName[], GiveType:type = GT_APPEND)
 * @param type       Look at the enums with name GiveType
 * @param ammo 		Amount of ammo item will have when given (-1 equal to max weapon gun clip size)
 * @param bpammo 	Amount of backpack ammo item will have when given (-1 equal to max weapon rounds size)
+* @param uid 		Sets a unique index for the entity
 *
 * @return			Index of entity if successfull, -1 otherwise
 */
-stock rg_give_item_ex(const player, pszName[], GiveType:type = GT_APPEND, ammo = 0, bpammo = 0) {
+stock rg_give_item_ex(const player, pszName[], GiveType:type = GT_APPEND, ammo = 0, bpammo = 0, uid = 0) {
 	new WeaponIdType:iWeaponID = rg_get_weapon_info(pszName, WI_ID)
 
 	if(rg_is_primary_weapon_id(iWeaponID) && get_member(player, m_bOwnsShield))
@@ -1039,7 +1040,10 @@ stock rg_give_item_ex(const player, pszName[], GiveType:type = GT_APPEND, ammo =
 		rg_remove_item(player, "weapon_shield")
 	}
 
-	rg_give_item(player, pszName, type)
+	if (uid)
+		uid = rg_give_custom_item(player, pszName, type, uid)
+	else
+		uid = rg_give_item(player, pszName, type)
 
 	if (!rg_is_grenade_weapon_id(iWeaponID))
 	{
@@ -1056,6 +1060,8 @@ stock rg_give_item_ex(const player, pszName[], GiveType:type = GT_APPEND, ammo =
 
 	if (contain(pszName, "shield") || iWeaponID == WEAPON_SHIELDGUN)
 		rg_give_item_fix(player, pszName, type)
+
+	return uid
 }
 
 stock rg_give_nades(const player, grenade[], GiveType:type = GT_APPEND, amount = 0) {

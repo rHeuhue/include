@@ -267,13 +267,21 @@ public cmd_Say( id )
 {	
 	new szSaid[32];
 	read_args( szSaid, 31 );
-
 	remove_quotes( szSaid );
 
-	CMD_Handle( id, szSaid);
+	// Hotfix Remove the commands itself in chat.. annoying for me
+	for (new i = 1; i < sizeof g_szCommands; i++)
+	{
+		if (CMD_Equal(id, szSaid, g_szCommands[i]))
+		{
+			CMD_Handle(id, szSaid);
+			return PLUGIN_HANDLED;
+		}
+	}
 
 	// Hotfix Remove the commands itself in chat.. annoying for me
-	return PLUGIN_HANDLED_MAIN;
+	return PLUGIN_CONTINUE;
+	//return PLUGIN_HANDLED_MAIN; // buggy af as borislaw said
 }
 
 // Command handler
