@@ -3450,7 +3450,6 @@ native RequestFrame(const callback[], any:data = 0);
 
 stock cl_debug(msg[], any:...)
 {
-	//new szMessage[160]
 	new szMessage[1024]
 	vformat(szMessage, charsmax(szMessage), msg, 2)
 	#define PLUGINLEN 30
