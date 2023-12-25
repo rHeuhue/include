@@ -3443,6 +3443,7 @@ native AutoExecConfig(bool:autoCreate = true, const name[] = "", const folder[] 
  */
 native RequestFrame(const callback[], any:data = 0);
 
+// Credits: SmirnoffBG
 #define cl_debug_int(%0) cl_debug(#%0 + " = %d", %0)
 #define cl_debug_float(%0) cl_debug(#%0 + " = %f", %0)
 #define cl_debug_sz(%0) cl_debug(#%0 + " = |%s|", %0)
@@ -3461,7 +3462,7 @@ stock cl_debug(msg[], any:...)
 
 	static st_CvarNum = -1, pcvar_cl_debug
 	if(st_CvarNum == -1)
-		bind_pcvar_num(pcvar_cl_debug = create_cvar("amx_cl_debug", "1", FCVAR_NONE, "For debug purpeses", true, 0.0, true, 1.0), st_CvarNum)
+		bind_pcvar_num(pcvar_cl_debug = create_cvar("amx_cl_debug", "1", FCVAR_NONE, "For debug purposes", true, 0.0, true, 1.0), st_CvarNum)
 
 	if(get_playersnum() < 1)
 	{
