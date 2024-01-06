@@ -968,10 +968,12 @@ stock rg_set_entity_model(const entity, const model[], const modelindex) {
 	set_entvar(entity, var_modelindex, modelindex)
 }
 
+#if !defined rg_remove_entity
 stock rg_remove_entity(const entity) {
 	if (!is_nullent(entity))
 		set_entvar(entity, var_flags, get_entvar(entity, var_flags) | FL_KILLME)
 }
+#endif
 
 /* Sets player/entity rendering mode. 
 */
