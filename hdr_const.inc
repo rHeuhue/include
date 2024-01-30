@@ -12,7 +12,7 @@
 
 */
 
-public stock const MOD_VERSION[] = "HDR_ReAPI_0.0.2"
+public stock const MOD_VERSION[] = "HDR_ReAPI_0.0.3"
 public stock const MOD_AUTHOR[] = "Huehue"
 
 #include <WPMGPrintChatColor>

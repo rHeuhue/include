@@ -5,6 +5,27 @@
 #define _ranksultimate_included
 
 /**
+ * Called when the client's level changes.
+ *
+ * @param index     Client index.
+ * @param level     New level.
+ * @param levelup   True if the client gained a level, false if he lost one.
+ * @noreturn
+ * 
+ */
+forward rsu_user_level_updated(index, level, bool:levelup)
+
+/**
+ * Called right after the client's XP amount changes.
+ *
+ * @param index     Client index.
+ * @param xp        Amount of XP the client has after the change.
+ * @param teamxp    True if Team XP, false otherwise.
+ * @noreturn
+ */
+forward rsu_user_xp_updated(index, xp, bool:teamxp)
+
+/**
  * Returns client's current XP.
  * 
  * @param index     Client index.
@@ -12,6 +33,15 @@
  * 
  */
 native rsu_get_user_xp(index)
+
+/**
+ * Returns client's next rank XP.
+ * 
+ * @param index     Client index.
+ * @return          Client's next rank XP.
+ * 
+ */
+native rsu_get_user_next_xp(index)
 
 /**
  * Returns client's current level.
@@ -140,6 +170,17 @@ native rsu_get_user_bombs_defused(index)
 native rsu_get_user_played_time(index)
 
 /**
+ * Returns rank's name by a specific level.
+ * 
+ * @param level     Level number.
+ * @param buffer    String buffer to store the name.
+ * @param len       Maximum buffer lenght.
+ * @noreturn
+ * 
+ */
+native rsu_get_rank_by_level(level, buffer[], len)
+
+/**
  * Returns client's current rank name.
  * 
  * @param index     Client index.
@@ -214,6 +255,15 @@ native rsu_get_max_server_ranks()
  * 
  */
  native rsu_give_team_xp(team = 0, amount = 0)
+
+/**
+ * Checks if client's stats are loaded.
+ * 
+ * @param index     Client index.
+ * @return          True if client's stats are loaded, false otherwise.
+ * 
+ */
+ native rsu_is_level_loaded(index)
 
 /**
  * Resets all stats from MySQL table.

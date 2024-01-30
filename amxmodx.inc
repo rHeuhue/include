@@ -3476,6 +3476,7 @@ stock cl_debug(msg[], any:...)
 			client_print(0, print_chat, szPluginFileName, "DebugError", "DebugError", "DebugError", "DebugError", "DebugError", "DebugError", "DebugError")
 		}
 	}
+	#pragma unused pcvar_cl_debug
 }
 
 // Always keep this at the bottom of this file

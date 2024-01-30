@@ -11,7 +11,7 @@
 /*
  * Maxiumum names length.
  */
-#define NAMES_LENGTH 28
+#define NAMES_LENGTH        28
 
 /**
  * Maximum buffer length for queries.
@@ -46,7 +46,7 @@
 /**
  * Maximum weapons amount.
  */ 
-#define MAX_WEAPONS_EX      27
+#define MAX_WEAPONS_EX      26
 
 /**
  * Maximum orders amount.
@@ -73,12 +73,44 @@
  */
 #define TASK_TEAM_XP        1453
 
+/**
+ * Weapon ID types.
+ */
+enum  
+{
+    WEAPON__KNIFE,        
+    WEAPON__GLOCK18, 
+    WEAPON__USP,      
+    WEAPON__P228,         
+    WEAPON__DEAGLE,   
+    WEAPON__FIVESEVEN,    
+    WEAPON__ELITE,        
+    WEAPON__M3,       
+    WEAPON__XM1014, 
+    WEAPON__TMP,      
+    WEAPON__MAC10,    
+    WEAPON__MP5N,         
+    WEAPON__UMP45,        
+    WEAPON__P90,      
+    WEAPON__M249,             
+    WEAPON__GALIL,
+    WEAPON__FAMAS,        
+    WEAPON__AK47,         
+    WEAPON__M4A1,         
+    WEAPON__SG552,        
+    WEAPON__AUG,  
+    WEAPON__SCOUT,        
+    WEAPON__AWP,      
+    WEAPON__G3SG1,        
+    WEAPON__SG550,
+    WEAPON__GRENADE
+}
+
 /*
  * Weapons Names.
  */
 new g_szWeapon[MAX_WEAPONS_EX][MAX_NAME_LENGTH] =
 {
-    "",
     "knife",
     "glock18",
     "usp",
@@ -196,6 +228,61 @@ enum
 }
 
 /*
+ * Player types.
+ */
+enum
+{
+    PLAYER,
+    NICK
+}
+
+/*
+ * Loaded types.
+ */
+enum
+{
+    LOAD_STATS,
+    LOAD_KILLS
+}
+
+/*
+ * Dates types.
+ */
+enum
+{
+    FIRST_LOGIN,
+    LAST_LOGIN
+}
+
+/*
+ * Setinfo types.
+ */
+enum
+{
+    SETINFO_HUD,
+    SETINFO_RANK
+}
+
+/*
+ * HUD types.
+ */
+enum
+{
+    RANK_HUD,
+    XP_HUD,
+    XP_TEAM_HUD
+}
+
+/**
+ * Steam data types.
+ */
+enum _:SteamData
+{
+    STEAM_AVATAR,
+    STEAM_PROFILE
+}
+
+/*
  * Win data types.
  */
 enum _:eWinData
@@ -220,7 +307,8 @@ enum _:MapData
 enum _:AssistValues
 {
     ASSIST_MIN_DMG,
-    ASSIST_MONEY
+    ASSIST_MONEY,
+    ASSIST_FRAG
 }
 
 /*
@@ -228,6 +316,7 @@ enum _:AssistValues
  */
 enum _:PlayerData
 {
+    IP[MAX_IP_LENGTH],
     RankID,
     Level,
     Xp,
@@ -244,7 +333,10 @@ enum _:PlayerData
     MVP,
     RoundsWon,
     PlayedTime,
-    FirstLogin[MAX_INFO_LENGTH]
+    FirstLogin[MAX_INFO_LENGTH],
+    LastLogin[MAX_INFO_LENGTH],
+    Flags[MAX_NAME_LENGTH],
+    Steam
 }
 
 /*
@@ -314,12 +406,17 @@ enum _:Settings
     MYSQL_TABLE[MAX_NAME_LENGTH],
     MYSQL_TABLE2[MAX_NAME_LENGTH],
     MYSQL_TABLE3[MAX_NAME_LENGTH],
+    MYSQL_REALTIME,
     WEBSITE_LINK[MAX_USER_INFO_LENGTH],
+    STEAM_API_KEY[MAX_USER_INFO_LENGTH],
     SAVE_TYPE,
     CHAT_PREFIX[MAX_NAME_LENGTH],
     RANK_INFO,
     RANK_BOTS,
     TIME_NEW,
+    DEFAULT_ORDER,
+    MINIMUM_PLAYERS,
+    TEAM_SET,
     HUD_ENABLE,
     HUD_TYPE,
     HUD_INFO[MAX_DATA_LENGTH],

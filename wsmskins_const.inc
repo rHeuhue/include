@@ -8,6 +8,11 @@
 /**
  * Maximum buffer length for queries.
  */ 
+#define MAX_QUERY_LENGTH    1024
+
+/**
+ * Maximum buffer length for queries.
+ */ 
 #define MAX_DATA_LENGTH 512
 
 /**
@@ -26,24 +31,29 @@
 #define MAX_NUM_LENGTH  16
 
 /**
+ * Maximum buffer length for integers.
+ */ 
+#define MAX_INT_LENGTH      7
+
+/**
  * Maximum buffer length for queries.
  */ 
 #define MAX_WEAPONS_EX  25
 
 /*
- * Task for XP HUD information.
+ * Task for menu status update.
  */
 #define TASK_UPDATE     2435
+
+/*
+ * Task for regeneration.
+ */
+#define TASK_REGEN      5432
 
 /*
  * No weapon string.
  */
 #define WEAPON_NONE  	"n/a"
-
-/*
- * Default speed amount.
- */
- #define DEFAULT_SPEED_AMOUNT 250.0
 
  /*
  * Default gravity amount.
@@ -97,6 +107,16 @@ enum
 	WEAPON_SG550_EX
 }
 
+/** 
+ * Safe types.
+ */
+enum
+{
+	SAVE_NONE,
+	SAVE_NVAULT,
+	SAVE_SQLITE
+}
+
 /**
  * Vault types.
  */
@@ -107,6 +127,15 @@ enum
 }
 
 /**
+ * SQLite data types.
+ */
+enum
+{
+	SQLITE_SAVE,
+	SQLITE_LOAD
+}
+
+/**
  * Save types.
  */
 enum
@@ -114,6 +143,16 @@ enum
 	SAVE_NAME,
 	SAVE_IP,
 	SAVE_STEAMID
+}
+
+/**
+ * Check types.
+ */
+enum
+{
+	CHECK_NAME,
+	CHECK_ATRIBUTES,
+	CHECK_ACCESS
 }
 
 /**
@@ -188,6 +227,25 @@ enum _:GlowValues
 }
 
 /**
+ * Knockback values.
+ */
+enum _:KnockValues
+{
+	KNOCK_POWER,
+	KNOCK_VELOCITY
+}
+
+/**
+ * Regeneration values.
+ */
+enum _:RegenValues
+{
+	REGEN_HEALTH,
+	REGEN_MAXHEALTH,
+	REGEN_INTERVAL
+}
+
+/**
  * Weapons info types.
  */
 enum _:WeaponsInfo
@@ -206,5 +264,7 @@ enum _:WeaponsInfo
 	Health[HealthValues],
 	Armor[ArmorValues],
 	Money[MoneyValues],
-	Glow[GlowValues]
+	Glow[GlowValues],
+	Knockback[KnockValues],
+	Regeneration[RegenValues]
 }
