@@ -26,6 +26,20 @@ native hdr_get_next_activator()
 native hdr_set_next_activator(id)
 
 /**
+ * Get player in which team is currently
+ * 
+ * @param id				Player index.
+ */
+native TeamName:hdr_get_runner_team(id)
+
+/**
+ * Set player who will became activator in current round.
+ * 
+ * @param id				Current activator index.
+ */
+native hdr_set_activator(id)
+
+/**
  * Forward which called when chosen new activator(new round or disconnect).
  * 
  * @param id				Activator index.

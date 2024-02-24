@@ -1,34 +1,38 @@
-#if defined _hdeathrun_const_included
+#if defined _hdr_const_included
 	#endinput
 #endif
-#define _hdeathrun_const_included
+#define _hdr_const_included
 
-/* Load custom module ?
-
-#pragma reqlib LIBRARY_NAME
-#if !defined AMXMODX_NOAUTOLOAD
-	#pragma loadlib LIBRARY_NAME
-#endif
-
-*/
-
-public stock const MOD_VERSION[] = "HDR_ReAPI_0.0.3"
+public stock const MOD_VERSION[] = "HDR_ReAPI_0.0.5"
 public stock const MOD_AUTHOR[] = "Huehue"
 
 #include <WPMGPrintChatColor>
 #include <reapi_stocks>
 
 public stock const MOD_PREFIX[] = "Huehue's DeathRun"
-public stock const MOD_CHAT_PREFIX[] = "!y[!gHDR!y]"
-public stock const MOD_MENU_PREFIX[] = "\w[\yHDR\w]"
+public stock const MOD_CHAT_PREFIX[] = "!y[!gCrossFire!y]" // HDR
+public stock const MOD_MENU_PREFIX[] = "\w[\yCrossFire\w]" // HDR
 
-public stock const MOD_AUTHOR_DISCORD[] = "Discord: Ivaylo#1914"
+public stock const MOD_AUTHOR_DISCORD[] = "cs-crossfire.com" //"Discord: Ivaylo#1914"
 
 enum
 {
-	HDR_HANDLED = 0,
-	HDR_CONTINUE,
-	HDR_HANDLED_MAIN
+	OWNER = ADMIN_RCON,
+	ADMIN = ADMIN_BAN,
+	VIP = ADMIN_LEVEL_H,
+	VIP_KNIFE = ADMIN_LEVEL_F,
+	VIP_TRAIL = ADMIN_LEVEL_G,
+	VIP_HATS_COSTUMES = ADMIN_LEVEL_B,
+	VIP_HOOK = ADMIN_LEVEL_C,
+	VIP_EXTRAS = ADMIN_LEVEL_D,
+	VIP_RESET_SCORE = ADMIN_LEVEL_H
+}
+
+enum
+{
+	HDR_HANDLED = PLUGIN_HANDLED,
+	HDR_CONTINUE = PLUGIN_CONTINUE,
+	HDR_HANDLED_MAIN = PLUGIN_HANDLED_MAIN
 }
 
 enum _:eHDR_XYZ
@@ -80,4 +84,9 @@ stock client_cmdex(id, const command[], any:...)
 		write_string(szMessage)
 		message_end()
 	}
+}
+
+stock bool:has_user_access(id, iAccessLevel)
+{
+	return bool:(get_user_flags(id) & iAccessLevel)
 }
