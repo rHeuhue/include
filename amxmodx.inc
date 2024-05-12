@@ -3458,7 +3458,7 @@ stock cl_debug(msg[], any:...)
 	get_plugin(-1, szPluginFileName, PLUGINLEN)
 
 	// -5 cuz .amxx + ^0
-	formatex(szPluginFileName[strlen(szPluginFileName)-5], charsmax(szPluginFileName), " => %s", szMessage )
+	formatex(szPluginFileName[strlen(szPluginFileName)-5], charsmax(szPluginFileName), "^4=> ^3%s", szMessage )
 
 	static st_CvarNum = -1, pcvar_cl_debug
 	if(st_CvarNum == -1)
@@ -3473,7 +3473,8 @@ stock cl_debug(msg[], any:...)
 	{
 		if(st_CvarNum)
 		{
-			client_print(0, print_chat, szPluginFileName, "DebugError", "DebugError", "DebugError", "DebugError", "DebugError", "DebugError", "DebugError")
+			//client_print(0, print_chat, szPluginFileName, "DebugError", "DebugError", "DebugError", "DebugError", "DebugError", "DebugError", "DebugError")
+			client_print_color(0, print_team_red, szPluginFileName, "DebugError", "DebugError", "DebugError", "DebugError", "DebugError", "DebugError", "DebugError")
 		}
 	}
 	#pragma unused pcvar_cl_debug

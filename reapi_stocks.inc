@@ -50,6 +50,8 @@ const PRIMARY_WEAPONS_BIT_SUM =
 	|(1<<_:WEAPON_M4A1)|(1<<_:WEAPON_TMP)|(1<<_:WEAPON_G3SG1)|(1<<_:WEAPON_SG552)|(1<<_:WEAPON_AK47)|(1<<_:WEAPON_P90)
 )
 
+const PRIMARY_WEAPONS_WITH_SCOPE_BIT_SUM = (1<<_:WEAPON_SCOUT)|(1<<_:WEAPON_AUG)|(1<<_:WEAPON_SG550)|(1<<_:WEAPON_AWP)|(1<<_:WEAPON_G3SG1)|(1<<_:WEAPON_SG552)
+
 
 enum GiveAmmoType
 {
@@ -121,6 +123,7 @@ enum
 #define rg_is_secondary_weapon_id(%1)	(SECONDARY_WEAPONS_BIT_SUM & (1 << any:%1))
 #define rg_is_grenade_weapon_id(%1)		(GRENADES_BIT_SUM & (1 << any:%1))
 #define rg_is_noclip_weapon_id(%1)		(NOCLIP_WEAPONS_BIT_SUM & (1 << any:%1))
+#define rg_is_weapon_with_scope(%1)		(PRIMARY_WEAPONS_WITH_SCOPE_BIT_SUM & (1 << any:%1))
 
 #define rg_is_valid_slot_type(%1)		(PRIMARY_WEAPON_SLOT <= %1 <= C4_SLOT)
 #define rg_is_valid_armoury(%1)			(ARMOURY_MP5NAVY <= %1 <= ARMOURY_DEAGLE)

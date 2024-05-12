@@ -1226,6 +1226,7 @@ enum GamedllFunc_CSGameRules
 	* Params:           (const pPlayer, const pWeapon)
 	*/
 	RG_CSGameRules_PlayerGotWeapon,
+	RG_CSGameRules_SendDeathMessage,
 };
 
 /**
