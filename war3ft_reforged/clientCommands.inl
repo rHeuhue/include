@@ -350,6 +350,10 @@ CMD_Handle( id, szCmd[])
 		p_data_b[id][PB_RESETSKILLS] = true;
 	}
 
+	else if (CMD_Equal(id, szCmd, "autobuy"))
+	{
+		MENU_ShopAutoBuy(id);
+	}
 	else if ( CMD_Equal( id,  szCmd, "exchange" ) || CMD_Equal( id,  szCmd, "gold" ) || CMD_Equal( id,  szCmd, "trade" ) )
 	{
 		Exchange_Think(id);

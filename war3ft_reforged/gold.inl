@@ -11,6 +11,9 @@ public Convertor_Think()
 	{
 		id = iPlayer[i];
 
+		if (!g_bExchange[id])
+			break
+
 		iGold = get_user_gold(id);
 		iMoney = SHARED_GetUserMoney(id);
 		iLevel = p_data[id][P_LEVEL];

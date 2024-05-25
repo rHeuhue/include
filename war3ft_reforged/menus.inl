@@ -55,31 +55,35 @@ public MENU_GameMainMenu(id)
 		new szItem7[256];
 		formatex(szItem7,sizeof(szItem7)-1,"Shop Information");
 		menu_additem(Menu, szItem7, "7", 0); 
+
+		new szItem12[256];
+		formatex(szItem12,sizeof(szItem12)-1,"%s", g_bAutoBuy[id] ? "Auto Buy Items: \yEnabled" : "Auto Buy Items: \rDisabled");
+		menu_additem(Menu, szItem12, "8", 0); 
 		
 		
 		new szItem8[256];
-		formatex(szItem8,sizeof(szItem8)-1,"%s", g_bExchange[id] ? "Exchange Gold: \yEnabled" : "Exchange Gold: \rDisabled");
-		menu_additem(Menu, szItem8, "8", 0); 
+		formatex(szItem8,sizeof(szItem8)-1,"%s", g_bExchange[id] ? "Auto Exchange Gold: \yEnabled" : "Auto Exchange Gold: \rDisabled");
+		menu_additem(Menu, szItem8, "9", 0); 
 		
 		
 		new szItem9[256];
 		formatex(szItem9,sizeof(szItem9)-1,"Show Players Information");
-		menu_additem(Menu, szItem9, "9", 0); 
+		menu_additem(Menu, szItem9, "10", 0); 
 		
 	
 		new szItem10[256];
 		formatex(szItem10,sizeof(szItem10)-1,"Show Help Information");
-		menu_additem(Menu, szItem10, "10", 0); 
+		menu_additem(Menu, szItem10, "11", 0); 
 		
 		new szItem11[256];
 		formatex(szItem11,sizeof(szItem11)-1,"Add Level from Bank:\y %d", get_user_levelbank(id));
-		menu_additem(Menu, szItem11, "11", 0); 
+		menu_additem(Menu, szItem11, "12", 0); 
 
 		if (get_user_flags(id) & ADMIN_CVAR)
 		{
 			new szItem12[256];
 			formatex(szItem12,sizeof(szItem12)-1,"WC3 Admin Menu");
-			menu_additem(Menu, szItem12, "12", 0);
+			menu_additem(Menu, szItem12, "13", 0);
 				
 			menu_setprop(Menu, MPROP_NUMBER_COLOR, "\y") 
 			menu_setprop(Menu, MPROP_EXIT, MEXIT_ALL);
@@ -135,16 +139,18 @@ public _MENU_GameMainMenu(id, menu, item)
 		case 6: MENU_Shop( id );
 		
 		case 7: MOTD_ShopInfo( id );
-		
-		case 8: Exchange_Think(id);
-		
-		case 9: MOTD_PlayersInfo( id );
-		
-		case 10: MOTD_TutorialInfo( id );
 
-		case 11: LevelBank( id );
+		case 8: MENU_ShopAutoBuy(id);
+		
+		case 9: Exchange_Think(id);
+		
+		case 10: MOTD_PlayersInfo( id );
+		
+		case 11: MOTD_TutorialInfo( id );
 
-		case 12:
+		case 12: LevelBank( id );
+
+		case 13:
 		{
 			if (~get_user_flags(id) & ADMIN_CVAR)
 			{
@@ -352,7 +358,8 @@ public _MENU_ChangeRace(id, key)
 			// Make sure the user is on a team!
 			if ( SHARED_IsOnTeam( id ) )
 			{
-				g_menuPosition[id]++
+				//g_menuPosition[id]++
+				WC3_ChangeRaceShowMenu( id, ++g_menuPosition[id] )
 				
 				DB_GetAllXP( id );
 				
@@ -368,7 +375,8 @@ public _MENU_ChangeRace(id, key)
 			// Make sure the user is on a team!
 			if ( SHARED_IsOnTeam( id ) )
 			{
-				g_menuPosition[id]--
+				//g_menuPosition[id]--
+				WC3_ChangeRaceShowMenu( id, --g_menuPosition[id] )
 				
 				DB_GetAllXP( id );
 				
@@ -1002,9 +1010,236 @@ public LevelBank(id)
 		return; 
 	
 	}
+}
+
+public MENU_ShopAutoBuy(id) 
+{ 
+	if(is_user_connected(id)) 
+	{
+		new Title[256];
+		formatex(Title,sizeof(Title)-1,"\yAuto Buy Items");
+		
+		Menu = menu_create(Title, "_MENU_ShopAutoBuy");
+		
+		new szItem1[256];
+		formatex(szItem1,sizeof(szItem1)-1,"%s", g_bAutoBuy[id] ? "Auto Buy: \yEnabled^n" : "Auto Buy: \rDisabled^n");
+		menu_additem(Menu, szItem1, "1", 0); 
+		
+		new szItem2[256];
+		if(g_iAutobuySlot1[id]<0)
+		{
+			formatex(szItem2,sizeof(szItem2)-1,"Select Slot : \dNone");
+		}
+		else
+		{
+			formatex(szItem2,sizeof(szItem2)-1,"Select Slot : \y%s", Lang_ItemDatabase[g_iAutobuySlot1[id]][ITEM_NAME_LONG]);
+		}
+		menu_additem(Menu, szItem2, "2", 0); 
+		
+		new szItem3[256];
+		if(g_iAutobuySlot2[id]<0)
+		{
+			formatex(szItem3,sizeof(szItem3)-1,"Select Slot : \dNone");
+		}
+		else
+		{
+			formatex(szItem3,sizeof(szItem3)-1,"Select Slot : \y%s", Lang_ItemDatabase[g_iAutobuySlot2[id]][ITEM_NAME_LONG]);
+		}
+		menu_additem(Menu, szItem3, "3", 0); 
+		
+		menu_setprop(Menu, MPROP_NUMBER_COLOR, "\y") 
+		menu_setprop(Menu, MPROP_EXIT, MEXIT_ALL);
+		menu_display(id, Menu, 0);
+	}
+}
+
+public _MENU_ShopAutoBuy(id, menu, item) 
+{
 	
+	if(item == MENU_EXIT) 
+	{
+		menu_destroy(menu);
+		return PLUGIN_HANDLED;
+	}
+	new Data[6], Name[64];
+	new Access, CallBack;
+	menu_item_getinfo(menu, item, Access, Data,5, Name, 63, CallBack);
+	new Key = str_to_num(Data);
+	switch(Key)
+	{
+		case 1: AutoBuy_Think(id);
 	
+		case 2: ITEM_AutoBuyA(id); 
+		
+		case 3: ITEM_AutoBuyB(id); 
+		
+		default: return PLUGIN_HANDLED;
+	}
 	
+	menu_destroy(menu);
+	return PLUGIN_HANDLED;
+}
 
 
+public AutoBuy_Think(id)
+{
+	if(g_bAutoBuy[id])
+	{
+		g_bAutoBuy[id] = false;
+		client_print( id, print_center, "Auto Buy has been Disabled." );
+		client_print_color( id, print_team_default, "^4%s ^3Auto Buy has been Disabled.", GAME_NAME );
+		MENU_ShopAutoBuy(id);
+	}
+	else 
+	{
+		g_bAutoBuy[id] = true;
+		client_print( id, print_center, "Auto Buy has been Enabled." );
+		client_print_color( id, print_team_default, "^4%s ^3Auto Buy has been Enabled.", GAME_NAME );
+		MENU_ShopAutoBuy(id);
+	}
+
+}
+
+
+
+public ITEM_AutoBuyA(id) 
+{ 
+	if(is_user_connected(id)) 
+	{
+		new Title[256];
+		formatex(Title,sizeof(Title)-1,"\ySelect Slot ^nPage:");
+		
+		Menu = menu_create(Title, "_ITEM_AutoBuyA");
+		
+		new i, szItem[256], szKey[256];
+		
+		for ( i = 0; i < MAX_SHOPMENU_ITEMS; i++ ) 
+		{ 
+			
+			formatex(szItem,sizeof(szItem)-1,"%s",Lang_ItemDatabase[i][ITEM_NAME_LONG]);			
+				
+			num_to_str(i+1,szKey,255);
+			
+			menu_additem(Menu, szItem, szKey, 0); 
+		}
+  
+		menu_setprop(Menu, MPROP_NUMBER_COLOR, "\y") 
+		menu_setprop(Menu, MPROP_EXIT, MEXIT_ALL);
+		menu_display(id, Menu, 0);
+	}
+}
+
+public _ITEM_AutoBuyA(id, menu, item) 
+{
+	
+	if(item == MENU_EXIT) 
+	{
+		menu_destroy(menu);
+		return PLUGIN_HANDLED;
+	}
+	new Data[6], Name[64];
+	new Access, CallBack;
+	menu_item_getinfo(menu, item, Access, Data,5, Name, 63, CallBack);
+	new Key = str_to_num(Data);
+	switch(Key)
+	{
+		case 1: g_iAutobuySlot1[id] = 0; 
+		case 2: g_iAutobuySlot1[id] = 1; 
+		case 3: g_iAutobuySlot1[id] = 2; 
+		case 4: g_iAutobuySlot1[id] = 3; 
+		case 5: g_iAutobuySlot1[id] = 4; 
+		case 6: g_iAutobuySlot1[id] = 5; 
+		case 7: g_iAutobuySlot1[id] = 6; 	
+		case 8: g_iAutobuySlot1[id] = 7; 
+		case 9: g_iAutobuySlot1[id] = 8; 	
+		case 10: g_iAutobuySlot1[id] = 9; 
+		case 11: g_iAutobuySlot1[id] = 10; 	
+		case 12: g_iAutobuySlot1[id] = 11; 	
+		case 13: g_iAutobuySlot1[id] = 12; 	
+		case 14: g_iAutobuySlot1[id] = 13; 
+		case 15: g_iAutobuySlot1[id] = 14; 	
+		case 16: g_iAutobuySlot1[id] = 15; 
+		case 17: g_iAutobuySlot1[id] = 16; 
+		case 18: g_iAutobuySlot1[id] = 17; 
+		case 19: g_iAutobuySlot1[id] = 18; 
+			
+		default: return PLUGIN_HANDLED;
+	}
+
+	MENU_ShopAutoBuy(id);
+	
+	menu_destroy(menu);
+	return PLUGIN_HANDLED;
+}
+
+
+
+public ITEM_AutoBuyB(id) 
+{ 
+	if(is_user_connected(id)) 
+	{
+		new Title[256];
+		formatex(Title,sizeof(Title)-1,"\ySelect Slot ^nPage:");
+		
+		Menu = menu_create(Title, "_ITEM_AutoBuyB");
+		
+		new i, szItem[256], szKey[256];
+		
+		for ( i = 0; i < MAX_SHOPMENU_ITEMS; i++ ) 
+		{ 
+			
+			formatex(szItem,sizeof(szItem)-1,"%s",Lang_ItemDatabase[i][ITEM_NAME_LONG]);			
+				
+			num_to_str(i+1,szKey,255);
+			
+			menu_additem(Menu, szItem, szKey, 0); 
+		}
+  
+		menu_setprop(Menu, MPROP_NUMBER_COLOR, "\y") 
+		menu_setprop(Menu, MPROP_EXIT, MEXIT_ALL);
+		menu_display(id, Menu, 0);
+	}
+}
+
+public _ITEM_AutoBuyB(id, menu, item) 
+{
+	
+	if(item == MENU_EXIT) 
+	{
+		menu_destroy(menu);
+		return PLUGIN_HANDLED;
+	}
+	new Data[6], Name[64];
+	new Access, CallBack;
+	menu_item_getinfo(menu, item, Access, Data,5, Name, 63, CallBack);
+	new Key = str_to_num(Data);
+	switch(Key)
+	{
+		case 1: g_iAutobuySlot2[id] = 0; 
+		case 2: g_iAutobuySlot2[id] = 1; 
+		case 3: g_iAutobuySlot2[id] = 2; 
+		case 4: g_iAutobuySlot2[id] = 3; 
+		case 5: g_iAutobuySlot2[id] = 4; 
+		case 6: g_iAutobuySlot2[id] = 5; 
+		case 7: g_iAutobuySlot2[id] = 6; 	
+		case 8: g_iAutobuySlot2[id] = 7; 
+		case 9: g_iAutobuySlot2[id] = 8; 	
+		case 10: g_iAutobuySlot2[id] = 9; 
+		case 11: g_iAutobuySlot2[id] = 10; 	
+		case 12: g_iAutobuySlot2[id] = 11; 	
+		case 13: g_iAutobuySlot2[id] = 12; 	
+		case 14: g_iAutobuySlot2[id] = 13; 
+		case 15: g_iAutobuySlot2[id] = 14; 	
+		case 16: g_iAutobuySlot2[id] = 15; 
+		case 17: g_iAutobuySlot2[id] = 16; 
+		case 18: g_iAutobuySlot2[id] = 17; 
+		case 19: g_iAutobuySlot2[id] = 18; 
+			
+		default: return PLUGIN_HANDLED;
+	}
+
+	MENU_ShopAutoBuy(id);
+	
+	menu_destroy(menu);
+	return PLUGIN_HANDLED;
 }

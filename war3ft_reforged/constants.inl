@@ -859,6 +859,12 @@ new Polymorph_Passive[33];
 	new g_iMsgIdHostagePos;
 	
 
+// Auto Buy 
+
+new g_bAutoBuy[33];
+new g_iAutobuySlot1[33];
+new g_iAutobuySlot2[33];
+
 // Gold Settings 
 
 new PlayerGold[33];

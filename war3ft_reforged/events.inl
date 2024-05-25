@@ -376,6 +376,22 @@ public EVENT_Spawn( id )
 	// Should be called at the end of each spawn
 	WC3_PostSpawn( id );
 
+	// Auto Buy 
+	
+	if(g_bAutoBuy[id])
+	{
+		if(g_iAutobuySlot1[id] >= 0 && ITEM_CanBuyCheckSilent( id, g_iAutobuySlot1[id] ))
+		{
+			ITEM_Buy( id, g_iAutobuySlot1[id] );
+		}	
+
+		if(g_iAutobuySlot2[id] >= 0 && ITEM_CanBuyCheckSilent( id, g_iAutobuySlot2[id] ))
+		{
+			ITEM_Buy( id, g_iAutobuySlot2[id] );
+		}				
+		
+	}
+
 	return HAM_HANDLED;
 }
 
