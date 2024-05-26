@@ -47,7 +47,6 @@ public MENU_GameMainMenu(id)
 		formatex(szItem5,sizeof(szItem5)-1,"Race Reconfiguration");
 		menu_additem(Menu, szItem5, "5", 0); 
 		
-		
 		new szItem6[256];
 		formatex(szItem6,sizeof(szItem6)-1,"Shop");
 		menu_additem(Menu, szItem6, "6", 0); 
@@ -84,11 +83,10 @@ public MENU_GameMainMenu(id)
 			new szItem12[256];
 			formatex(szItem12,sizeof(szItem12)-1,"WC3 Admin Menu");
 			menu_additem(Menu, szItem12, "13", 0);
-				
-			menu_setprop(Menu, MPROP_NUMBER_COLOR, "\y") 
-			menu_setprop(Menu, MPROP_EXIT, MEXIT_ALL);
-			menu_display(id, Menu, 0);
 		}
+		menu_setprop(Menu, MPROP_NUMBER_COLOR, "\y") 
+		menu_setprop(Menu, MPROP_EXIT, MEXIT_ALL);
+		menu_display(id, Menu, 0);
 	}
 }
 
